@@ -1,0 +1,137 @@
+"""Proposta 10 - Regularização de sinistros."""
+from pathlib import Path
+
+import pandas as pd
+
+# Pseudocódigo da regra central (fora_prazo):
+#   limite <- limite_regularizacao(ramo)
+#   SE limite ou dias_resolucao em falta: considerar dentro do prazo
+#   cumpre_prazo <- dias_resolucao <= limite
+#   fora_prazo <- NÃO cumpre_prazo
+
+COL_ID = "sinistro"
+COL_RAMO = "ramo"
+COL_CANAL = "canal"
+COL_ESTADO = "estado"
+COL_RECLAMADO = "valor_reclamado"
+COL_REGULARIZADO = "valor_regularizado"
+COL_DIAS = "dias_resolucao"
+
+LIMITES = {
+    "Automovel": 25,
+    "Habitacao": 25,
+    "Viagem": 10,
+    "ResponsabilidadeCivil": 35,
+}
+
+MAPEAMENTO_RAMO = {
+    "Automovel": "Automovel",
+    "Automóvel": "Automovel",
+    "Habitacao": "Habitacao",
+    "Habitação": "Habitacao",
+    "Viagem": "Viagem",
+    "Responsabilidade Civil": "ResponsabilidadeCivil",
+    "ResponsabilidadeCivil": "ResponsabilidadeCivil",
+}
+
+
+def normalizar_ramo(ramo):
+    """Padroniza nomes de ramos para comparar com os limites."""
+    if pd.isna(ramo):
+        return ramo
+    valor = str(ramo).strip()
+    return MAPEAMENTO_RAMO.get(valor, valor)
+
+
+def limite_regularizacao(ramo):
+    """Devolve o limite em dias do ramo (None se desconhecido)."""
+    return LIMITES.get(normalizar_ramo(ramo))
+
+
+def cumpre_prazo(ramo, dias_resolucao):
+    """True se os dias não excedem o limite do ramo.
+    Pressuposto: sem limite ou sem dias, não se assinala atraso."""
+    limite = limite_regularizacao(ramo)
+    if limite is None or pd.isna(dias_resolucao):
+        return True
+    return dias_resolucao <= limite
+
+
+class Sinistro:
+    """Representa um sinistro e calcula o respetivo valor pendente."""
+
+    def __init__(self, id_sinistro, ramo, estado, valor_reclamado):
+        self.id_sinistro = id_sinistro
+        self.ramo = ramo
+        self.estado = estado
+        self.valor_reclamado = valor_reclamado
+
+    def valor_pendente(self):
+        return self.valor_reclamado if self.estado == "Pendente" else 0
+
+
+def main():
+    # 1. Leitura e qualidade dos dados
+    base_dir = Path(__file__).resolve().parent
+    csv_file = base_dir / "dados_trabalho_10_seguros.csv"
+
+    if not csv_file.exists():
+        raise FileNotFoundError(
+            f"Ficheiro de dados não encontrado: {csv_file}\n"
+            "Verifique se o CSV está na mesma pasta do script."
+        )
+
+    df = pd.read_csv(csv_file)
+    df[COL_RAMO] = df[COL_RAMO].map(normalizar_ramo)
+    df[COL_DIAS] = pd.to_numeric(df[COL_DIAS], errors="coerce")
+    df[COL_RECLAMADO] = pd.to_numeric(df[COL_RECLAMADO], errors="coerce").fillna(0)
+    df[COL_REGULARIZADO] = pd.to_numeric(df[COL_REGULARIZADO], errors="coerce").fillna(0)
+
+    print(df.dtypes)
+    print(df.isna().sum())
+    print("Duplicados:", df.duplicated().sum())
+    print(df[COL_ESTADO].unique(), df[COL_RAMO].unique())
+
+    # 2. valor_pendente
+    df["valor_pendente"] = df[COL_RECLAMADO].where(
+        df[COL_ESTADO].astype(str).str.strip().eq("Pendente"), 0
+    )
+
+    # 3. fora_prazo
+    df["fora_prazo"] = ~df.apply(
+        lambda linha: cumpre_prazo(linha[COL_RAMO], linha[COL_DIAS]), axis=1
+    )
+
+    # 4. Resumo por ramo
+    resumo = df.groupby(COL_RAMO).agg(
+        n_sinistros=(COL_ID, "count"),
+        valor_reclamado=(COL_RECLAMADO, "sum"),
+        valor_regularizado=(COL_REGULARIZADO, "sum"),
+        valor_pendente=("valor_pendente", "sum"),
+        dias_medios=(COL_DIAS, "mean"),
+        pct_fora_prazo=("fora_prazo", lambda s: s.mean() * 100),
+    ).round(2)
+    print(resumo)
+
+    # 5. Demonstração da classe
+    linha = df.iloc[0]
+    sinistro = Sinistro(
+        linha[COL_ID], linha[COL_RAMO], linha[COL_ESTADO], linha[COL_RECLAMADO]
+    )
+    print(sinistro.id_sinistro, sinistro.valor_pendente())
+
+    # 6. Exportação dos prioritários
+    prioritarios = df[(df[COL_ESTADO].astype(str).str.strip().eq("Pendente")) | df["fora_prazo"]]
+    prioritarios = prioritarios.sort_values(
+        by=["valor_pendente", COL_DIAS], ascending=[False, False]
+    )
+    prioritarios.to_csv(base_dir / "sinistros_prioritarios.csv", index=False)
+
+    # Apoio às questões de análise
+    print(df[COL_CANAL].value_counts(normalize=True))
+    print(prioritarios[COL_CANAL].value_counts(normalize=True))
+    print(pd.crosstab(prioritarios[COL_CANAL], prioritarios[COL_RAMO]))
+
+
+if __name__ == "__main__":
+    main()
