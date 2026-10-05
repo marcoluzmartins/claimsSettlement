@@ -82,15 +82,22 @@ def main():
         )
 
     df = pd.read_csv(csv_file)
+
+    # Verificação de qualidade feita ANTES de qualquer conversão ou preenchimento,
+    # para que valores em falta e tipos originais não fiquem escondidos.
+    print("Dimensão:", df.shape)
+    print(df.dtypes)
+    print("Valores em falta por coluna:")
+    print(df.isna().sum())
+    print("Linhas duplicadas:", df.duplicated().sum())
+    print("IDs de sinistro duplicados:", df[COL_ID].duplicated().sum())
+    print("Estados:", df[COL_ESTADO].unique(), "| Ramos:", df[COL_RAMO].unique())
+
+    # Preparação: normalizar ramos e garantir tipos numéricos
     df[COL_RAMO] = df[COL_RAMO].map(normalizar_ramo)
     df[COL_DIAS] = pd.to_numeric(df[COL_DIAS], errors="coerce")
     df[COL_RECLAMADO] = pd.to_numeric(df[COL_RECLAMADO], errors="coerce").fillna(0)
     df[COL_REGULARIZADO] = pd.to_numeric(df[COL_REGULARIZADO], errors="coerce").fillna(0)
-
-    print(df.dtypes)
-    print(df.isna().sum())
-    print("Duplicados:", df.duplicated().sum())
-    print(df[COL_ESTADO].unique(), df[COL_RAMO].unique())
 
     # 2. valor_pendente
     df["valor_pendente"] = df[COL_RECLAMADO].where(
