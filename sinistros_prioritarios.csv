@@ -1,0 +1,8 @@
+sinistro,ramo,canal,valor_reclamado,valor_regularizado,dias_resolucao,estado,valor_pendente,fora_prazo
+S012,ResponsabilidadeCivil,Corretor,9800,0,55,Pendente,9800,True
+S004,ResponsabilidadeCivil,Agente,8400,0,45,Pendente,8400,True
+S002,Habitacao,Digital,6200,0,32,Pendente,6200,True
+S009,Automovel,Corretor,5200,0,42,Pendente,5200,True
+S007,Viagem,Digital,1200,0,14,Pendente,1200,True
+S008,ResponsabilidadeCivil,Agente,7600,7000,38,Fechado,0,True
+S005,Automovel,Digital,2100,1900,28,Fechado,0,True
