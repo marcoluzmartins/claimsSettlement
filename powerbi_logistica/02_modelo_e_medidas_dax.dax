@@ -1,160 +1,293 @@
 // =====================================================================
 // MODELO + DAX  –  LogiDistrib
 // Nomes de tabelas = nomes das consultas de 01_power_query_dimensoes.m
-// (ligar "entregas" só como origem: desativar carregamento).
+// (stg_encomendas e stg_entregas não são carregadas no modelo).
+// NOTA: este DAX foi escrito e conferido por cálculo independente
+// (pandas, SQL e numpy), mas não foi executado no Power BI Desktop.
+// Cada medida traz o valor esperado para o conferir.
 // =====================================================================
 
 // ---------------------------------------------------------------------
-// A. RELAÇÕES (Vista de modelo) – todas N:1, filtro num só sentido
+// A. RELAÇÕES (Vista de modelo) – todas muitos-para-um (*:1), filtro
+//    num só sentido (da dimensão para o facto)
 // ---------------------------------------------------------------------
-//  encomendas[data_encomenda]     N:1  dim_calendario[data]      ATIVA
-//  encomendas[data_expedicao]     N:1  dim_calendario[data]      inativa (opcional)
-//  encomendas[data_entrega]       N:1  dim_calendario[data]      inativa (opcional)
-//  encomendas[id_cliente]         N:1  dim_cliente[id_cliente]
-//  encomendas[id_centro]          N:1  dim_centro[id_centro]
-//  encomendas[id_transportadora]  N:1  dim_transportadora[id_transportadora]
-//  linha_encomenda[id_encomenda]  N:1  encomendas[id_encomenda]
-//  linha_encomenda[id_produto]    N:1  dim_produto[id_produto]
-//  objetivos_2026[id_centro]      N:1  dim_centro[id_centro]
-//  objetivos_2026[data_mes]       N:1  dim_calendario[data]   (objetivo no dia 1 do mês)
+//  encomendas[data_encomenda]     *:1  dim_calendario[data]           ATIVA
+//  encomendas[data_expedicao]     *:1  dim_calendario[data]           inativa
+//  encomendas[data_entrega]       *:1  dim_calendario[data]           inativa
+//  encomendas[id_cliente]         *:1  dim_cliente[id_cliente]
+//  encomendas[id_centro]          *:1  dim_centro[id_centro]
+//  encomendas[id_transportadora]  *:1  dim_transportadora[id_transportadora]
+//  linha_encomenda[id_encomenda]  *:1  encomendas[id_encomenda]
+//  linha_encomenda[id_produto]    *:1  dim_produto[id_produto]
+//  objetivos_2026[id_centro]      *:1  dim_centro[id_centro]
+//  objetivos_2026[data_mes]       *:1  dim_calendario[data]  (objetivo no dia 1 do mês)
 //
-// Grãos: linha_encomenda = produto numa encomenda | encomendas = encomenda
-//        (já com a entrega, 1:1) | objetivos_2026 = centro × mês.
+// Grãos: linha_encomenda = produto numa encomenda | encomendas = uma
+// encomenda (já com a entrega, 1:1) | objetivos_2026 = centro × mês.
 // Marcar dim_calendario como tabela de datas (coluna data).
-// Ordenar dim_calendario[dia_semana] por uma coluna numérica se quiser.
+// Ordenar por coluna: mes_abrev por mes_num; dia_semana por dia_semana_num.
 
 
 // ---------------------------------------------------------------------
 // B. COLUNAS CALCULADAS
 // ---------------------------------------------------------------------
 
-// --- dim_calendario ---
-// Período comparável: mesmo intervalo dia/mês nos dois anos, até à
-// última data com encomendas (31/08/2026) -> jan–ago.
+// --- dim_calendario ---------------------------------------------------
+// Período comparável: mesmo intervalo dia/mês nos dois anos, até à última
+// data com encomendas (31/08/2026) -> jan–ago.
 Em Periodo Comparavel =
-VAR _lim = CALCULATE ( MAX ( encomendas[data_encomenda] ), ALL ( encomendas ) )
+VAR _lim = CALCULATE ( MAX ( encomendas[data_encomenda] ), ALL () )
 RETURN
     IF (
         MONTH ( dim_calendario[data] ) * 100 + DAY ( dim_calendario[data] )
             <= MONTH ( _lim ) * 100 + DAY ( _lim ),
-        "Sim", "Não"
+        "Sim",
+        "Não"
     )
 
-// --- encomendas ---
-// Dias úteis decorridos entre encomenda e expedição (conta a data de
-// expedição, não a de encomenda; encomendas em fim de semana contam
-// a partir da 2.ª feira). Usa o contador du_acum do Power Query.
+// --- linha_encomenda --------------------------------------------------
+// Custo logístico ALOCADO a cada linha, proporcional ao peso da linha no
+// peso total da encomenda. O custo está ao nível da encomenda; sem esta
+// alocação, ao analisar por produto/categoria o custo seria repetido ou
+// ignorado. Garante que a soma por qualquer dimensão = total (95 498,44 €).
+custo_log_aloc =
+VAR _pesoEnc =
+    CALCULATE (
+        SUM ( linha_encomenda[peso_kg] ),
+        ALLEXCEPT ( linha_encomenda, linha_encomenda[id_encomenda] )
+    )
+RETURN
+    DIVIDE ( linha_encomenda[peso_kg], _pesoEnc ) * RELATED ( encomendas[custo_transporte] )
+
+// --- encomendas -------------------------------------------------------
+// Dias úteis decorridos entre a encomenda e a expedição = dias úteis em
+// [data_encomenda ; data_expedicao[. Uma encomenda de fim de semana é
+// considerada recebida na 2.ª feira seguinte.
 DU Processamento =
-LOOKUPVALUE ( dim_calendario[du_acum], dim_calendario[data], encomendas[data_expedicao] )
-    - LOOKUPVALUE ( dim_calendario[du_acum], dim_calendario[data], encomendas[data_encomenda] )
+LOOKUPVALUE ( dim_calendario[du_antes], dim_calendario[data], encomendas[data_expedicao] )
+    - LOOKUPVALUE ( dim_calendario[du_antes], dim_calendario[data], encomendas[data_encomenda] )
 
 Dentro Prazo Operacional = IF ( encomendas[DU Processamento] <= 4, 1, 0 )
 
-Atraso Entrega (dias) =
-DATEDIFF ( encomendas[data_prometida], encomendas[data_entrega], DAY )   // >0 = atrasada
+// >0 = entregue depois da data prometida (dias de calendário)
+Atraso Entrega (dias) = INT ( encomendas[data_entrega] - encomendas[data_prometida] )
 
 Entrega Atrasada = IF ( encomendas[Atraso Entrega (dias)] > 0, "Atrasada", "No prazo" )
-Entrega Atrasada Flag = IF ( encomendas[Atraso Entrega (dias)] > 0, 1, 0 )
 
-// Variáveis explicativas para o Key Influencers (Q9) – conhecidas
-// à data da encomenda
+// --- encomendas: variáveis explicativas para o Key Influencers (Q9) ---
+// (só informação conhecida no registo da encomenda)
 Regiao Cliente Diferente Centro =
 IF ( RELATED ( dim_cliente[regiao_cliente] ) <> RELATED ( dim_centro[regiao_centro] ), "Sim", "Não" )
 
 Peso Total (kg) = CALCULATE ( SUM ( linha_encomenda[peso_kg] ) )
-N Linhas        = CALCULATE ( COUNTROWS ( linha_encomenda ) )
-Tem Frágil      = IF ( CALCULATE ( COUNTROWS ( linha_encomenda ), dim_produto[fragil] = "Sim" ) > 0, "Sim", "Não" )
-Prazo Prometido (dias) = DATEDIFF ( encomendas[data_encomenda], encomendas[data_prometida], DAY )
-Dia Semana Encomenda   = RELATED ( dim_calendario[dia_semana] )
+
+N Linhas = CALCULATE ( COUNTROWS ( linha_encomenda ) )
+
+Tem Frágil =
+IF ( CALCULATE ( COUNTROWS ( linha_encomenda ), dim_produto[fragil] = "Sim" ) > 0, "Sim", "Não" )
+
+Dia Semana Encomenda = RELATED ( dim_calendario[dia_semana] )
+
+// Para 9.3/9.4: trânsito real e prometido (a diferença = Atraso Entrega (dias))
+Transito Real (dias)      = INT ( encomendas[data_entrega] - encomendas[data_expedicao] )
+Transito Prometido (dias) = INT ( encomendas[data_prometida] - encomendas[data_expedicao] )
+
+// Faixas de peso para validar o fator "peso" (esperado: > 20 kg = 16,9 % atrasadas; ≤ 20 kg = 11,9 %)
+Faixa Peso (kg) =
+SWITCH (
+    TRUE (),
+    encomendas[Peso Total (kg)] <= 5,  "1) até 5",
+    encomendas[Peso Total (kg)] <= 10, "2) 5 a 10",
+    encomendas[Peso Total (kg)] <= 20, "3) 10 a 20",
+    "4) mais de 20"
+)
 
 
 // ---------------------------------------------------------------------
 // C. MEDIDAS – Q2 desempenho económico
+//    (valores esperados: totais jan 2025–ago 2026, sem filtros)
 // ---------------------------------------------------------------------
-N Encomendas = DISTINCTCOUNT ( encomendas[id_encomenda] )
+// Conta encomendas pelas linhas: assim também respeita filtros de produto.
+N Encomendas = DISTINCTCOUNT ( linha_encomenda[id_encomenda] )          // 10 693
 
 Valor Encomendas =
-SUMX ( linha_encomenda, linha_encomenda[quantidade] * linha_encomenda[preco_unitario] )
+SUMX ( linha_encomenda, linha_encomenda[quantidade] * linha_encomenda[preco_unitario] )   // 3 424 487,83
 
 Custo Produtos =
-SUMX ( linha_encomenda, linha_encomenda[quantidade] * RELATED ( dim_produto[custo_unitario] ) )
+SUMX ( linha_encomenda, linha_encomenda[quantidade] * RELATED ( dim_produto[custo_unitario] ) )   // 1 962 798,04
 
-// O custo logístico está ao nível da ENCOMENDA. Dim_produto filtra as
-// linhas mas não as encomendas -> por produto/categoria o valor seria
-// repetido; por isso devolve BLANK quando há filtro de produto.
-Custo Logistico =
-IF ( ISCROSSFILTERED ( dim_produto ), BLANK (), SUM ( encomendas[custo_transporte] ) )
+Custo Logistico = SUM ( linha_encomenda[custo_log_aloc] )               // 95 498,44
 
-Margem Contribuicao = [Valor Encomendas] - [Custo Produtos] - [Custo Logistico]
-Taxa Margem         = DIVIDE ( [Margem Contribuicao], [Valor Encomendas] )
+Margem Contribuicao = [Valor Encomendas] - [Custo Produtos] - [Custo Logistico]    // 1 366 191,35
 
-// Para analisar por produto (sem custo logístico):
-Margem Bruta Produto = [Valor Encomendas] - [Custo Produtos]
+Taxa Margem = DIVIDE ( [Margem Contribuicao], [Valor Encomendas] )      // 39,89 %
 
-Custo Logistico Medio = DIVIDE ( [Custo Logistico], [N Encomendas] )
+Custo Logistico Medio = DIVIDE ( [Custo Logistico], [N Encomendas] )    // 8,93 €
+
+Ticket Medio = DIVIDE ( [Valor Encomendas], [N Encomendas] )            // 320,26 €
+
+// encomendas com margem de contribuição negativa (esperado: 88)
+Enc Margem Negativa =
+COUNTROWS ( FILTER ( VALUES ( encomendas[id_encomenda] ), [Margem Contribuicao] < 0 ) )
 
 
 // ---------------------------------------------------------------------
-// D. MEDIDAS – Q3 eficiência e qualidade
+// D. MEDIDAS – Q3 eficiência e qualidade operacional
+//    (indicadores ao nível da ENCOMENDA: não usar a dimensão produto)
 // ---------------------------------------------------------------------
-Pct Proc Dentro Prazo = DIVIDE ( SUM ( encomendas[Dentro Prazo Operacional] ), [N Encomendas] )
+N Enc Atrasadas =
+CALCULATE ( [N Encomendas], encomendas[Entrega Atrasada] = "Atrasada" )     // 1 310
 
-Pct Entregas No Prazo =
-DIVIDE ( CALCULATE ( [N Encomendas], encomendas[Entrega Atrasada] = "No prazo" ), [N Encomendas] )
+Pct Proc Dentro Prazo =
+DIVIDE ( CALCULATE ( [N Encomendas], encomendas[Dentro Prazo Operacional] = 1 ), [N Encomendas] )   // 93,80 %
 
+Pct Entregas No Prazo = DIVIDE ( [N Encomendas] - [N Enc Atrasadas], [N Encomendas] )    // 87,75 %
+
+Pct Entregas Atrasadas = DIVIDE ( COALESCE ( [N Enc Atrasadas], 0 ), [N Encomendas] )       // 12,25 %
+
+// média só das entregas depois da data prometida, em dias de calendário
 Atraso Medio (dias) =
-CALCULATE ( AVERAGE ( encomendas[Atraso Entrega (dias)] ), encomendas[Entrega Atrasada] = "Atrasada" )
+CALCULATE ( AVERAGE ( encomendas[Atraso Entrega (dias)] ), encomendas[Entrega Atrasada] = "Atrasada" )   // 2,51
+
+Data Limite = CALCULATE ( MAX ( encomendas[data_encomenda] ), ALL () )      // 31/08/2026
 
 
 // ---------------------------------------------------------------------
-// E. MEDIDAS – Q4 2026 vs período comparável 2025
-// (usar com filtro Em Periodo Comparavel = "Sim" e ano nas linhas;
-//  ou as medidas abaixo)
+// E. MEDIDAS – Q4 2026 vs período comparável de 2025 (jan–ago)
+// Matriz: ano nas colunas, medidas em "Valores", filtro de página
+// dim_calendario[Em Periodo Comparavel] = "Sim".
+// Valores esperados (2025 -> 2026): N 3 697 -> 4 693 | Valor 1 189 502 ->
+// 1 493 004 | Margem 472 078 -> 597 473 | Taxa 39,69 % -> 40,02 % |
+// Custo log. médio 9,15 -> 8,71 | % proc. 93,51 % -> 93,80 % |
+// % entregas no prazo 88,40 % -> 88,39 % | Atraso médio 2,55 -> 2,55
 // ---------------------------------------------------------------------
-Data Limite  = CALCULATE ( MAX ( encomendas[data_encomenda] ), ALL ( encomendas ) )
+Var N Enc % =
+VAR _2026 = CALCULATE ( [N Encomendas], dim_calendario[ano] = 2026, dim_calendario[Em Periodo Comparavel] = "Sim" )
+VAR _2025 = CALCULATE ( [N Encomendas], dim_calendario[ano] = 2025, dim_calendario[Em Periodo Comparavel] = "Sim" )
+RETURN DIVIDE ( _2026 - _2025, _2025 )                                   // +26,9 %
 
-N Enc 2026 Comp =
-CALCULATE ( [N Encomendas], dim_calendario[ano] = 2026, dim_calendario[Em Periodo Comparavel] = "Sim" )
-N Enc 2025 Comp =
-CALCULATE ( [N Encomendas], dim_calendario[ano] = 2025, dim_calendario[Em Periodo Comparavel] = "Sim" )
-Var N Enc % = DIVIDE ( [N Enc 2026 Comp] - [N Enc 2025 Comp], [N Enc 2025 Comp] )
-// Repetir o padrão para Valor, Margem, Taxa Margem, Pct Proc, Pct Entregas, Atraso Médio,
-// Custo Logístico Médio.
+Var Valor % =
+VAR _2026 = CALCULATE ( [Valor Encomendas], dim_calendario[ano] = 2026, dim_calendario[Em Periodo Comparavel] = "Sim" )
+VAR _2025 = CALCULATE ( [Valor Encomendas], dim_calendario[ano] = 2025, dim_calendario[Em Periodo Comparavel] = "Sim" )
+RETURN DIVIDE ( _2026 - _2025, _2025 )                                   // +25,5 %
+
+Var Custo Logistico Medio % =
+VAR _2026 = CALCULATE ( [Custo Logistico Medio], dim_calendario[ano] = 2026, dim_calendario[Em Periodo Comparavel] = "Sim" )
+VAR _2025 = CALCULATE ( [Custo Logistico Medio], dim_calendario[ano] = 2025, dim_calendario[Em Periodo Comparavel] = "Sim" )
+RETURN DIVIDE ( _2026 - _2025, _2025 )                                   // -4,8 %
+
+Var Taxa Margem pp =
+VAR _2026 = CALCULATE ( [Taxa Margem], dim_calendario[ano] = 2026, dim_calendario[Em Periodo Comparavel] = "Sim" )
+VAR _2025 = CALCULATE ( [Taxa Margem], dim_calendario[ano] = 2025, dim_calendario[Em Periodo Comparavel] = "Sim" )
+RETURN ( _2026 - _2025 ) * 100                                           // +0,3 pp
+
+Var Pct Entregas No Prazo pp =
+VAR _2026 = CALCULATE ( [Pct Entregas No Prazo], dim_calendario[ano] = 2026, dim_calendario[Em Periodo Comparavel] = "Sim" )
+VAR _2025 = CALCULATE ( [Pct Entregas No Prazo], dim_calendario[ano] = 2025, dim_calendario[Em Periodo Comparavel] = "Sim" )
+RETURN ( _2026 - _2025 ) * 100                                           // 0,0 pp
+
+Var Pct Proc Dentro Prazo pp =
+VAR _2026 = CALCULATE ( [Pct Proc Dentro Prazo], dim_calendario[ano] = 2026, dim_calendario[Em Periodo Comparavel] = "Sim" )
+VAR _2025 = CALCULATE ( [Pct Proc Dentro Prazo], dim_calendario[ano] = 2025, dim_calendario[Em Periodo Comparavel] = "Sim" )
+RETURN ( _2026 - _2025 ) * 100                                           // +0,3 pp
+
+Var Margem % =
+VAR _2026 = CALCULATE ( [Margem Contribuicao], dim_calendario[ano] = 2026, dim_calendario[Em Periodo Comparavel] = "Sim" )
+VAR _2025 = CALCULATE ( [Margem Contribuicao], dim_calendario[ano] = 2025, dim_calendario[Em Periodo Comparavel] = "Sim" )
+RETURN DIVIDE ( _2026 - _2025, _2025 )                                   // +26,6 %
+
+Var Atraso Medio (dias) =
+VAR _2026 = CALCULATE ( [Atraso Medio (dias)], dim_calendario[ano] = 2026, dim_calendario[Em Periodo Comparavel] = "Sim" )
+VAR _2025 = CALCULATE ( [Atraso Medio (dias)], dim_calendario[ano] = 2025, dim_calendario[Em Periodo Comparavel] = "Sim" )
+RETURN _2026 - _2025                                                     // ≈ 0,00
+
+// Crescimento: vem de novos clientes ou dos mesmos? (esperado: 229 nos dois anos;
+// 16,1 -> 20,5 encomendas por cliente; ticket médio 321,75 -> 318,13 €)
+Clientes Ativos = DISTINCTCOUNT ( encomendas[id_cliente] )
+Encomendas por Cliente = DIVIDE ( [N Encomendas], [Clientes Ativos] )
 
 
 // ---------------------------------------------------------------------
 // F. MEDIDAS – Q5 objetivos 2026 (centro × mês, jan–ago)
 // Médias ponderadas pelo volume objetivo (não médias simples de médias).
 // ---------------------------------------------------------------------
-Volume Objetivo = SUM ( objetivos_2026[volume_objetivo] )
+Volume Objetivo = SUM ( objetivos_2026[volume_objetivo] )               // 4 022
 
 Custo Medio Objetivo =
 DIVIDE (
     SUMX ( objetivos_2026, objetivos_2026[volume_objetivo] * objetivos_2026[custo_medio_objetivo] ),
     [Volume Objetivo]
-)
+)                                                                       // 9,02 €
+
 Taxa Prazo Objetivo =
 DIVIDE (
     SUMX ( objetivos_2026, objetivos_2026[volume_objetivo] * objetivos_2026[taxa_entrega_prazo_objetivo] ),
     [Volume Objetivo]
-)
+)                                                                       // 89,68 %
 
-// Realizado nos mesmos meses dos objetivos (só 2026)
-Volume 2026       = CALCULATE ( [N Encomendas], dim_calendario[ano] = 2026 )
-Custo Medio 2026  = CALCULATE ( [Custo Logistico Medio], dim_calendario[ano] = 2026 )
-Taxa Prazo 2026   = CALCULATE ( [Pct Entregas No Prazo], dim_calendario[ano] = 2026 )
+// Realizado só em 2026 (os objetivos só existem para 2026), mesmo que o
+// utilizador deixe 2025 no contexto de filtro.
+Volume 2026      = CALCULATE ( [N Encomendas], dim_calendario[ano] = 2026 )               // 4 693
+Custo Medio 2026 = CALCULATE ( [Custo Logistico Medio], dim_calendario[ano] = 2026 )      // 8,71 €
+Taxa Prazo 2026  = CALCULATE ( [Pct Entregas No Prazo], dim_calendario[ano] = 2026 )      // 88,39 %
 
-Desvio Volume %   = DIVIDE ( [Volume 2026] - [Volume Objetivo], [Volume Objetivo] )
-Desvio Custo Medio = [Custo Medio 2026] - [Custo Medio Objetivo]        // >0 = pior
-Desvio Taxa Prazo  = [Taxa Prazo 2026] - [Taxa Prazo Objetivo]          // <0 = pior
-// Nota: se o segmentador for um intervalo de DIAS, os objetivos (dia 1 de cada
-// mês) podem ficar de fora. Nas páginas de objetivos filtrar por mês/ano.
+Desvio Volume %    = DIVIDE ( [Volume 2026] - [Volume Objetivo], [Volume Objetivo] )      // +16,7 %
+Desvio Custo Medio = [Custo Medio 2026] - [Custo Medio Objetivo]                          // -0,31 € (negativo = melhor)
+Desvio Taxa Prazo pp = ( [Taxa Prazo 2026] - [Taxa Prazo Objetivo] ) * 100                // -1,3 pp (negativo = pior)
+
+// OPCIONAL (avançado): nº de centro-mês (de 64) que cumprem cada objetivo.
+// Esperado: volume 49 | custo médio 43 | pontualidade 20 | os três 10.
+Meses Cumpre Volume =
+SUMX ( SUMMARIZE ( objetivos_2026, dim_centro[id_centro], dim_calendario[ano], dim_calendario[mes_num] ),
+    IF ( [Volume 2026] >= [Volume Objetivo], 1, 0 ) )
+
+Meses Cumpre Custo =
+SUMX ( SUMMARIZE ( objetivos_2026, dim_centro[id_centro], dim_calendario[ano], dim_calendario[mes_num] ),
+    IF ( [Custo Medio 2026] <= [Custo Medio Objetivo], 1, 0 ) )
+
+Meses Cumpre Taxa Prazo =
+SUMX ( SUMMARIZE ( objetivos_2026, dim_centro[id_centro], dim_calendario[ano], dim_calendario[mes_num] ),
+    IF ( [Taxa Prazo 2026] >= [Taxa Prazo Objetivo], 1, 0 ) )
+
+Meses Cumpre Todos =
+SUMX ( SUMMARIZE ( objetivos_2026, dim_centro[id_centro], dim_calendario[ano], dim_calendario[mes_num] ),
+    IF ( [Volume 2026] >= [Volume Objetivo]
+        && [Custo Medio 2026] <= [Custo Medio Objetivo]
+        && [Taxa Prazo 2026] >= [Taxa Prazo Objetivo], 1, 0 ) )
 
 
 // ---------------------------------------------------------------------
-// G. Q9.3 – validação independente do fator escolhido
+// G. MEDIDAS – Q8 / Q9 (prioridade e validação do Key Influencers)
 // ---------------------------------------------------------------------
-Pct Entregas Atrasadas = 1 - [Pct Entregas No Prazo]
-// Matriz: dim_cliente[regiao_cliente] nas linhas, [Pct Entregas Atrasadas]
-// e [N Encomendas] nos valores; repetir cruzando com tipo_servico/centro
-// para testar se o padrão se mantém dentro de cada grupo.
+// Matriz da validação independente (9.3): linhas = dim_cliente[regiao_cliente],
+// valores = [Pct Entregas Atrasadas] e [N Encomendas]. Esperado: Interior 23,5 %
+// (1 393 enc.) vs 9,5–11,6 % nas restantes regiões.
+
+// Atrasos evitáveis se o Interior tivesse a taxa de atraso do resto do país
+// (jan–ago 2026). Esperado: ~96 entregas (-> pontualidade global 90,4 %).
+Atrasos Evitaveis Interior =
+VAR _nInt =
+    CALCULATE ( [N Encomendas], dim_cliente[regiao_cliente] = "Interior", dim_calendario[ano] = 2026, dim_calendario[Em Periodo Comparavel] = "Sim" )
+VAR _atrInt =
+    CALCULATE ( [N Enc Atrasadas], dim_cliente[regiao_cliente] = "Interior", dim_calendario[ano] = 2026, dim_calendario[Em Periodo Comparavel] = "Sim" )
+VAR _txResto =
+    CALCULATE (
+        DIVIDE ( [N Enc Atrasadas], [N Encomendas] ),
+        dim_cliente[regiao_cliente] <> "Interior", dim_calendario[ano] = 2026, dim_calendario[Em Periodo Comparavel] = "Sim"
+    )
+RETURN _atrInt - _nInt * _txResto
+
+// Pontualidade global (jan–ago 2026) se o Interior tivesse a taxa do resto. Esperado: 90,4 %
+// (atual: 88,4 %; objetivo: 89,7 %).
+Taxa Prazo Sem Gap Interior =
+VAR _nTot   = CALCULATE ( [N Encomendas], dim_calendario[ano] = 2026, dim_calendario[Em Periodo Comparavel] = "Sim" )
+VAR _atrTot = CALCULATE ( [N Enc Atrasadas], dim_calendario[ano] = 2026, dim_calendario[Em Periodo Comparavel] = "Sim" )
+RETURN 1 - DIVIDE ( _atrTot - [Atrasos Evitaveis Interior], _nTot )
+
+// Alternativa: encomendas "recuperáveis" se o Centro Interior (C08) voltasse ao nível de 2025
+// no processamento ≤ 4 d.u. Esperado: ~21.
+Enc Recuperaveis C08 =
+VAR _n   = CALCULATE ( [N Encomendas], dim_centro[id_centro] = "C08", dim_calendario[ano] = 2026, dim_calendario[Em Periodo Comparavel] = "Sim" )
+VAR _p26 = CALCULATE ( [Pct Proc Dentro Prazo], dim_centro[id_centro] = "C08", dim_calendario[ano] = 2026, dim_calendario[Em Periodo Comparavel] = "Sim" )
+VAR _p25 = CALCULATE ( [Pct Proc Dentro Prazo], dim_centro[id_centro] = "C08", dim_calendario[ano] = 2025, dim_calendario[Em Periodo Comparavel] = "Sim" )
+RETURN _n * ( _p25 - _p26 )
