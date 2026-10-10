@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<title>O R5 explicado sem jargão</title>
+<style>
+@page { size: A4; margin: 2cm 2.1cm 2.1cm 2.1cm; }
+:root { --ink:#1a1a1a; --sec:#555; --acc:#9b1c2e; --line:#d6d4cf; --soft:#f5f3ee; --ok:#1f6b3a; --mid:#8a5a00; }
+* { box-sizing: border-box; }
+body { font-family: "Liberation Sans","DejaVu Sans",sans-serif; font-size: 10.3pt; line-height: 1.42; color: var(--ink); background:#fff; margin:0; }
+h1 { font-size: 16pt; color: var(--acc); margin: 18pt 0 6pt; break-after: avoid; }
+h2 { font-size: 12.2pt; margin: 14pt 0 4pt; break-after: avoid; border-top: 1.5pt solid var(--acc); padding-top: 5pt; }
+h3 { font-size: 10.6pt; margin: 8pt 0 2pt; break-after: avoid; color: var(--acc); }
+p { margin: 0 0 5.5pt; orphans:3; widows:3; }
+ul { margin: 0 0 6pt; padding-left: 15pt; } li { margin-bottom: 2.5pt; }
+.card { margin: 0 0 4pt; }
+.lab { font-weight: 700; color: var(--acc); }
+.analogy { background: var(--soft); border-left: 3pt solid var(--acc); padding: 5pt 8pt; margin: 4pt 0 6pt; break-inside: avoid; }
+.certeza { display:inline-block; font-size: 8.6pt; font-weight:700; padding: 1pt 6pt; border: 1pt solid currentColor; border-radius: 8pt; margin-right: 4pt; }
+.alta { color: var(--ok); } .media { color: var(--mid); } .juizo { color: var(--acc); }
+table { border-collapse: collapse; width: 100%; font-size: 8.8pt; margin: 4pt 0 8pt; break-inside: avoid; }
+th { background: var(--soft); text-align:left; padding: 3pt 5pt; border-top: 1.2pt solid var(--ink); border-bottom: 0.7pt solid var(--ink); }
+td { padding: 3pt 5pt; border-bottom: 0.5pt solid var(--line); vertical-align: top; }
+tr:last-child td { border-bottom: 1.2pt solid var(--ink); }
+.cover { page-break-after: always; height: 24.5cm; display:flex; flex-direction:column; justify-content:space-between; }
+.cover .t { font-size: 27pt; font-weight:700; line-height:1.15; margin-top: 6cm; }
+.cover .s { font-size: 12.5pt; color: var(--sec); margin-top: 10pt; }
+.cover .m { font-size: 10.5pt; border-top: 3pt solid var(--acc); padding-top: 8pt; color: var(--sec); }
+figure { margin: 4pt 0; text-align:center; break-inside: avoid; } figure img { max-width: 100%; }
+.cap { font-size: 8.3pt; color: var(--sec); margin: 2pt 0 6pt; }
+.pb { page-break-before: always; }
+dt { font-weight: 700; margin-top: 5pt; } dd { margin: 0 0 3pt 0; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="s">Documento de apoio · Trabalho Prático de Análise de Dados</div>
+  <div>
+    <div class="t">O relatório R5 e a minha avaliação, explicados sem jargão</div>
+    <div class="s">Porque é que tomei cada decisão no relatório de avaliação crítica, passo a passo, como se nunca tivesses ouvido falar de análise de dados.</div>
+  </div>
+  <div class="m">Este documento é <b>só para estudo</b>: serve para perceberes e conseguires defender o relatório na aula. Não é para entregar.</div>
+</div>
+
+<h1>Como usar este documento</h1>
+<p>O R5 é o relatório de um analista que estudou 300 clientes de uma empresa. O teu trabalho é dizer se o que ele concluiu é fiável. No relatório de avaliação tomei cerca de 20 decisões do tipo «isto está bem», «isto está mal» ou «isto não chega». Aqui explico <b>cada uma</b> do mesmo modo:</p>
+<ul>
+<li><span class="lab">O que o analista fez.</span> O passo no R5.</li>
+<li><span class="lab">O que eu concluí.</span> A minha decisão.</li>
+<li><span class="lab">Porquê, em português simples.</span> A lógica, quase sempre com uma analogia.</li>
+<li><span class="lab">Como sei.</span> Se foi cálculo, dedução ou opinião fundamentada. Três etiquetas de certeza:
+ <span class="certeza alta">Certeza alta</span> recalculei e dá sempre o mesmo;
+ <span class="certeza media">Certeza média</span> é uma dedução com base nos números do R5;
+ <span class="certeza juizo">Juízo</span> é uma opinião técnica fundamentada, em que outra pessoa podia discordar.</li>
+</ul>
+<p>Os números de decisão (D1, D2…) servem para te orientares; <b>não</b> são os mesmos números do Anexo A do relatório.</p>
+
+<h1>Mini-glossário (lê isto primeiro)</h1>
+<dl>
+<dt>Média e mediana</dt><dd>A <b>média</b> soma tudo e divide pelo número de pessoas. A <b>mediana</b> é o valor da pessoa que fica a meio quando as pomos por ordem. Se quatro pessoas ganham 1 000 € e uma ganha 10 000 €, a média é 2 800 € mas a mediana é 1 000 €. Quando a média é muito maior do que a mediana, há alguns valores muito altos a «puxar» a média.</dd>
+<dt>Outlier (valor extremo)</dt><dd>Alguém muito diferente da maioria, como o cliente que ganha 5 544 € quando quase todos ganham menos de 2 300 €.</dd>
+<dt>Desvio-padrão (DP)</dt><dd>Mede quanto os valores costumam afastar-se da média. «3,7 DP acima da média» quer dizer extremamente longe: muito raro.</dd>
+<dt>Variável contínua, de contagem, ordinal e categórica</dt><dd><b>Contínua</b>: pode tomar qualquer valor (rendimento). <b>Contagem</b>: números inteiros de coisas (n.º de reclamações). <b>Ordinal</b>: tem ordem mas os «passos» não são iguais (satisfação de 1 a 10: a diferença entre 4 e 5 não é bem igual à de 9 e 10). <b>Categórica</b>: etiquetas sem ordem (região, sexo).</dd>
+<dt>Correlação (r)</dt><dd>Mede se duas coisas «andam juntas», entre −1 e +1. Perto de +1: quando uma sobe, a outra sobe. Perto de −1: quando uma sobe, a outra desce. Perto de 0: não andam juntas. <b>Andar juntas não é uma causar a outra.</b></dd>
+<dt>Valor-p (p-value)</dt><dd>Imagina que atiras uma moeda 10 vezes e saem 7 caras. Será que a moeda é viciada? O valor-p responde: «se a moeda fosse normal, que probabilidade teria de dar um resultado tão estranho como este?». Por convenção, abaixo de 0,05 (5%) dizemos que é «estatisticamente significativo»: é pouco provável ser só sorte. Acima de 0,05, <b>não temos prova</b> suficiente; isso não quer dizer que o efeito não exista.</dd>
+<dt>Qui-quadrado (χ²) e V de Cramér</dt><dd>O qui-quadrado compara uma tabela de contagens (p. ex. clientes que saíram/ficaram, por região) com a que veríamos se região e abandono não tivessem relação nenhuma. O <b>V de Cramér</b> diz, de 0 a 1, <b>quão forte</b> é a relação (perto de 0: fraca).</dd>
+<dt>Cluster e K-means</dt><dd>Imagina uma festa em que tens de distribuir 280 pessoas por <b>k</b> mesas, pondo juntas as mais parecidas. Cada mesa é um <b>cluster</b>. O <b>K-means</b> é a receita automática que faz isso; tu escolhes quantas mesas (k).</dd>
+<dt>Coeficiente de silhueta</dt><dd>Mede, de −1 a 1, se cada pessoa está mesmo na mesa certa. Perto de 1: sente-se «em casa» e a mesa vizinha é muito diferente. Perto de 0: está na fronteira entre duas mesas. Os autores de referência (Kaufman e Rousseeuw) dizem: acima de 0,50 há estrutura razoável; entre 0,26 e 0,50 é <b>fraca</b>; até 0,25 não há estrutura substancial.</dd>
+<dt>PCA (Análise de Componentes Principais)</dt><dd>Se tens 9 medidas por cliente, é difícil «ver» tudo. A PCA inventa 2 ou 3 «super-medidas» (os <b>componentes</b>) que resumem a maior parte da informação, como resumir um filme em duas frases.</dd>
+<dt>Valor próprio</dt><dd>Diz quanta informação cada super-medida guarda. Se as 9 medidas originais valem «9 fatias de bolo» no total, os valores próprios são o número de fatias que cada componente ficou: <b>têm de somar 9</b>.</dd>
+<dt>Padronizar (z-score)</dt><dd>Pôr todas as variáveis na mesma «régua» (média 0, desvio 1), para que o rendimento em euros não pese mais do que o número de reclamações só por ter números maiores.</dd>
+<dt>Abandono (<i>churn</i>)</dt><dd>Cliente que deixou a empresa nos últimos 12 meses.</dd>
+</dl>
+
+<h1>Resumo do R5 numa página</h1>
+<p>O analista tinha uma tabela com 300 clientes e 19 informações sobre cada um (idade, rendimento, despesa, visitas, satisfação, abandono…). Fez quatro coisas:</p>
+<ul>
+<li><b>Olhou para os dados:</b> médias, valores em falta, quantos clientes por região, canal, plano…</li>
+<li><b>Procurou relações:</b> que variáveis andam juntas (correlações) e se o abandono depende de variáveis como região ou método de pagamento.</li>
+<li><b>Resumiu as 9 medidas numéricas em 2 super-medidas</b> (PCA).</li>
+<li><b>Dividiu os clientes em 3 grupos</b> (K-means): «elevado valor», «jovens e digitais», «tradicionais». E viu que o grupo 3 abandona mais.</li>
+</ul>
+<p>A empresa queria três coisas: (1) conhecer o perfil dos clientes, (2) encontrar segmentos distintos e (3) <b>um sistema para classificar novos clientes</b>. A questão do trabalho é: <b>os resultados servem de base para isto?</b></p>
+
+<h2>D1 — A resposta geral: «ainda não»</h2>
+<div class="card">
+<p><span class="lab">O que o analista fez.</span> Concluiu que a análise «permite apoiar a definição de segmentos».</p>
+<p><span class="lab">O que eu concluí.</span> Que é um bom ponto de partida, mas <b>ainda não é uma base adequada</b> para decidir.</p>
+<p><span class="lab">Porquê.</span> Para ser «adequada» a base tinha de passar três testes: (a) os números estarem certos, (b) as conclusões serem apoiadas pelos números e (c) responder ao que a empresa pediu. O R5 passa bem no (a) em quase tudo (só há pequenos erros), mas falha parcialmente no (b) e falha no (c): nunca trata de classificar novos clientes. Por isso não disse «não presta» (isso seria injusto, porque tem partes boas), nem «está ótimo»: disse <b>«ainda não, com estas correções»</b>.</p>
+<p><span class="certeza juizo">Juízo</span> É a síntese de tudo o que se segue.</p>
+</div>
+
+<h1>Parte 1 — Os dados</h1>
+
+<h2>D2 — Os clientes com valores em falta foram simplesmente apagados</h2>
+<div class="card">
+<p><span class="lab">O que o analista fez.</span> Faltavam 9 rendimentos, 6 percentagens digitais e 6 satisfações. Em vez de estimar esses valores, <b>eliminou os 20 clientes</b> que tinham alguma falta e trabalhou com os 280 restantes.</p>
+<p><span class="lab">O que eu concluí.</span> É aceitável, mas só se as faltas forem «por acaso»; o analista nem verificou isso.</p>
+<p><span class="lab">Porquê.</span> Se as faltas forem aleatórias, apagar esses clientes é como tirar 20 pessoas ao acaso de uma sala: o resto continua a representar o grupo. Mas se faltarem sobretudo clientes de um tipo (p. ex., quem ganha mais não quer dizer o rendimento), apagá-los distorce o retrato.</p>
+<div class="analogy"><b>Analogia:</b> numa sondagem à porta de um supermercado, se os clientes apressados se recusam a responder e tu os ignoras, o resultado só retrata os calmos.</div>
+<p><span class="lab">Como sei que há sinal de alarme.</span> O R5 diz que o abandono é 8,1% / 9,6% / 23,0% nos três clusters, que têm 62 / 83 / 135 clientes. Multiplicando: 5 + 8 + 31 = <b>44 abandonos</b> nos 280. Mas no total há 50 abandonos (16,7% de 300). Logo, <b>6 dos 20 clientes apagados abandonaram</b> (30%), contra 15,7% nos 280 que ficaram. A diferença pode ser sorte (testei: p ≈ 0,12, não é significativa, porque 20 é pouco), mas é suficiente para dizer «não se pode simplesmente assumir que apagar não mudou nada». Também importa que <b>os 20 clientes ficam sem segmento</b>, e que, para um cliente <i>novo</i>, não podes «apagá-lo» por ter dados em falta.</p>
+<p><span class="certeza media">Certeza média</span> A dedução dos 6 abandonos é aritmética, mas parte de percentagens arredondadas; e a diferença não é provada, só um sinal.</p>
+</div>
+
+<h2>D3 — Valores extremos e tipos de variáveis não foram tratados</h2>
+<div class="card">
+<p><span class="lab">O que o analista fez.</span> Reparou que rendimento e despesa têm média muito acima da mediana («alguns clientes com valores particularmente elevados») mas não os tratou. Tratou todas as variáveis como números «normais», mesmo as de contagem e a satisfação (ordinal).</p>
+<p><span class="lab">O que eu concluí.</span> Falta verificar e justificar.</p>
+<p><span class="lab">Porquê.</span> O rendimento máximo (5 544 €) está a 3,7 desvios-padrão da média: é raríssimo. Estes casos têm muita força nos cálculos que o analista fez (correlações, PCA, K-means), porque estes métodos elevam as distâncias ao quadrado, e um valor muito longe pesa muito. Quanto aos tipos: a média da «satisfação» (ordinal) assume que a distância entre 4 e 5 é igual à entre 9 e 10, o que não é garantido.</p>
+<p>Além disso, disse que a idade tem «distribuição equilibrada» só porque a média (43,46) é próxima da mediana (43,20). Isso é um bom indício, mas para confirmar viam-se gráficos (histogramas), que o relatório não tem.</p>
+<p><span class="certeza alta">Certeza alta</span> nos 3,7 DP (calculei (5544−2134)/913). <span class="certeza juizo">Juízo</span> na gravidade.</p>
+</div>
+
+<h2>D4 — Variáveis sem explicação e amostra sem descrição</h2>
+<div class="card">
+<p><span class="lab">O que eu concluí.</span> O R5 usa variáveis que não define e não diz como a amostra foi escolhida.</p>
+<p><span class="lab">Porquê.</span> Exemplos: «Perfil A/B/C» tem três grupos quase iguais (33/34/33%) e «Fidelização» é exatamente 50/50. Isto <i>parece</i> um critério já existente da empresa (p. ex., Fidelização cortada pela mediana). Se «Perfil» for uma segmentação que a empresa já tem, <b>devia ter sido comparada com os clusters</b>: se coincidirem, ótimo; se não, é preciso explicar. Também ninguém diz em que unidades estão o rendimento (€?) ou a antiguidade (anos?), nem em que escala está a satisfação (1–10?). E 300 clientes é pouco: só há <b>50 abandonos</b>, o que limita o que se pode estudar sobre abandono. Não sabemos se os 300 são representativos de todos os clientes.</p>
+<p><span class="certeza juizo">Juízo</span> (a «suspeita» sobre Perfil e Fidelização é uma hipótese, não um facto).</p>
+</div>
+
+<h1>Parte 2 — Relações entre variáveis</h1>
+
+<h2>D5 — Correlação de Pearson em variáveis «tortas»</h2>
+<div class="card">
+<p><span class="lab">O que o analista fez.</span> Calculou correlações de Pearson (p. ex. rendimento–despesa = 0,84).</p>
+<p><span class="lab">O que eu concluí.</span> As conclusões são plausíveis, mas o método é pouco robusto e a apresentação, incompleta.</p>
+<p><span class="lab">Porquê.</span> O Pearson mede relações em «linha reta» e é muito sensível a valores extremos e a variáveis assimétricas. Havendo rendimento/despesa assimétricos e variáveis de contagem/ordinais, o <b>Spearman</b> (que usa só a ordem) seria mais seguro. Além disso, o R5 não mostra gráficos de dispersão (nuvens de pontos), nem valores-p, e só mostra as correlações «principais», sem dizer como as escolheu: pode estar a mostrar só as que lhe convêm.</p>
+<p><span class="certeza juizo">Juízo</span> Não disse que as correlações estão erradas; disse que são frágeis de apresentar assim.</p>
+</div>
+
+<h2>D6 — «Valor do cliente» é uma interpretação, não um dado</h2>
+<div class="card">
+<p><span class="lab">O que o analista fez.</span> Viu que rendimento, despesa e número de produtos andam juntos e chamou a isso «uma dimensão de valor do cliente».</p>
+<p><span class="lab">O que eu concluí.</span> O rendimento <b>do cliente</b> não é o valor <b>do cliente para a empresa</b>.</p>
+<p><span class="lab">Porquê.</span> Um cliente rico pode gastar pouco na empresa; um cliente com baixo rendimento pode ser muito rentável. Valor para a empresa seria receita ou margem (ou o «valor ao longo da vida», CLV). Ninguém tem esses dados; por isso «elevado valor» é uma etiqueta plausível, não demonstrada.</p>
+<p><span class="certeza juizo">Juízo</span></p>
+</div>
+
+<h2>D7 — Um número errado na Tabela 5 (V de Cramér da Região)</h2>
+<div class="card">
+<p><span class="lab">O que o analista fez.</span> A Tabela 5 diz que, entre Região e Abandono, o V de Cramér é 0,039.</p>
+<p><span class="lab">O que eu concluí.</span> Está errado: devia ser 0,067.</p>
+<p><span class="lab">Porquê.</span> Como Abandono tem só duas opções (sim/não), V = √(χ² ÷ n), ou seja, √(1,364 ÷ 300) = 0,067. Apliquei a mesma conta às outras 7 linhas da tabela e todas batem certo: só esta falha. Não muda nenhuma conclusão (continua a ser uma relação fraca e não significativa), mas mostra que o relatório não foi revisto com cuidado.</p>
+<p><span class="certeza alta">Certeza alta</span> É um cálculo de uma linha que podes refazer na calculadora.</p>
+</div>
+
+<h2>D8 — Método de pagamento: «talvez seja importante» com p = 0,065</h2>
+<div class="card">
+<p><span class="lab">O que o analista fez.</span> Oito variáveis testadas contra o abandono; nenhuma passa o limite de 0,05. Mesmo assim, destacou o método de pagamento (p = 0,065) e disse que «poderá ser um fator relevante para a retenção».</p>
+<p><span class="lab">O que eu concluí.</span> Sobre-interpretação. É uma pista a investigar, não uma conclusão.</p>
+<p><span class="lab">Porquê.</span></p>
+<ul>
+<li><b>Não passou o teste.</b> Com p = 0,065, se não houvesse relação nenhuma, uma diferença destas apareceria por mero acaso cerca de 6,5 vezes em 100. Não é «quase significativo»; é «sem prova suficiente».</li>
+<li><b>Testaram-se 8 coisas.</b> Se fizeres muitos testes, é de esperar que algum fique perto do limite só por sorte (como atirar 8 moedas e reparar na que deu mais caras).</li>
+<li><b>Tratamento desigual.</b> «Fidelização» (p = 0,088) e «Perfil» (p = 0,090) estão em situação quase igual e foram ignorados. Se 0,065 merece atenção, 0,088 também.</li>
+<li><b>Sem tamanhos.</b> As taxas (23,5%, 18,6%, 12,5%, 9,9%) não dizem quantos clientes há em cada método; se um método tiver 20 clientes, os 12,5% não valem quase nada.</li>
+</ul>
+<p>Disse que aceito como <i>hipótese a testar</i>: é razoável, mas só se for apresentada como tal.</p>
+<p><span class="certeza alta">Certeza alta</span> nos números (recalculei p). <span class="certeza juizo">Juízo</span> sobre «onde está o limite entre pista e conclusão».</p>
+</div>
+
+<h1>Parte 3 — A PCA</h1>
+
+<h2>D9 — Os valores próprios não somam 9</h2>
+<div class="card">
+<p><span class="lab">O que o analista fez.</span> A Tabela 6 mostra os nove valores próprios e a «variância explicada».</p>
+<p><span class="lab">O que eu concluí.</span> Há pequenas inconsistências.</p>
+<p><span class="lab">Porquê.</span> Com 9 variáveis padronizadas, a «informação total» é exatamente 9, como num bolo de 9 fatias. Mas a soma dos valores próprios do R5 dá <b>9,033</b>. E a percentagem do primeiro componente é 42,58%, mas 3,846 ÷ 9 = 42,73%. Por fim, as percentagens somam 100,08% (e a última linha diz 100,00%). São diferenças mínimas, que não mudam o número de componentes, mas é como uma conta de supermercado em que o total não bate com as linhas: algo foi arredondado mal ou os números vêm de execuções diferentes.</p>
+<p><span class="certeza alta">Certeza alta</span> É aritmética. <span class="certeza juizo">Juízo</span> sobre a gravidade (baixa).</p>
+</div>
+
+<h2>D10 — Ficar com 2 componentes (Kaiser): aceitável, mas pouco justificado</h2>
+<div class="card">
+<p><span class="lab">O que o analista fez.</span> Usou a regra de Kaiser («ficar com os componentes de valor próprio superior a 1») e reteve 2, que explicam 67% da informação. Diz que o gráfico de cotovelo (<i>scree plot</i>) «parece confirmar», mas <b>não o mostra</b>.</p>
+<p><span class="lab">O que eu concluí.</span> A decisão é defensável, a justificação é curta.</p>
+<p><span class="lab">Porquê.</span> A regra faz sentido: um componente com valor menor que 1 resume menos do que uma única variável original, logo não compensa. Aqui há mesmo uma «queda» grande de 2,21 (2.º) para 0,83 (3.º), o que ajuda. Mas é uma regra simples, muito criticada por vezes dar mais ou menos componentes do que deve. Deveria ter-se mostrado o gráfico e usado também a «análise paralela», que é a alternativa mais recomendada. E convém lembrar que ficamos com 67%: <b>perdemos um terço da informação</b> ao olhar só para 2 dimensões; isto importa para a Figura 1 (D16).</p>
+<p><span class="certeza juizo">Juízo</span> Disse «adequada», não «errada».</p>
+</div>
+
+<h2>D11 — As «loadings» não são loadings</h2>
+<div class="card">
+<p><span class="lab">O que o analista fez.</span> A Tabela 7 mostra números como 0,458 (despesa no componente 1) e chama-lhes «loadings».</p>
+<p><span class="lab">O que eu concluí.</span> São coeficientes da «receita» do componente (vetores próprios), não a correlação entre a variável e o componente.</p>
+<p><span class="lab">Porquê.</span> Verifiquei que cada coluna tem «comprimento» 1 (soma dos quadrados ≈ 1) e que as duas colunas são perpendiculares: é a assinatura dos vetores próprios. As «loadings» a sério seriam esse número × √(valor próprio); por exemplo, para despesa no componente 1: 0,458 × √3,846 ≈ <b>0,90</b>, muito mais forte do que 0,458 sugere. Isto importa porque a regra habitual («só interpretar valores acima de 0,4 ou 0,5») se aplica às correlações, não aos coeficientes. O analista também não disse qual limiar usou: por isso cita a antiguidade (0,298) no componente 1 mas não a satisfação (0,285), quase igual.</p>
+<p><span class="certeza alta">Certeza alta</span> na natureza dos números.</p>
+</div>
+
+<h2>D12 — Os nomes «valor» e «digitalização» são interpretações</h2>
+<div class="card">
+<p><span class="lab">O que eu concluí.</span> São úteis, mas não são factos.</p>
+<p><span class="lab">Porquê.</span> O componente 1 junta rendimento, despesa, visitas e produtos; chamar-lhe «valor» é uma leitura possível (ver D6). O componente 2 tem idade e antiguidade com sinal negativo, % digital e satisfação positivos: parece mais «cliente jovem/recente e digital» do que «modernização» (que sugere algo que a empresa fez). Dar nome é normal em análise de dados, mas deve ser dito que é uma interpretação. Também sublinhei que a PCA <b>não foi usada para segmentar</b>, só para desenhar o gráfico.</p>
+<p><span class="certeza juizo">Juízo</span></p>
+</div>
+
+<h1>Parte 4 — Os grupos (K-means)</h1>
+
+<h2>D13 — «A padronização protege dos valores extremos»: errado</h2>
+<div class="card">
+<p><span class="lab">O que o analista fez.</span> Disse que padronizar as variáveis «garante que a solução de K-means não seja afetada de forma relevante pelos valores extremos».</p>
+<p><span class="lab">O que eu concluí.</span> É uma afirmação <b>incorreta</b>; foi o erro de conceito mais claro que encontrei.</p>
+<p><span class="lab">Porquê.</span> Padronizar serve para pôr tudo na mesma régua, nada mais. Faz-se «subtrair a média e dividir pelo desvio-padrão», que é só mudar de unidades.</p>
+<div class="analogy"><b>Analogia:</b> converter alturas de metros para centímetros não muda quem é o mais alto. O gigante continua gigante. Padronizar o rendimento não torna o cliente de 5 544 € menos extremo: continua a 3,7 desvios da média. O K-means usa distâncias ao quadrado, por isso este cliente continua a «puxar» os centros dos grupos.</div>
+<p>Consequência provável: o grupo de «elevado valor» pode estar em parte a juntar a «cauda» de clientes de rendimento muito alto, em vez de ser um grupo natural. Não sei se é assim (não tenho os dados), por isso peço uma verificação: repetir com os valores «suavizados» (logaritmo) ou com um método menos sensível (k-medoids).</p>
+<p><span class="certeza alta">Certeza alta</span> de que a afirmação é matematicamente errada. <span class="certeza juizo">Juízo</span> sobre o efeito prático (é uma hipótese).</p>
+</div>
+
+<h2>D14 — Escolher k = 3 quando a silhueta preferia k = 2</h2>
+<div class="card">
+<p><span class="lab">O que o analista fez.</span> Testou 2 a 6 grupos. A silhueta foi maior com k = 2 (0,353), mas escolheu k = 3 (0,325) porque «é mais diferenciada e mais interpretável».</p>
+<p><span class="lab">O que eu concluí.</span> Não é errado, mas não está suficientemente justificado, e há um problema maior escondido: <b>todas as silhuetas são fracas</b>.</p>
+<p><span class="lab">Porquê.</span></p>
+<ul>
+<li><b>Escolher pelo negócio é legítimo.</b> Se 3 grupos fazem mais sentido comercial e a diferença na silhueta é pequena (0,353 vs 0,325), é aceitável. Por isso não disse «errado». E elogiei o analista por ter sido transparente.</li>
+<li><b>Mas só usou um critério.</b> Normalmente usam-se vários (cotovelo, outros índices, e testar se os grupos se mantêm quando se muda ligeiramente a amostra: «estabilidade»).</li>
+<li><b>Todas as silhuetas ≤ 0,35.</b> Pela escala de referência, isto é estrutura «fraca». Ou seja, os grupos existem mas as fronteiras são difusas, e o relatório fala de segmentos «distintos» sem avisar disso.</li>
+<li><b>k = 4 praticamente empata</b> (0,319) e a Figura 1 do próprio R5 mostra quatro «nuvens» (o grupo grande parece dividido em dois). Esta alternativa ficou por explorar.</li>
+</ul>
+<figure><img src="fig/fig2_silhueta_abandono.png" style="width:92%"></figure>
+<p class="cap">À esquerda: as silhuetas do R5 e as faixas de interpretação. À direita: ver D17.</p>
+<p><span class="certeza media">Certeza média</span> nos números (do R5). <span class="certeza juizo">Juízo</span> sobre a suficiência da justificação.</p>
+</div>
+
+<h2>D15 — Os grupos são descritos com as mesmas variáveis que os criaram</h2>
+<div class="card">
+<p><span class="lab">O que eu concluí.</span> A Tabela 10 descreve; não prova.</p>
+<p><span class="lab">Porquê (circularidade).</span></p>
+<div class="analogy"><b>Analogia:</b> se pões as pessoas em grupos <i>por altura</i> e depois «descobres» que o grupo A é mais alto, não descobriste nada: foi assim que o construíste. Aqui, os clusters foram formados com rendimento, despesa, satisfação… e depois são descritos com essas mesmas variáveis; é normal serem muito diferentes.</div>
+<p>Outras fragilidades: só se mostram médias (sem a dispersão: um grupo com média 5 pode ter todos entre 4 e 6 ou entre 0 e 10), e há descrições enganadoras: o Cluster 3 é descrito como «mais velho», mas a idade é 47,9, igual à do Cluster 1 (47,2): só é mais velho do que o Cluster 2. Os Clusters 2 e 3 têm rendimento, despesa e produtos quase iguais (1 769 vs 1 654 €; 59,96 vs 59,69; 2,54 vs 2,40): distinguem-se sobretudo por idade, uso digital, antiguidade e reclamações.</p>
+<p><span class="certeza alta">Certeza alta</span> nas comparações numéricas (estão na Tabela 10). <span class="certeza juizo">Juízo</span> sobre a circularidade.</p>
+</div>
+
+<h2>D16 — A legenda da Figura 1 contradiz a Tabela 10</h2>
+<div class="card">
+<p><span class="lab">O que o analista fez.</span> Desenhou os clientes num mapa com as 2 super-medidas (eixos) e coloriu por cluster: Cluster 1 azul, Cluster 2 laranja, Cluster 3 verde.</p>
+<p><span class="lab">O que eu concluí.</span> As legendas dos clusters 1 e 3 estão (muito provavelmente) trocadas, na figura ou na tabela.</p>
+<p><span class="lab">Porquê (passo a passo).</span></p>
+<ol style="margin-top:0">
+<li>Pela Tabela 7, quanto mais para a <b>direita</b> do mapa (componente 1 alto), mais rendimento, despesa, produtos e visitas.</li>
+<li>Na figura, o «Cluster 3» (verde) está todo à direita.</li>
+<li>Mas pela Tabela 10 quem tem rendimento, despesa, etc. mais altos é o <b>Cluster 1</b>, não o 3.</li>
+<li>Confirmação: contei as áreas de cada cor na imagem. Dá aproximadamente verde 21%, azul 49%, laranja 31%; ora os tamanhos da Tabela 9 são 22% (Cluster 1), 48% (Cluster 3) e 30% (Cluster 2). Ou seja, o verde é o grupo pequeno, de 62 clientes: o «Cluster 1» da tabela.</li>
+</ol>
+<div class="analogy"><b>Analogia:</b> num mapa em que «Porto» e «Lisboa» estão com os nomes trocados, as contas continuam certas, mas quem seguir o mapa vai para o sítio errado. Aqui, quem lesse a figura podia mandar as ações de retenção para o segmento errado.</div>
+<figure><img src="fig/fig1_anotada.png" style="width:78%"></figure>
+<p class="cap">A Figura 1 do R5 com as minhas anotações.</p>
+<p><b>Cuidado ao defender:</b> eu <i>não sei</i> qual dos dois (figura ou tabela) está errado, só que não podem estar os dois certos. A contagem de pixels é aproximada; serve só de confirmação. O melhor é pedir ao analista que verifique.</p>
+<p><span class="certeza media">Certeza média</span> É uma dedução forte (duas pistas independentes), mas não vi os dados originais.</p>
+</div>
+
+<h1>Parte 5 — Abandono e novos clientes</h1>
+
+<h2>D17 — O resultado mais sólido do R5, mas só prova uma associação</h2>
+<div class="card">
+<p><span class="lab">O que o analista fez.</span> Mostrou que a taxa de abandono é 8,1% / 9,6% / 23,0% por cluster, com teste de qui-quadrado (p = 0,006), e concluiu que o Cluster 3 «demonstra» maior risco e deve ser a prioridade.</p>
+<p><span class="lab">O que eu concluí.</span> O resultado é válido (refiz o teste e dá χ² = 10,41, p = 0,0055, V = 0,193) e é a parte mais forte do relatório. Mas a frase «demonstra» é demasiado forte.</p>
+<p><span class="lab">Porquê.</span></p>
+<ul>
+<li><b>Associação não é previsão.</b> Dos 135 clientes do Cluster 3, <b>77% não abandonaram</b>. Saber que alguém está no Cluster 3 não permite dizer «este vai sair». Seria preciso medir quantos abandonos se apanham e quantos alarmes são falsos (sensibilidade, AUC): isso não existe no R5.</li>
+<li><b>Será que foi ao contrário?</b> Se a satisfação, visitas ou reclamações foram medidas <i>depois</i> de o cliente decidir sair, o perfil do Cluster 3 pode ser <i>consequência</i> do abandono, não causa. O R5 não diz <i>quando</i> foi medido cada dado.</li>
+<li><b>Incerteza.</b> Com tão poucos clientes, cada percentagem tem uma «margem de erro». Para o Cluster 3 a taxa verdadeira estará algures entre 16,7% e 30,7%; para o Cluster 1, entre 3,5% e 17,5% (calculei com o método de Wilson). Estes intervalos <b>sobrepõem-se um pouco</b>: a diferença é plausível mas não é tão limpa como «23% vs 8%» faz parecer.</li>
+<li>O teste diz que há alguma diferença entre os três, mas não diz <i>quais</i> são diferentes entre si.</li>
+</ul>
+<p>Por isso sugeri trocar «demonstra» por «sugere» e tratar o Cluster 3 como <b>hipótese a testar num piloto</b>.</p>
+<p><span class="certeza alta">Certeza alta</span> no cálculo do teste e dos intervalos. <span class="certeza juizo">Juízo</span> sobre as ressalvas.</p>
+</div>
+
+<h2>D18 — «Há diferenças entre clusters em grupo etário, plano e pagamento»: sem prova</h2>
+<div class="card">
+<p><span class="lab">O que eu concluí.</span> A frase não tem suporte no R5.</p>
+<p><span class="lab">Porquê.</span> O relatório afirma isto numa só frase, sem tabela, sem teste e sem números. E há mais dois problemas: o «grupo etário» vem da idade, que já foi usada para fazer os clusters (circularidade, D15); e o «plano» foi mostrado antes como <i>sem relação</i> com o abandono (p = 0,994). Uma afirmação sem números não se pode avaliar: por isso é «sem evidência», não «falsa».</p>
+<p><span class="certeza alta">Certeza alta</span> de que não há evidência apresentada.</p>
+</div>
+
+<h2>D19 — O pedido principal da empresa (classificar novos clientes) não foi tratado</h2>
+<div class="card">
+<p><span class="lab">O que o analista fez.</span> Nada sobre isto. O relatório acaba com a segmentação.</p>
+<p><span class="lab">O que eu concluí.</span> É a maior lacuna. Por isso a resposta global é «ainda não».</p>
+<p><span class="lab">Porquê.</span> Para «classificar um novo cliente» é preciso: (1) uma regra clara (p. ex., «vai para o grupo cujo centro está mais perto»), com os centros e as escalas guardados; (2) prova de que a regra funciona em clientes que não serviram para a construir (validação); (3) lidar com dados em falta (o método de apagar do D2 não serve). O R5 não apresenta nada disto.</p>
+<p>E há um problema de fundo: os clusters foram construídos com variáveis que <b>se acumulam com o tempo</b>: antiguidade, visitas, produtos, despesa, satisfação, reclamações.</p>
+<div class="analogy"><b>Analogia:</b> é como tentar adivinhar que tipo de aluno é alguém no primeiro dia de aulas usando as notas do fim do ano. Um cliente que acabou de chegar ainda não tem nada disso. Tenderia a parecer-se com o Cluster 2 (menor antiguidade, menos visitas) só por ser recente, não por ser «jovem e digital». Repara: <b>isto é uma inferência minha</b>, não um cálculo (não temos os dados para o testar).</div>
+<p>Também há 50 abandonos em 300 clientes: pouca informação para ensinar um modelo com muitas variáveis.</p>
+<p><span class="certeza media">Certeza média</span> A ausência no R5 é um facto; a inferência sobre o Cluster 2 é raciocínio, não demonstração.</p>
+</div>
+
+<h1>Parte 6 — Porque fiz estas recomendações</h1>
+<table>
+<tr><th style="width:30%">Recomendação</th><th>Porquê, em simples</th></tr>
+<tr><td>1. Usar o R5 como hipótese, não como regra</td><td>Os resultados ainda não foram testados o suficiente. Agir já sobre eles é arriscado, mas ignorá-los seria desperdício: são pistas boas.</td></tr>
+<tr><td>2. Corrigir figura/tabela, a frase dos <i>outliers</i>, o V da Região e os valores próprios</td><td>São erros pequenos de corrigir e que prejudicam a confiança de quem lê (D7, D9, D13, D16).</td></tr>
+<tr><td>3. Análises de robustez</td><td>«Se mudares um pouco as escolhas, as conclusões mantêm-se?» Se sim, são fiáveis; se não, eram frágeis (D13, D14).</td></tr>
+<tr><td>4. Modelo para novos clientes (e outro para o abandono) com variáveis disponíveis à entrada</td><td>Responde diretamente ao pedido que ficou por fazer (D19) e mede os acertos e falhas em clientes novos.</td></tr>
+<tr><td>5. Piloto de retenção com grupo de controlo</td><td>A única forma de saber se <i>agir</i> sobre o Cluster 3 reduz mesmo o abandono é testar: metade dos clientes recebe a ação, metade não, e compara-se (D17).</td></tr>
+<tr><td>6. Melhorar os dados</td><td>Dicionário das variáveis, datas das medições, medida real de valor (margem) e amostra maior (D4, D6, D17).</td></tr>
+</table>
+
+<h1>O que eu <u>não</u> disse (e o que é opinião)</h1>
+<p>Para defenderes bem, convém saberes os limites do que eu afirmei:</p>
+<table>
+<tr><th style="width:42%">Afirmação</th><th>Estado</th></tr>
+<tr><td>V da Região errado; valores próprios não somam 9; padronização não protege de <i>outliers</i>; V e p do qui-quadrado dos clusters</td><td><span class="certeza alta">Certeza alta</span> refiz as contas.</td></tr>
+<tr><td>6 abandonos entre os 20 excluídos; legenda 1/3 trocada na figura</td><td><span class="certeza media">Certeza média</span> deduções de números arredondados; a contagem de pixels é aproximada.</td></tr>
+<tr><td>Cluster 3 tenderia a parecer-se com o Cluster 2 num cliente novo</td><td><span class="certeza media">Certeza média</span> raciocínio, sem teste (já suavizei a frase no relatório).</td></tr>
+<tr><td>k = 3 «insuficientemente justificado»; «valor» é interpretação; método de pagamento «sobre-interpretado»; Cluster «alto valor» pode ser cauda</td><td><span class="certeza juizo">Juízo</span> opinião técnica; outra pessoa poderia ponderar de outra forma. A parte da «cauda» é só uma hipótese.</td></tr>
+<tr><td>Que o R5 está «errado» como um todo</td><td><b>Não disse isto.</b> Disse que está parcialmente certo e incompleto.</td></tr>
+</table>
+<p>Eu <b>não tive acesso aos dados originais</b>: só ao relatório. Por isso verifiquei consistência entre os números publicados, mas não refiz a análise (o enunciado também diz que não é o objetivo).</p>
+
+<h1>Cábula para a aula (30 segundos)</h1>
+<div class="analogy">
+«O R5 é um bom primeiro passo: descreve bem os clientes e mostra que o grupo 3 abandona mais (p = 0,006). Mas <b>não responde</b> ao pedido de classificar novos clientes; os grupos têm estrutura <b>fraca</b> (silhueta ≤ 0,35) e a escolha de k = 3 não foi validada; há uma afirmação <b>errada</b> (padronizar não protege de valores extremos), uma figura com legenda <b>incoerente</b> com a tabela e conclusões que passam do que os dados provam (método de pagamento com p = 0,065; “demonstra” sobre abandono). Recomendo usá-lo como hipótese, corrigi-lo, testar a robustez e construir um modelo para novos clientes com variáveis que existam à entrada.»
+</div>
+<p>Se te perguntarem «porque é que dizes X?», volta ao bloco D correspondente deste documento: cada um tem a resposta curta («Porquê») e o grau de certeza.</p>
+
+</body>
+</html>
