@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<title>Avaliação crítica do Relatório R5</title>
+<style>
+@page { size: A4; margin: 2.1cm 2.2cm 2.2cm 2.2cm; }
+:root { --ink:#1a1a1a; --sec:#555; --acc:#9b1c2e; --line:#d6d4cf; --soft:#f5f3ee; }
+* { box-sizing: border-box; }
+body { font-family: "Liberation Serif","DejaVu Serif",serif; font-size: 10.5pt; line-height: 1.38; color: var(--ink); background:#fff; margin:0; text-align: justify; hyphens: auto; }
+h1 { font-family: "Liberation Sans","DejaVu Sans",sans-serif; font-size: 13pt; color: var(--acc); margin: 15pt 0 5pt; text-align:left; break-after: avoid; }
+h2 { font-family: "Liberation Sans","DejaVu Sans",sans-serif; font-size: 10.8pt; margin: 10pt 0 3pt; text-align:left; break-after: avoid; }
+p { margin: 0 0 5.5pt; orphans:3; widows:3; }
+ul, ol { margin: 0 0 6pt 0; padding-left: 16pt; } li { margin-bottom: 2.5pt; }
+table { border-collapse: collapse; width: 100%; font-family: "Liberation Sans","DejaVu Sans",sans-serif; font-size: 8.4pt; margin: 4pt 0 8pt; text-align:left; break-inside: avoid; }
+th { background: var(--soft); text-align:left; padding: 3pt 5pt; border-top: 1.2pt solid var(--ink); border-bottom: 0.7pt solid var(--ink); }
+td { padding: 3pt 5pt; border-bottom: 0.5pt solid var(--line); vertical-align: top; }
+tr:last-child td { border-bottom: 1.2pt solid var(--ink); }
+.cap { font-family: "Liberation Sans","DejaVu Sans",sans-serif; font-size: 8.3pt; color: var(--sec); text-align:left; margin: 2pt 0 8pt; }
+figure { margin: 6pt 0 2pt; break-inside: avoid; text-align:center; } figure img { max-width: 100%; }
+.box { background: var(--soft); border-left: 3pt solid var(--acc); padding: 6pt 9pt; margin: 6pt 0 8pt; break-inside: avoid; }
+.tag { font-weight:700; white-space:nowrap; }
+.cover { page-break-after: always; text-align:left; height: 24cm; display:flex; flex-direction:column; justify-content:space-between; }
+.cover .t { font-family:"Liberation Sans","DejaVu Sans",sans-serif; font-size: 25pt; font-weight:700; line-height:1.15; margin-top: 5.5cm; text-align:left; }
+.cover .s { font-family:"Liberation Sans","DejaVu Sans",sans-serif; font-size: 12pt; color: var(--sec); margin-top: 10pt; text-align:left; }
+.cover .m { font-family:"Liberation Sans","DejaVu Sans",sans-serif; font-size: 11pt; text-align:left; line-height:1.7; border-top: 3pt solid var(--acc); padding-top: 10pt; }
+.pb { page-break-before: always; }
+.small { font-size: 9pt; }
+code { font-family:"DejaVu Sans Mono",monospace; font-size: 8.6pt; }
+</style>
+</head>
+<body>
+
+<!-- CAPA -->
+<div class="cover">
+  <div class="s">Faculdade de Economia · Universidade do Porto · 2026/2027</div>
+  <div>
+    <div class="t">Avaliação crítica do Relatório de Análise e Segmentação de Clientes (R5)</div>
+    <div class="s">Trabalho Prático — Análise de Dados · Relatório do consultor independente</div>
+  </div>
+  <div class="m">
+    <b>Autor:</b> [Nome do estudante] — [N.º de estudante]<br>
+    <b>Unidade curricular:</b> Análise de Dados<br>
+    <b>Documento avaliado:</b> “Relatório de Análise e Segmentação de Clientes”, R5 — Relatório do Analista (10 pp.)<br>
+    <b>Data de entrega:</b> 26 de outubro de 2026
+  </div>
+</div>
+
+<!-- 1 -->
+<h1>1. Enquadramento e resposta à questão central</h1>
+<p>A empresa pretende compreender o perfil dos clientes, identificar segmentos distintos e dispor de um sistema para classificar novos clientes. O analista apresentou um relatório (R5) com análise descritiva, bivariada, Análise de Componentes Principais (PCA) e <i>K-means</i> sobre 300 clientes e 19 variáveis. Como consultor independente, avalio as opções metodológicas, a interpretação dos resultados e a validade das conclusões, sem reproduzir toda a análise; limitei-me a <b>verificar a consistência interna</b> dos números publicados (Anexo B).</p>
+
+<div class="box"><b>Resposta à questão central.</b> <b>Não, na sua forma atual.</b> O relatório é uma boa <i>exploração inicial</i> e produz uma hipótese de segmentação plausível (três perfis: elevado valor, jovens digitais, tradicionais insatisfeitos) e um resultado inferencial sólido (o abandono difere entre clusters, <i>p</i> = 0,006). Mas (i) <b>não aborda a classificação de novos clientes</b>, um dos três objetivos da empresa; (ii) a <b>estrutura de clusters é fraca</b> (silhuetas 0,21–0,35) e a escolha de <i>k</i> = 3 está insuficientemente justificada e validada; (iii) contém <b>uma afirmação metodologicamente errada</b>, <b>afirmações sem suporte</b> e <b>inconsistências numéricas e gráficas</b> (incluindo uma legenda de clusters que contradiz a tabela de caracterização); e (iv) algumas conclusões sobre abandono vão além do que os dados permitem. Recomendo usar o trabalho como ponto de partida, <b>não</b> como regra operacional.</div>
+
+<table>
+<tr><th style="width:24%">Etapa</th><th style="width:15%">Avaliação</th><th>Razão principal</th></tr>
+<tr><td>Dados e valores em falta</td><td class="tag">Parcialmente adequada</td><td>Eliminação <i>listwise</i> aceitável pela dimensão, mas sem testar o mecanismo de falta; sem tratamento de <i>outliers</i>; variáveis sem definição.</td></tr>
+<tr><td>Análise bivariada</td><td class="tag">Parcialmente adequada</td><td>Testes corretos, mas Pearson em variáveis assimétricas/discretas, V de Cramér com erro e sobre-interpretação do método de pagamento (<i>p</i> = 0,065).</td></tr>
+<tr><td>PCA</td><td class="tag">Adequada, com falhas</td><td>Escolha de 2 componentes defensável; valores próprios inconsistentes; “<i>loadings</i>” são vetores próprios; rótulos interpretativos fortes.</td></tr>
+<tr><td>K-means e escolha de <i>k</i></td><td class="tag">Insuficiente</td><td>Afirmação errada sobre <i>outliers</i>; <i>k</i> contra o critério usado; sem estabilidade; estrutura fraca omitida; legenda da Fig. 1 trocada.</td></tr>
+<tr><td>Ligação ao abandono</td><td class="tag">Adequada, com ressalvas</td><td>Resultado estatisticamente válido, mas associativo, sem validação preditiva nem ordem temporal; “diferenças nas categóricas” sem evidência.</td></tr>
+<tr><td>Classificação de novos clientes</td><td class="tag">Não abordada</td><td>Sem regra de atribuição, classificador ou validação; variáveis usadas não existem para um cliente recente.</td></tr>
+</table>
+
+<!-- 2 -->
+<h1>2. Dados e tratamento preliminar</h1>
+<p><b>Pontos positivos.</b> O identificador foi excluído, reporta-se <i>n</i>, valores em falta e estatísticas descritivas, e as médias ponderadas dos clusters (Tabela 10) reproduzem as médias globais da Tabela 2, o que indica coerência dos cálculos de base.</p>
+<p><b>Valores em falta.</b> Faltam 9 (rendimento), 6 (% digital) e 6 (satisfação) valores; 280 casos completos (93,3%). A eliminação <i>listwise</i> é defensável com perdas tão baixas, <b>mas só se a falta for aleatória (MCAR)</b>, o que não é testado nem discutido. O rendimento é uma variável sensível em que a não-resposta pode depender do próprio valor (MNAR). Há indícios que impedem presumir ignorabilidade: a partir das taxas de abandono por cluster (5, 8 e 31 abandonos) deduz-se que os 20 clientes excluídos incluem <b>6 abandonos (30%)</b>, contra 15,7% nos 280 completos. A diferença não é conclusiva (Fisher, <i>p</i> ≈ 0,12, n pequeno), mas é um sinal de alerta. Acresce que <b>20 clientes ficam sem segmento</b> e que, para <b>novos clientes</b>, a eliminação de casos não é utilizável. Alternativas: imputação múltipla (MICE) ou por vizinhos mais próximos, com análise de sensibilidade.</p>
+<p><b>Natureza das variáveis.</b> A satisfação (4–10) é ordinal; visitas, produtos e reclamações são contagens; a % digital é limitada a [0;100]. Todas são tratadas como contínuas (Pearson, PCA, distância euclidiana) sem discussão. Faltam definições: escala da satisfação, unidades (€, anos), e o significado de <i>Perfil</i> (A/B/C, três grupos quase iguais) e <i>Fidelização</i> (exatamente 50/50, o que sugere um corte pela mediana). Se <i>Perfil</i> for uma segmentação já existente, devia ser comparado com os clusters; <i>Grupo etário</i> é derivado da idade.</p>
+<p><b>Distribuições e <i>outliers</i>.</b> A análise assenta apenas em média <i>vs.</i> mediana. “Idade relativamente equilibrada” é inferida só dessa comparação; não há histogramas nem caixas-de-bigodes. Rendimento (máx. 5 544, 3,7 DP acima da média) e despesa (máx. 241, 3,7 DP) mostram cauda direita pronunciada e valores extremos que o relatório menciona sem tratar. A amostra (300) não é descrita (seleção, representatividade) e contém apenas 50 abandonos, o que limita a modelação. A Tabela 3 omite sexo, grupo etário e <b>método de pagamento</b>, precisamente a variável que depois é destacada.</p>
+
+<!-- 3 -->
+<h1>3. Análise bivariada</h1>
+<p><b>Correlações.</b> A matriz de Pearson é um primeiro olhar razoável e as leituras (rendimento–despesa <i>r</i> = 0,84; idade–% digital <i>r</i> = −0,62) são plausíveis. Reservas: (i) rendimento e despesa são assimétricos e as restantes variáveis discretas, pelo que Spearman (ou Pearson com transformação logarítmica) seria mais robusto; (ii) não há valores-<i>p</i>, intervalos de confiança nem diagramas de dispersão; (iii) a tabela mostra só as correlações “principais”, uma seleção sem critério declarado; (iv) a conclusão de que rendimento, despesa e produtos medem “uma mesma dimensão de <b>valor do cliente</b>” confunde o <i>rendimento do cliente</i> com o <i>valor do cliente para a empresa</i>, que exigiria receita, margem ou CLV. É uma inferência, não um facto.</p>
+<p><b>Qui-quadrado e V de Cramér.</b> A escolha é apropriada (categóricas <i>vs.</i> abandono binário). Recalculei as oito linhas da Tabela 5: p-values e V conferem em sete; <b>para a Região, V = 0,039 está errado: √(1,364/300) = 0,067</b>. Não altera a conclusão, mas mostra falta de revisão. Não se verificam as frequências esperadas (≥ 5) nem se discute a multiplicidade de testes (oito, sem correção).</p>
+<p><b>Método de pagamento.</b> Com <i>p</i> = 0,065 e V = 0,155 o teste <b>não é significativo</b>, mas o relatório conclui que o método “poderá ser um fator relevante para a retenção”, destacando taxas de 23,5% (crédito) a 9,9% (débito) sem <i>n</i> por categoria nem intervalos de confiança. Fidelização (<i>p</i> = 0,088) e Perfil (<i>p</i> = 0,090) estão na mesma situação e não merecem referência: o critério é inconsistente. Aceito a observação como <b>hipótese a testar</b>, não como conclusão. Por fim, o abandono nunca é cruzado com as variáveis quantitativas (satisfação, reclamações, produtos…), a análise mais natural face ao objetivo.</p>
+
+<!-- 4 -->
+<h1>4. Análise de Componentes Principais</h1>
+<p><b>Adequação.</b> KMO = 0,823 (“meritório”) é adequado como diagnóstico; o teste de Bartlett (χ² = 1295,6) é pouco informativo, pois com correlações desta ordem e <i>n</i> = 280 rejeita-se quase sempre a identidade. Não se apresentam MSA individuais. Recalculado a partir dos valores próprios, o χ² de Bartlett dá ≈ 1286,6, próximo do reportado.</p>
+<p><b>Inconsistências numéricas (Tabela 6).</b> Numa PCA sobre a matriz de correlação de 9 variáveis os valores próprios somam 9, mas os reportados somam <b>9,033</b>; a variância do CP1 (42,58%) não corresponde a 3,846/9 = 42,73%; as percentagens somam 100,08% enquanto o acumulado final é 100,00%. São diferenças pequenas e sem efeito no número de componentes, mas indicam arredondamentos mal geridos ou valores de execuções diferentes, e devem ser corrigidas e documentadas.</p>
+<p><b>Número de componentes.</b> O critério de Kaiser (λ > 1) conduz a dois componentes (67,06% da variância). A decisão é <b>defensável</b> (há uma quebra nítida entre λ₂ = 2,21 e λ₃ = 0,83), mas apoia-se num critério frequentemente criticado, num <i>scree plot</i> que “parece confirmar” sem ser mostrado, e não considera a análise paralela (Horn, 1965). Perdem-se 33% da variância, relevante para a leitura da Figura 1.</p>
+<p><b>Interpretação.</b> A Tabela 7 apresenta vetores próprios (norma unitária), não <i>loadings</i> no sentido de correlações componente–variável (que são coeficiente × √λ: p. ex., despesa–CP1 = 0,90; % digital–CP2 = 0,86). A leitura é <b>seletiva e sem limiar explícito</b>: no CP1 cita-se antiguidade (0,298) mas não satisfação (0,285). O CP1 é um fator geral de intensidade/“tamanho”; o rótulo “valor” é uma leitura económica não demonstrada. O CP2 (idade e antiguidade negativas, % digital positiva, satisfação 0,385) descreve melhor “clientes jovens/recentes e digitais” do que “modernização”. Por fim, a PCA <b>não é usada na segmentação</b> (só na visualização), pelo que o objetivo de “representação mais simples” fica apenas parcialmente cumprido.</p>
+
+<!-- 5 -->
+<h1>5. Análise de clusters (<i>K-means</i>)</h1>
+<h2>5.1 Pré-processamento e pressupostos</h2>
+<p>A padronização é necessária e adequada. Porém, o relatório afirma que ela “garante que a solução de K-means não seja afetada de forma relevante pelos valores extremos”. <b>Esta afirmação está errada.</b> A normalização (<i>z-score</i>) é uma transformação linear: não altera a forma da distribuição, os valores extremos continuam a 3,7 DP, a soma de quadrados do K-means continua a penalizá-los fortemente, e a própria média e desvio-padrão usados são afetados por eles. Consequência plausível: o cluster de “elevado valor” (22% dos clientes, rendimento médio 3 648 <i>vs.</i> Q3 global de 2 252) pode estar a captar a <b>cauda direita</b> de rendimento e despesa. Impõe-se uma análise de sensibilidade (log/<i>winsorização</i>, <i>k</i>-medoids/PAM).</p>
+<p>Há ainda <b>ponderação implícita</b>: quatro variáveis de “valor” fortemente correlacionadas (<i>r</i> até 0,84) pesam mais na distância do que, por exemplo, a % digital; usar a distância euclidiana em ordinais/contagens e deixar as categóricas de fora (Gower, K-prototypes) são opções por justificar. Não se indicam inicializações, semente nem repetições, pelo que a análise não é reprodutível.</p>
+
+<h2>5.2 Escolha do número de clusters</h2>
+<p>O coeficiente de silhueta é máximo em <i>k</i> = 2 (0,353), mas escolhe-se <i>k</i> = 3 (0,325) por ser “mais diferenciada e interpretável”. Fazê-lo <b>não é indefensável</b>: critérios de negócio são legítimos e o analista foi transparente. Mas a justificação é insuficiente: (i) usa-se um único critério (sem <i>elbow</i>, Calinski–Harabasz, <i>gap</i> ou estabilidade por <i>bootstrap</i>); (ii) <b>todas as silhuetas</b> estão na zona de estrutura fraca (0,26–0,50) ou sem estrutura substancial (&lt; 0,25) segundo Kaufman e Rousseeuw (1990), facto omitido nas conclusões, que falam em segmentos “distintos”; (iii) <i>k</i> = 4 (0,319) é praticamente equivalente a <i>k</i> = 3 e a Figura 1 sugere <b>quatro nuvens</b> (o grupo maior divide-se em dois), alternativa não explorada; (iv) não há silhuetas por cluster.</p>
+
+<figure><img src="fig/fig2_silhueta_abandono.png" style="width:100%"></figure>
+<p class="cap"><b>Figura A.</b> (a) Silhueta por <i>k</i>, com as faixas de interpretação de Kaufman e Rousseeuw (1990). (b) Taxa de abandono por cluster com IC a 95% de Wilson; abandonos reconstruídos a partir de <i>n</i> × taxa (5, 8 e 31). Elaboração própria com dados do R5.</p>
+
+<h2>5.3 Caracterização e rotulagem dos clusters</h2>
+<p>A Tabela 10 apresenta apenas médias: faltam desvios-padrão, perfis padronizados e dispersão. Há <b>circularidade</b>: as variáveis que definem os clusters são usadas para os descrever, pelo que as diferenças são, por construção, grandes; servem para descrever, não para validar. Algumas descrições são imprecisas: o Cluster 3 é “mais velho”, mas a idade (47,9) é igual à do Cluster 1 (47,2); só difere do Cluster 2. Os Clusters 2 e 3 são <b>quase idênticos</b> em rendimento (1 769 <i>vs.</i> 1 654), despesa (59,96 <i>vs.</i> 59,69) e produtos (2,54 <i>vs.</i> 2,40); distinguem-se por idade, digital, antiguidade, satisfação e reclamações. Os rótulos (“elevado valor”, “jovens e digitais”, “tradicionais”) são úteis comercialmente mas são interpretações.</p>
+
+<h2>5.4 Representação gráfica: legenda inconsistente</h2>
+<p>Na Figura 1 do R5 (reproduzida abaixo com anotações), o “Cluster 3” (verde) está no extremo direito do CP1, isto é, rendimento, despesa, produtos e visitas elevados (Tabela 7), e o “Cluster 1” (azul) no lado negativo. Isto <b>contradiz a Tabela 10</b>, onde o Cluster 1 é o de valor elevado. As proporções de pixels (≈ 21%, 49%, 31% para verde, azul, laranja) coincidem com 62, 135 e 83 clientes, o que indica que <b>os rótulos 1 e 3 estão trocados na figura</b> (ou na tabela). Uma leitura trocada levaria a dirigir ações de retenção ao segmento errado. O texto não comenta o que a figura mostra (separação, sobreposição, sub-grupos).</p>
+<figure><img src="fig/fig1_anotada.png" style="width:86%"></figure>
+<p class="cap"><b>Figura B.</b> Figura 1 do R5 com anotações do consultor. Lacuna visível no grupo azul (CP1 ≈ −0,4), compatível com <i>k</i> = 4.</p>
+
+<!-- 6 -->
+<h1>6. Relação dos clusters com variáveis de negócio</h1>
+<p>O relatório afirma haver “diferenças entre os clusters no grupo etário, plano e método de pagamento”, mas <b>não apresenta tabelas nem testes</b>. Além disso, o grupo etário deriva da idade (usada na segmentação) e o plano não tinha relação com o abandono (<i>p</i> = 0,994). A afirmação <b>não é suportada</b>.</p>
+<p><b>Abandono por cluster.</b> Este é o resultado inferencial mais sólido: 8,1%, 9,6% e 23,0%; reproduzi χ² = 10,41 (gl = 2), <i>p</i> = 0,0055 e V = 0,193. O Cluster 3 concentra 31 dos 44 abandonos observados (70%). Reservas: (i) o teste global não indica que pares diferem; os IC (Fig. A, painel b) mostram sobreposição parcial (Cluster 3 [16,7; 30,7] <i>vs.</i> Cluster 1 [3,5; 17,5]); (ii) é uma <b>associação</b>, não previsão: 77% dos clientes do Cluster 3 <i>não</i> abandonaram, e não há sensibilidade, especificidade ou AUC; (iii) desconhece-se a <b>ordem temporal</b>: se visitas, produtos, satisfação ou reclamações forem medidos durante ou após o abandono, o perfil do Cluster 3 pode ser consequência e não causa; (iv) a frase “<i>demonstra</i> que este segmento apresenta maior risco” é forte e deve ser “indica/sugere”. A prioridade para ações de retenção é razoável como hipótese, mas deve ser testada.</p>
+
+<!-- 7 -->
+<h1>7. Os resultados respondem ao problema da empresa?</h1>
+<ul>
+<li><b>Perfil dos clientes:</b> sim, de forma descritiva, com as reservas da secção 2.</li>
+<li><b>Segmentos distintos:</b> parcialmente: existe uma hipótese de segmentação interpretável, mas com estrutura fraca, <i>k</i> pouco validado e sensibilidade a extremos por testar.</li>
+<li><b>Sistema para classificar novos clientes:</b> <b>não</b>. O relatório não apresenta centróides nem parâmetros de padronização (regra de atribuição), nenhum classificador supervisionado, nenhuma validação (treino/teste, validação cruzada, estabilidade) e a eliminação <i>listwise</i> é inaplicável a novos casos. Sobretudo, as variáveis de segmentação (antiguidade, visitas, despesa, produtos, satisfação, reclamações) <b>acumulam-se com o tempo e não existem à entrada</b>: um cliente recém-chegado terá antiguidade ≈ 0 e seria quase sempre atribuído ao Cluster 2 (“jovens e digitais”) por construção. Com 300 clientes e 50 abandonos, a dimensão da amostra limita ainda modelos com muitos preditores.</li>
+</ul>
+
+<!-- 8 -->
+<h1>8. Limitações e alternativas propostas</h1>
+<table>
+<tr><th style="width:30%">Limitação</th><th>Alternativa proposta</th></tr>
+<tr><td>Extremos/assimetria afetam o K-means</td><td>Transformação logarítmica ou <i>winsorização</i>; <i>k</i>-medoids (PAM); comparar soluções.</td></tr>
+<tr><td>Estrutura fraca, <i>k</i> pouco validado</td><td>Mais critérios (<i>elbow</i>, Calinski–Harabasz, <i>gap</i>); estabilidade por <i>bootstrap</i> (Rand ajustado); silhueta por cluster; testar <i>k</i> = 2 e 4; modelos de mistura gaussiana.</td></tr>
+<tr><td>Falta de dados não aleatória; 20 clientes sem segmento</td><td>Comparar excluídos e incluídos; imputação múltipla; análise de sensibilidade.</td></tr>
+<tr><td>Variáveis ordinais, contagens e categóricas ignoradas</td><td>Spearman; distância de Gower/K-prototypes; incluir plano, canal, região.</td></tr>
+<tr><td>Classificação de novos clientes ausente</td><td>Modelo supervisionado (multinomial, árvore) com variáveis disponíveis à entrada e validação cruzada; regra do centróide mais próximo documentada.</td></tr>
+<tr><td>Abandono só associativo</td><td>Regressão logística com variáveis quantitativas e métricas (AUC, <i>recall</i>); definir datas de medição; piloto com grupo de controlo.</td></tr>
+</table>
+
+<!-- 9 -->
+<h1>9. Recomendações para a administração</h1>
+<ol>
+<li><b>Não adotar o R5 como regra operacional.</b> Usá-lo como hipótese de trabalho para discussão com as áreas comercial e de retenção.</li>
+<li><b>Exigir correções prévias:</b> legendas da Figura 1 face à Tabela 10, afirmação sobre <i>outliers</i>, V de Cramér da Região, valores próprios, e suporte para as “diferenças nas categóricas”.</li>
+<li><b>Solicitar análises de robustez</b> (sensibilidade a extremos, <i>k</i> alternativos, estabilidade, comparação com <i>Perfil</i> A/B/C e imputação) antes de fixar segmentos.</li>
+<li><b>Encomendar um modelo de classificação de novos clientes</b>, com variáveis disponíveis à entrada e avaliação em dados não vistos; e, em separado, um modelo de risco de abandono.</li>
+<li><b>Testar a retenção em piloto:</b> ações dirigidas ao segmento com maior abandono, com grupo de controlo, de baixo custo e reversível; acompanhar o método de pagamento como hipótese, não como facto.</li>
+<li><b>Melhorar os dados:</b> dicionário de variáveis (escalas, unidades, datas), medida de valor real do cliente (margem/CLV) e amostra maior; documentar <i>software</i>, semente e código.</li>
+</ol>
+
+<!-- 10 -->
+<h1>10. Conclusão</h1>
+<p>O R5 cumpre bem a parte descritiva e produz uma segmentação interpretável e uma associação com o abandono estatisticamente suportada. Porém, as fragilidades (estrutura de clusters fraca, justificação incompleta de <i>k</i>, afirmação errada sobre <i>outliers</i>, inconsistência entre tabela e figura, sobre-interpretação de resultados não significativos e total ausência de classificação de novos clientes) impedem que seja uma base <b>adequada</b> para decidir. A resposta à questão central é, assim, “<b>ainda não</b>”: é um bom ponto de partida que precisa de correções, robustez e de um componente preditivo para servir o objetivo da empresa.</p>
+
+<!-- REFERÊNCIAS -->
+<div class="pb"></div>
+<h1>Referências</h1>
+<div class="small">
+<p>Hair, J. F., Black, W. C., Babin, B. J., &amp; Anderson, R. E. (2019). <i>Multivariate Data Analysis</i> (8.ª ed.). Cengage.</p>
+<p>Hennig, C. (2015). What are the true clusters? <i>Pattern Recognition Letters, 64</i>, 53–62.</p>
+<p>Horn, J. L. (1965). A rationale and test for the number of factors in factor analysis. <i>Psychometrika, 30</i>(2), 179–185.</p>
+<p>James, G., Witten, D., Hastie, T., &amp; Tibshirani, R. (2021). <i>An Introduction to Statistical Learning</i> (2.ª ed.). Springer.</p>
+<p>Jolliffe, I. T. (2002). <i>Principal Component Analysis</i> (2.ª ed.). Springer.</p>
+<p>Kaiser, H. F. (1960). The application of electronic computers to factor analysis. <i>Educational and Psychological Measurement, 20</i>(1), 141–151.</p>
+<p>Kaufman, L., &amp; Rousseeuw, P. J. (1990). <i>Finding Groups in Data</i>. Wiley.</p>
+<p>Little, R. J. A., &amp; Rubin, D. B. (2019). <i>Statistical Analysis with Missing Data</i> (3.ª ed.). Wiley.</p>
+<p>Wilson, E. B. (1927). Probable inference, the law of succession, and statistical inference. <i>Journal of the American Statistical Association, 22</i>(158), 209–212.</p>
+</div>
+
+<!-- ANEXOS -->
+<h1>Anexo A — Registo de achados (por gravidade)</h1>
+<table>
+<tr><th style="width:4%">#</th><th style="width:13%">Gravidade</th><th style="width:30%">Achado</th><th>Evidência / localização no R5</th></tr>
+<tr><td>1</td><td class="tag">Alta</td><td>Classificação de novos clientes não abordada</td><td>Objetivo da empresa (enunciado §1); R5 só tem K-means e PCA descritivos.</td></tr>
+<tr><td>2</td><td class="tag">Alta</td><td>Afirmação errada: a padronização “protege” de <i>outliers</i></td><td>R5 §7.2 (Procedimento); <i>z-score</i> é linear.</td></tr>
+<tr><td>3</td><td class="tag">Alta</td><td>Legenda da Fig. 1 contradiz a Tabela 10 (clusters 1 e 3)</td><td>Fig. 1 <i>vs.</i> Tabelas 7 e 10; proporções 22/48/30%.</td></tr>
+<tr><td>4</td><td class="tag">Alta</td><td>Estrutura fraca omitida; <i>k</i>=3 contra o critério usado, sem validação</td><td>Tabela 8 (0,21–0,35); sem estabilidade.</td></tr>
+<tr><td>5</td><td class="tag">Média</td><td>“Diferenças entre clusters” em categóricas sem evidência</td><td>R5 §7.6, sem tabela/teste.</td></tr>
+<tr><td>6</td><td class="tag">Média</td><td>Sobre-interpretação do método de pagamento (<i>p</i> = 0,065) e tratamento desigual de <i>p</i> ≈ 0,09</td><td>Tabela 5 e R5  §3.2.</td></tr>
+<tr><td>7</td><td class="tag">Média</td><td>Conclusão causal/“demonstra” sobre abandono; sem ordem temporal nem validação preditiva</td><td>R5 §7.6 e Conclusões.</td></tr>
+<tr><td>8</td><td class="tag">Média</td><td>MCAR não testado; 20 clientes excluídos com abandono ≈ 30%</td><td>R5 Tabela 1 e §2.2; dedução a partir de §7.6.</td></tr>
+<tr><td>9</td><td class="tag">Média</td><td>“Valor” = rendimento/despesa do cliente; sem medida de valor para a empresa</td><td>R5 §3.1 Conclusão; Componente 1.</td></tr>
+<tr><td>10</td><td class="tag">Baixa</td><td>V de Cramér da Região incorreto (0,039 → 0,067)</td><td>Tabela 5.</td></tr>
+<tr><td>11</td><td class="tag">Baixa</td><td>Valores próprios somam 9,033; % variância somam 100,08%</td><td>Tabela 6.</td></tr>
+<tr><td>12</td><td class="tag">Baixa</td><td>“<i>Loadings</i>” são vetores próprios; leitura sem limiar</td><td>Tabela 7.</td></tr>
+<tr><td>13</td><td class="tag">Baixa</td><td>Cluster 3 “mais velho”: idade igual à do Cluster 1</td><td>Tabela 10.</td></tr>
+<tr><td>14</td><td class="tag">Baixa</td><td>Variáveis sem definição (<i>Perfil</i>, <i>Fidelização</i>, escalas, unidades); amostra não descrita</td><td>R5 §2.1.</td></tr>
+</table>
+
+<h1>Anexo B — Verificações numéricas realizadas pelo consultor</h1>
+<ul class="small">
+<li><b>Tabela 5:</b> p-values recalculados a partir de χ² e graus de liberdade (todos conferem); V = √(χ²/<i>n</i>) com <i>n</i> = 300: conferem 7 de 8 (Região: 0,067 <i>vs.</i> 0,039).</li>
+<li><b>Tabela 6:</b> Σλ = 9,033 (esperado 9); λ/9 difere de percentagem reportada em CP1 (42,73 <i>vs.</i> 42,58) e CP2 (24,57 <i>vs.</i> 24,48); Σ% = 100,08. Bartlett recalculado ≈ 1286,6 (reportado 1295,6).</li>
+<li><b>Tabela 7:</b> colunas com norma ≈ 1 e produto interno ≈ 0 (vetores próprios); correlações componente–variável = coeficiente × √λ.</li>
+<li><b>Tabelas 2, 9 e 10:</b> médias ponderadas dos clusters ≈ médias globais (consistente).</li>
+<li><b>Abandono por cluster:</b> <i>n</i> × taxa = 5,02; 7,97; 31,05 → 5, 8, 31 (total 44 em 280). χ² = 10,408; <i>p</i> = 0,0055; V = 0,193. Excluídos: 6 abandonos em 20; Fisher <i>p</i> ≈ 0,12.</li>
+<li><b>Figura 1:</b> proporção de pixels por cor (azul ≈ 49%, laranja ≈ 31%, verde ≈ 21%) <i>vs.</i> dimensões dos clusters (48%, 30%, 22%). Estimativa aproximada.</li>
+<li>Código: <code>verificacoes.py</code> (pasta do trabalho).</li>
+</ul>
+
+</body>
+</html>
