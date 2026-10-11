@@ -1,0 +1,129 @@
+section Section1;
+
+shared PastaDados = "C:\Users\marco\Documents\FEP - Curso avançado de Business Analyst\Ferramentas para Análise de Dados\Trabalho_01\";
+
+shared dim_calendario = let
+    Fonte = Csv.Document(File.Contents(PastaDados & "dim_calendario.csv"),
+                [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+    Cab   = Table.PromoteHeaders(Fonte, [PromoteAllScalars = true]),
+    Tipos = Table.TransformColumnTypes(Cab,
+                {{"data", type date}, {"ano", Int64.Type}, {"mes_num", Int64.Type},
+                 {"mes", type text}, {"trimestre", type text},
+                 {"dia_semana", type text}, {"dia_util", type text}}, "en-US"),
+    Ord   = Table.Buffer(Table.Sort(Tipos, {{"data", Order.Ascending}})),
+    // dia útil como 1/0
+    Uteis = List.Transform(Table.Column(Ord, "dia_util"), each if _ = "Sim" then 1 else 0),
+    // soma acumulada EXCLUINDO a linha atual: {0, x1, x1+x2, ...}
+    Acum  = List.Buffer(List.RemoveLastN(
+                List.Accumulate(Uteis, {0},
+                    (estado, x) => estado & {List.Last(estado) + x}), 1)),
+    Idx   = Table.AddIndexColumn(Ord, "idx", 0, 1, Int64.Type),
+    Antes = Table.AddColumn(Idx, "du_antes", each Acum{[idx]}, Int64.Type),
+    Sem   = Table.RemoveColumns(Antes, {"idx"}),
+    // auxiliares para ordenar e rotular gráficos
+    SemNum = Table.AddColumn(Sem, "dia_semana_num",
+                each Date.DayOfWeek([data], Day.Monday) + 1, Int64.Type),
+    Abrev  = Table.AddColumn(SemNum, "mes_abrev",
+                each {"jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"}{[mes_num] - 1},
+                type text)
+in
+    Abrev;
+
+shared dim_centro = let
+    Fonte = Csv.Document(File.Contents(PastaDados & "dim_centro.csv"),
+                [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+    Cab   = Table.PromoteHeaders(Fonte, [PromoteAllScalars = true]),
+    Tipos = Table.TransformColumnTypes(Cab,
+                {{"id_centro", type text}, {"centro", type text},
+                 {"regiao_centro", type text}, {"ano_abertura", Int64.Type},
+                 {"capacidade_diaria", Int64.Type}}, "en-US")
+in
+    Tipos;
+
+shared dim_cliente = let
+    Fonte = Csv.Document(File.Contents(PastaDados & "dim_cliente.csv"),
+                [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+    Cab   = Table.PromoteHeaders(Fonte, [PromoteAllScalars = true]),
+    Tipos = Table.TransformColumnTypes(Cab,
+                {{"id_cliente", type text}, {"segmento_cliente", type text},
+                 {"regiao", type text}, {"tipo_cliente", type text}}, "en-US"),
+    Renom = Table.RenameColumns(Tipos, {{"regiao", "regiao_cliente"}})
+in
+    Renom;
+
+shared dim_produto = let
+    Fonte = Csv.Document(File.Contents(PastaDados & "dim_produto.csv"),
+                [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+    Cab   = Table.PromoteHeaders(Fonte, [PromoteAllScalars = true]),
+    Tipos = Table.TransformColumnTypes(Cab,
+                {{"id_produto", type text}, {"categoria", type text},
+                 {"subcategoria", type text}, {"custo_unitario", type number},
+                 {"preco_base", type number}, {"peso_unitario_kg", type number},
+                 {"fragil", type text}}, "en-US")
+in
+    Tipos;
+
+shared dim_transportadora = let
+    Fonte = Csv.Document(File.Contents(PastaDados & "dim_transportadora.csv"),
+                [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+    Cab   = Table.PromoteHeaders(Fonte, [PromoteAllScalars = true]),
+    Tipos = Table.TransformColumnTypes(Cab,
+                {{"id_transportadora", type text}, {"transportadora", type text},
+                 {"tipo_transportadora", type text}, {"indice_custo", type number}}, "en-US")
+in
+    Tipos;
+
+shared objetivos_2026 = let
+    Fonte = Csv.Document(File.Contents(PastaDados & "objetivos_2026.csv"),
+                [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+    Cab   = Table.PromoteHeaders(Fonte, [PromoteAllScalars = true]),
+    Tipos = Table.TransformColumnTypes(Cab,
+                {{"data_mes", type date}, {"mes", type text}, {"id_centro", type text},
+                 {"volume_objetivo", Int64.Type}, {"custo_medio_objetivo", type number},
+                 {"taxa_entrega_prazo_objetivo", type number}}, "en-US")
+in
+    Tipos;
+
+shared linha_encomenda = let
+    Fonte = Csv.Document(File.Contents(PastaDados & "linha_encomenda.csv"),
+                [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+    Cab   = Table.PromoteHeaders(Fonte, [PromoteAllScalars = true]),
+    Tipos = Table.TransformColumnTypes(Cab,
+                {{"id_linha", type text}, {"id_encomenda", type text},
+                 {"id_produto", type text}, {"quantidade", Int64.Type},
+                 {"preco_unitario", type number}, {"peso_kg", type number}}, "en-US")
+in
+    Tipos;
+
+shared stg_encomendas = let
+    Fonte = Csv.Document(File.Contents(PastaDados & "encomendas.csv"),
+                [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+    Cab   = Table.PromoteHeaders(Fonte, [PromoteAllScalars = true]),
+    Tipos = Table.TransformColumnTypes(Cab,
+                {{"id_encomenda", type text}, {"data_encomenda", type date},
+                 {"id_cliente", type text}, {"id_centro", type text},
+                 {"id_transportadora", type text}, {"tipo_servico", type text},
+                 {"canal", type text}, {"prioridade", type text}}, "en-US")
+in
+    Tipos;
+
+shared stg_entregas = let
+    Fonte = Csv.Document(File.Contents(PastaDados & "entregas.csv"),
+                [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+    Cab   = Table.PromoteHeaders(Fonte, [PromoteAllScalars = true]),
+    Tipos = Table.TransformColumnTypes(Cab,
+                {{"id_encomenda", type text}, {"data_expedicao", type date},
+                 {"data_prometida", type date}, {"data_entrega", type date},
+                 {"custo_transporte", type number},
+                 {"tentativas_entrega", Int64.Type}}, "en-US")
+in
+    Tipos;
+
+shared encomendas = let
+    Junta   = Table.NestedJoin(stg_encomendas, {"id_encomenda"},
+                stg_entregas, {"id_encomenda"}, "ent", JoinKind.LeftOuter),
+    Expande = Table.ExpandTableColumn(Junta, "ent",
+                {"data_expedicao", "data_prometida", "data_entrega",
+                 "custo_transporte", "tentativas_entrega"})
+in
+    Expande;
