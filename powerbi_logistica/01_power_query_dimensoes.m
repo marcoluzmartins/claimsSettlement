@@ -23,7 +23,7 @@
 // ---------------------------------------------------------------------
 // Consulta: PastaDados   (texto – pasta com os CSV, com "\" no fim)
 // ---------------------------------------------------------------------
-"C:\Users\O_SEU_UTILIZADOR\Trabalho_PowerBI\dados\"
+"C:\Users\marco\Documents\FEP - Curso avançado de Business Analyst\Ferramentas para Análise de Dados\Trabalho_01\"
 
 
 // ---------------------------------------------------------------------
