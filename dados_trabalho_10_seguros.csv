@@ -1,0 +1,13 @@
+sinistro,ramo,canal,valor_reclamado,valor_regularizado,dias_resolucao,estado
+S001,Automovel,Agente,3800,3500,18,Fechado
+S002,Habitacao,Digital,6200,0,32,Pendente
+S003,Viagem,Corretor,950,900,9,Fechado
+S004,ResponsabilidadeCivil,Agente,8400,0,45,Pendente
+S005,Automovel,Digital,2100,1900,28,Fechado
+S006,Habitacao,Corretor,4500,4300,16,Fechado
+S007,Viagem,Digital,1200,0,14,Pendente
+S008,ResponsabilidadeCivil,Agente,7600,7000,38,Fechado
+S009,Automovel,Corretor,5200,0,42,Pendente
+S010,Habitacao,Digital,3100,2800,24,Fechado
+S011,Viagem,Agente,680,600,7,Fechado
+S012,ResponsabilidadeCivil,Corretor,9800,0,55,Pendente

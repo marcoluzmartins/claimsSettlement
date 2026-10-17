@@ -71,6 +71,9 @@ class Sinistro:
 
 
 def main():
+    pd.set_option("display.width", 200)
+    pd.set_option("display.max_columns", None)
+
     # 1. Leitura e qualidade dos dados
     base_dir = Path(__file__).resolve().parent
     csv_file = base_dir / "dados_trabalho_10_seguros.csv"
@@ -114,7 +117,7 @@ def main():
     print(resumo)
 
     # 5. Demonstração da classe
-    linha = df.iloc[0]
+    linha = df[df[COL_ESTADO] == "Pendente"].iloc[0]  # primeiro sinistro pendente
     sinistro = Sinistro(
         linha[COL_ID], linha[COL_RAMO], linha[COL_ESTADO], linha[COL_RECLAMADO]
     )
