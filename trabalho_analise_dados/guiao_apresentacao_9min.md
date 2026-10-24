@@ -4,69 +4,69 @@ Cada bloco corresponde a um slide do teu ficheiro `Apresentação.pptx`. Usa-o c
 
 ## Slide 1: Capa (0:00–0:15)
 
-Bom dia. Chamo-me Marco Martins e vou apresentar a avaliação crítica do relatório R5, de análise e segmentação de clientes, que fiz como consultor independente.
+Bom dia. Eu sou o Marco Martins e vou apresentar a avaliação que fiz ao relatório R5, de análise e segmentação de clientes, no papel de consultor independente.
 
-*(25 palavras)*
+*(28 palavras)*
 
 ## Slide 2: Questão (0:15–1:00)
 
-A empresa quer três coisas: conhecer o perfil dos clientes, identificar segmentos distintos e dispor de um sistema para classificar novos clientes. Antes de usar os resultados do analista, pediu uma avaliação independente. A questão central é esta: os resultados e as conclusões do R5 constituem uma base adequada para apoiar a segmentação dos clientes e a classificação de novos clientes? Adianto já a resposta: não, por ora. O R5 é um bom ponto de partida, mas só serve como hipótese de trabalho a validar.
+Vamos começar pelo problema. A empresa quer conhecer melhor os clientes, perceber que grupos existem e ter uma forma de classificar os clientes novos. Antes de usar o trabalho do analista, pediu uma opinião independente. E a pergunta é simples: este relatório dá uma base adequada para segmentar e para classificar novos clientes? Digo já a minha resposta: ainda não. É um bom ponto de partida, mas é só isso, uma hipótese de trabalho que precisa de ser validada.
 
-*(85 palavras)*
+*(79 palavras)*
 
 ## Slide 3: Avaliação do R5 (1:00–1:50)
 
-Avaliei o R5 segundo os três critérios do enunciado. A adequação metodológica e a qualidade da análise têm apreciação parcial: as escolhas são razoáveis e os cálculos de base coerentes, mas há um erro conceptual, uma figura inconsistente e interpretações mais fortes do que a evidência. A validade das conclusões é insuficiente: das quatro que sustentam a decisão, só uma é suportada, e falta a classificação de novos clientes. Não reproduzi a análise: recalculei os números publicados, e as verificações estão no anexo.
+Para chegar a esta resposta, olhei para o relatório segundo os três critérios do enunciado. Na parte metodológica e na qualidade da análise, a apreciação é parcial. As escolhas são razoáveis e as contas de base estão certas, mas encontrei um erro de conceito, uma figura que não bate com a tabela e algumas interpretações que vão mais longe do que os dados permitem. Nas conclusões, a apreciação é insuficiente: das quatro que sustentam a decisão, só uma está realmente suportada, e falta tratar a classificação de novos clientes. Não repeti a análise: recalculei os números publicados, e isso está no anexo.
 
-*(83 palavras)*
+*(102 palavras)*
 
 ## Slide 4: Critério A: adequação metodológica (1:50–3:15)
 
-Na adequação metodológica, quatro pontos. Primeiro, o analista eliminou 20 clientes com valores em falta. É aceitável, mas só é inofensivo se a falta for aleatória, e isso não foi testado. Pelas taxas de abandono por cluster deduz-se que nesses 20 há 6 abandonos, 30%, contra 15,7% nos restantes; com p de 0,12 não é conclusivo, mas é um alerta. Segundo, ordinais e contagens foram tratadas como contínuas. Terceiro, o erro mais claro: o relatório diz que padronizar protege o K-means dos valores extremos. Não protege. O z-score é linear, como passar de metros para centímetros: os extremos continuam a 3,7 desvios-padrão e o K-means continua sensível a eles. Quarto, quatro variáveis de valor correlacionadas, com r até 0,84, pesam mais na distância, e não há inicializações nem semente, pelo que a análise não é reprodutível.
+Na parte metodológica, quero destacar quatro coisas. A primeira são os valores em falta. O analista tirou 20 clientes da análise. Com tão poucos, é aceitável, mas só se a falta de dados for ao acaso, e isso ninguém verificou. E há um sinal de alerta: pelas taxas de abandono que o relatório dá, percebe-se que nesses 20 clientes houve 6 abandonos, ou seja, 30%, contra 15,7% nos outros. Não prova nada, pode ser acaso, mas devia ter sido investigado. A segunda é o erro mais claro. O relatório diz que padronizar as variáveis protege o K-means dos valores extremos. Isso não é verdade. Padronizar é só mudar a escala, é como passar de metros para centímetros: o cliente com o rendimento mais alto continua a ser o mais alto, e continua a puxar os grupos. E a terceira: quatro variáveis ligadas ao valor estão muito correlacionadas e acabam por pesar a dobrar, e o relatório não diz que sementes usou, por isso ninguém consegue repetir os resultados.
 
-*(136 palavras)*
+*(168 palavras)*
 
 ## Slide 5: Escolha do número de clusters (3:15–4:10)
 
-A silhueta é máxima com k igual a 2, 0,353, e o analista escolheu k igual a 3, 0,325, por ser mais interpretável. É legítimo e foi transparente, mas usou um só índice, sem estabilidade, e todas as silhuetas ficam entre 0,21 e 0,35, estrutura fraca. Com k igual a 4 o valor é quase igual, e a figura do relatório sugere quatro nuvens. Por isso, dizer que os segmentos são distintos é demasiado forte.
+Passemos à escolha do número de grupos. Olhando para o gráfico, a silhueta é mais alta com dois grupos, e o analista escolheu três, porque lhe pareceram mais fáceis de interpretar. Não é uma decisão errada, e o analista foi transparente. O problema é que só usou este critério, e não testou se os grupos se mantêm estáveis. E repare-se: todos os valores estão entre 0,21 e 0,35, o que, segundo a literatura, quer dizer estrutura fraca. Com quatro grupos o resultado é quase igual, e a própria figura do relatório parece mostrar quatro nuvens. Por isso, dizer que os segmentos são distintos é forte demais.
 
-*(75 palavras)*
+*(106 palavras)*
 
 ## Slide 6: Critério B: erros e inconsistências (4:10–5:20)
 
-Na qualidade da análise, encontrei erros verificáveis. O V de Cramér da Região está errado: a raiz de 1,364 sobre 300 dá 0,067 e não 0,039. Os valores próprios somam 9,033 em vez de 9. As loadings são, na verdade, vetores próprios. E o cluster 3 é descrito como mais velho, mas tem 47,9 anos, como o cluster 1. O mais grave está na figura: o cluster 3, a verde, está no lado direito da primeira componente, com rendimento e despesa elevados, mas a Tabela 10 atribui esse perfil ao cluster 1. As proporções de pontos, 22, 48 e 30 por cento, indicam que as legendas dos clusters 1 e 3 estão trocadas, na figura ou na tabela. Quem lesse a figura podia dirigir a retenção ao segmento errado.
+Na qualidade da análise, encontrei erros que se confirmam com uma simples conta. O V de Cramér da região devia ser 0,067, e não 0,039. Os valores próprios somam 9,033, quando tinham de somar 9. O que o relatório chama de loadings são, na verdade, vetores próprios. E o terceiro grupo é dado como mais velho, mas tem a mesma idade do primeiro. Mas o que mais me preocupou foi a figura. Vejam: o grupo a verde está do lado direito, onde ficam os clientes com mais rendimento, mais despesa e mais visitas. Só que, na tabela, esse perfil pertence ao Cluster 1, e não ao 3. Pela proporção de pontos de cada cor, cerca de 22%, 48% e 30%, tudo indica que as legendas do 1 e do 3 estão trocadas, na figura ou na tabela. E isto importa: quem lesse a figura podia mandar as ações de retenção para o grupo errado.
 
-*(129 palavras)*
+*(154 palavras)*
 
 ## Slide 7: Interpretações que vão além da evidência (5:20–6:15)
 
-Há interpretações que vão além da evidência. O valor do cliente é inferido do rendimento e da despesa, que não medem o valor para a empresa. Os clusters são descritos com as variáveis que os formaram, por isso as diferenças são grandes por construção. E o método de pagamento, com p de 0,065, não é significativo, mas é apresentado como fator relevante, enquanto a fidelização e o perfil, com p de 0,088 e 0,090, são ignorados. É uma hipótese a testar, não uma conclusão.
+Há ainda algumas interpretações que dizem mais do que os dados mostram. Por exemplo, chama-se valor do cliente ao rendimento e à despesa. Mas o rendimento de um cliente não é o valor que ele tem para a empresa, isso seria receita ou margem. Depois, os grupos são descritos com as variáveis que os criaram, por isso é natural que sejam diferentes. E o método de pagamento: o resultado não é significativo, com p de 0,065, mas o relatório sugere que pode ser um fator importante para a retenção, enquanto a fidelização e o perfil, com valores quase iguais, nem são mencionados. Para mim, isso é uma pista para investigar, não uma conclusão.
 
-*(84 palavras)*
+*(113 palavras)*
 
 ## Slide 8: Critério C: validade das conclusões (6:15–7:25)
 
-Na validade das conclusões, analisei as quatro que sustentam a decisão. Três segmentos distintos: parcialmente suportada. A única suportada é que o cluster 3 tem maior abandono, 23% contra 8,1% e 9,6%, com p de 0,0055, que confirmei. Mas é associação, não previsão: 77% do cluster 3 não abandonou, não há AUC, os intervalos de confiança sobrepõem-se um pouco, como se vê no gráfico, e não se sabe quando foram medidas as variáveis. Por isso, demonstra devia ser sugere. As outras duas, diferenças entre clusters em variáveis categóricas e método de pagamento como fator de retenção, não têm suporte.
+Vamos então às conclusões. Olhei para as quatro que sustentam a decisão. A existência de três segmentos distintos fica só parcialmente suportada, pelas razões que vimos. A única que se confirma é que o terceiro grupo abandona mais: 23%, contra cerca de 8 e 10%. Refiz o teste e confere. Mas atenção, isto é uma associação, não uma previsão. Quase 8 em cada 10 clientes desse grupo não abandonou. E os intervalos de confiança, que se veem no gráfico, sobrepõem-se um pouco. Além disso, não sabemos quando foram medidas as variáveis, e podem já refletir o abandono. Por isso, em vez de demonstra, o relatório devia dizer sugere. As outras duas conclusões, as diferenças entre grupos nas variáveis categóricas e o papel do método de pagamento, não têm suporte nos resultados.
 
-*(99 palavras)*
+*(131 palavras)*
 
 ## Slide 9: Resposta ao problema da empresa (7:25–8:15)
 
-Quanto ao problema da empresa: o perfil dos clientes, em grande parte, com reservas; os segmentos distintos, só parcialmente; e classificar novos clientes, não. Não há centróides nem parâmetros de padronização, classificador ou validação, e a eliminação de casos não se aplica a clientes novos. Além disso, as variáveis usadas, como antiguidade ou visitas, acumulam-se com o tempo e não existem à entrada: um cliente recém-chegado tenderia a parecer-se com o cluster 2 só por ser recente, o que é uma inferência minha, não um cálculo.
+Então, voltando à empresa, o que é que o relatório resolve? Perceber o perfil dos clientes: em grande parte, sim, com as reservas que já referi. Identificar segmentos distintos: só em parte. E classificar novos clientes: não. O relatório não deixa uma regra para atribuir um cliente a um grupo, não tem nenhum modelo, não testa nada em dados novos, e apagar clientes com dados em falta não é opção quando chega um cliente novo. E há uma questão de fundo: os grupos foram feitos com informação que só existe passado algum tempo, como a antiguidade ou as visitas. Um cliente que acabou de chegar ainda não a tem, e tenderia a parecer-se com o grupo dos mais recentes só por isso. Isto é um raciocínio meu, não um cálculo.
 
-*(86 palavras)*
+*(130 palavras)*
 
 ## Slide 10: Recomendações e conclusão (8:15–8:50)
 
-Recomendo quatro coisas à administração. Não adotar o R5 como regra operacional, usando-o como hipótese de trabalho. Exigir as correções e análises de robustez. Encomendar um modelo para classificar novos clientes, testado em dados não usados na sua construção. E testar a retenção do cluster 3 num piloto com grupo de controlo. Em conclusão, o R5 descreve bem os clientes e mostra uma associação com o abandono, mas, na forma atual, não é uma base adequada para decidir: precisa de correções, robustez e de um modelo preditivo.
+Em resumo, o que recomendo à administração? Que não use o relatório como regra, mas como ponto de partida. Que peça as correções e uma análise de robustez. Que encomende um modelo para classificar clientes novos, testado em dados que não serviram para o construir. E que teste a retenção do terceiro grupo num piloto, com grupo de controlo. A minha conclusão é esta: o R5 descreve bem os clientes e identifica uma associação interessante com o abandono, mas, tal como está, não é uma base suficiente para decidir.
 
-*(87 palavras)*
+*(89 palavras)*
 
 ## Slide 11: Fim (8:50–9:00)
 
-Muito obrigado. Fico disponível para perguntas.
+Obrigado pela atenção. Fico disponível para as vossas perguntas.
 
-*(6 palavras)*
+*(9 palavras)*
 
 ---
-Total: 895 palavras. A cerca de 115 palavras por minuto, dá ≈ 7.8 min.
+Total: 1109 palavras. Ritmo natural de fala (≈ 130 palavras/min): ≈ 8.5 min. A falar mais devagar (≈ 115 palavras/min): ≈ 9.6 min. Cronometra uma leitura em voz alta.
