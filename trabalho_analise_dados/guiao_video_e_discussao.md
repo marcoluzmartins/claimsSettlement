@@ -44,5 +44,5 @@ Recomendo à administração: usar o relatório como hipótese e não como regra
 
 - Substitui `[Nome]` e `[N.º]` na capa do relatório e nos slides.
 - Confirma as referências com a bibliografia da UC.
-- **Garante que consegues defender cada número**: repete as verificações com `verificacoes.py` (Anexo B).
+- **Garante que consegues defender cada número**: revê as verificações numéricas descritas no anexo do relatório.
 - O vídeo tem de ser gravado por ti (máx. 10 min); entrega relatório PDF e vídeo no Moodle até 26/10/2026, 23h59.
