@@ -50,11 +50,11 @@ Na validade das conclusões, analisei as quatro que sustentam a decisão. Três 
 
 *(99 palavras)*
 
-## Slide 9: Critério C (slide repetido) (7:25–8:15)
+## Slide 9: Resposta ao problema da empresa (7:25–8:15)
 
-[ATENÇÃO: este slide está repetido do anterior. Substitui-o pelo quadro «Os resultados respondem ao problema da empresa?» e usa este texto.] Quanto ao problema da empresa: o perfil dos clientes, em grande parte, com reservas; os segmentos distintos, só parcialmente; e classificar novos clientes, não. Não há centróides nem parâmetros de padronização, classificador ou validação, e a eliminação de casos não se aplica a clientes novos. Além disso, as variáveis usadas, como antiguidade ou visitas, acumulam-se com o tempo e não existem à entrada: um cliente recém-chegado tenderia a parecer-se com o cluster 2 só por ser recente, o que é uma inferência minha, não um cálculo.
+Quanto ao problema da empresa: o perfil dos clientes, em grande parte, com reservas; os segmentos distintos, só parcialmente; e classificar novos clientes, não. Não há centróides nem parâmetros de padronização, classificador ou validação, e a eliminação de casos não se aplica a clientes novos. Além disso, as variáveis usadas, como antiguidade ou visitas, acumulam-se com o tempo e não existem à entrada: um cliente recém-chegado tenderia a parecer-se com o cluster 2 só por ser recente, o que é uma inferência minha, não um cálculo.
 
-*(107 palavras)*
+*(86 palavras)*
 
 ## Slide 10: Recomendações e conclusão (8:15–8:50)
 
@@ -69,4 +69,4 @@ Muito obrigado. Fico disponível para perguntas.
 *(6 palavras)*
 
 ---
-Total: 916 palavras. A cerca de 115 palavras por minuto, dá ≈ 8.0 min.
+Total: 895 palavras. A cerca de 115 palavras por minuto, dá ≈ 7.8 min.
