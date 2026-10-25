@@ -1,4 +1,3 @@
-"""Regras de negócio da Proposta 10: normalização de ramos e prazos de regularização."""
 import pandas as pd
 
 MAPEAMENTO_RAMO = {
@@ -18,9 +17,7 @@ LIMITES = {
     "ResponsabilidadeCivil": 35,
 }
 
-
 def normalizar_ramo(ramo):
-    """Devolve o nome padrão do ramo (sem espaços nas pontas nem acentos)."""
     if pd.isna(ramo):
         return ramo
     valor = str(ramo).strip()
@@ -28,16 +25,21 @@ def normalizar_ramo(ramo):
 
 
 def limite_regularizacao(ramo):
-    """Devolve o limite em dias do ramo, ou None se o ramo for desconhecido."""
     return LIMITES.get(normalizar_ramo(ramo))
 
 
 def cumpre_prazo(ramo, dias_resolucao):
-    """True se os dias não excedem o limite do ramo.
-
-    Pressuposto: sem limite ou sem dias, não se assinala atraso.
-    """
     limite = limite_regularizacao(ramo)
     if limite is None or pd.isna(dias_resolucao):
         return True
     return dias_resolucao <= limite
+
+class Sinistro:
+    def __init__(self, id_sinistro, ramo, estado, valor_reclamado):
+        self.id_sinistro = id_sinistro
+        self.ramo = ramo
+        self.estado = estado
+        self.valor_reclamado = valor_reclamado
+
+    def valor_pendente(self):
+        return self.valor_reclamado if self.estado == "Pendente" else 0
