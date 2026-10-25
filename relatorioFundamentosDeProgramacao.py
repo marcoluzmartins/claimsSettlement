@@ -10,12 +10,6 @@ from pathlib import Path
 import pandas as pd
 
 
-# Pseudocódigo da regra central (fora_prazo):
-#   limite <- limite_regularizacao(ramo)
-#   SE limite ou dias_resolucao em falta: considerar dentro do prazo
-#   cumpre_prazo <- dias_resolucao <= limite
-#   fora_prazo <- NÃO cumpre_prazo
-
 COL_ID = "sinistro"
 COL_RAMO = "ramo"
 COL_CANAL = "canal"
@@ -60,6 +54,16 @@ def main():
     print("\nFeita Tarefa 2\n")
 
     print("\nTarefa 3: Criação de coluna fora_prazo\n")
+
+    # Pseudocódigo da regra central (fora_prazo):
+    #   limite <- limite_regularizacao(ramo)
+    #   SE limite em falta OU dias_resolucao em falta:
+    #       cumpre_prazo <- VERDADEIRO        (sem informação, não se assinala atraso)
+    #   SENÃO:
+    #       cumpre_prazo <- dias_resolucao <= limite
+    #   fora_prazo <- NÃO cumpre_prazo
+
+
     df["limite"] = df[COL_RAMO].map(limite_regularizacao)
     df["fora_prazo"] = [
         not cumpre_prazo(ramo, dias)
