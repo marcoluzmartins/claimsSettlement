@@ -5,7 +5,7 @@ Trabalho AATD – classificação de produtos com desconto (y=1), metodologia CR
 Executa de ponta a ponta:
   1. Compreensão dos dados (EDA): descrição, histogramas, boxplots, correlações, testes
   2. Preparação: valores em falta, outliers, desequilíbrio, redundância, divisão treino/validação, CV
-  3. Modelação: KNN, Árvore de Decisão, Naive Bayes, MLP, Random Forest, Bagging, AdaBoost,
+  3. Modelação: KNN, Árvore de Decisão, Regressão Logística, Naive Bayes, MLP, Random Forest, Bagging, AdaBoost,
      Gradient Boosting (+ Extra Trees) com afinação por CV
   4. Avaliação: tabela comparativa (accuracy, precision, recall, F-measure), matrizes de confusão, ROC/PR
   5. Modelo final -> submission.csv (colunas i, y)
@@ -34,6 +34,7 @@ from sklearn.metrics import (accuracy_score, average_precision_score, confusion_
                              precision_recall_curve, precision_score, recall_score, roc_auc_score, roc_curve)
 from sklearn.model_selection import (GridSearchCV, RandomizedSearchCV, StratifiedKFold,
                                      cross_validate, train_test_split)
+from sklearn.linear_model import LogisticRegression
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.neural_network import MLPClassifier
@@ -263,6 +264,7 @@ def configuracoes(rapido):
         return {
             "KNN": (pipe(KNeighborsClassifier(), True), {"m__n_neighbors": [5, 7, 15], "m__weights": ["distance"], "res": RES}),
             "Árvore de Decisão": (pipe(dt(), False), {"m__max_depth": [6, None], "m__min_samples_leaf": [1, 5], "res": RES}),
+            "Regressão Logística": (pipe(LogisticRegression(max_iter=3000), True), {"m__C": [0.1, 1, 10], "res": RES}),
             "Naive Bayes": (pipe(GaussianNB(), True), {"m__var_smoothing": [1e-6, 1e-1], "res": RES}),
             "MLP": (pipe(MLPClassifier(max_iter=600, early_stopping=True, random_state=SEED), True), {"m__hidden_layer_sizes": [(64, 32)], "m__alpha": [1e-4], "res": RES}),
             "Random Forest": (pipe(RandomForestClassifier(n_jobs=1, random_state=SEED), False), {"m__n_estimators": [300], "m__max_features": ["sqrt", 0.5], "res": RES}),
@@ -274,6 +276,7 @@ def configuracoes(rapido):
     return {
         "KNN": (pipe(KNeighborsClassifier(), True), {"m__n_neighbors": [3, 5, 7, 11, 15, 25], "m__weights": ["uniform", "distance"], "m__p": [1, 2], "res": RES}),
         "Árvore de Decisão": (pipe(dt(), False), {"m__max_depth": [4, 6, 8, 12, None], "m__min_samples_leaf": [1, 5, 10], "m__criterion": ["gini", "entropy"], "res": RES}),
+        "Regressão Logística": (pipe(LogisticRegression(max_iter=3000), True), {"m__C": [0.01, 0.1, 1, 10, 100], "res": RES}),
         "Naive Bayes": (pipe(GaussianNB(), True), {"m__var_smoothing": [1e-9, 1e-6, 1e-3, 1e-1], "res": RES}),
         "MLP": (pipe(MLPClassifier(max_iter=600, early_stopping=True, random_state=SEED), True), {"m__hidden_layer_sizes": [(32,), (64,), (64, 32)], "m__alpha": [1e-4, 1e-2], "m__learning_rate_init": [1e-3, 1e-2], "res": RES}),
         "Random Forest": (pipe(RandomForestClassifier(n_jobs=1, random_state=SEED), False), {"m__n_estimators": [300, 600], "m__max_features": ["sqrt", 0.5], "m__min_samples_leaf": [1, 2], "res": RES}),
@@ -322,8 +325,9 @@ def modelar(trn, val, D, X, cv, rapido, njobs, P):
     axs[0].plot([0, 1], [0, 1], "k--", lw=.8); axs[0].set_title("Curvas ROC (AUC)"); axs[0].legend(fontsize=7)
     axs[0].set_xlabel("FPR"); axs[0].set_ylabel("TPR"); axs[1].set_title("Curvas Precision-Recall"); axs[1].set_xlabel("Recall"); axs[1].set_ylabel("Precision")
     guardar_fig(P, "roc_pr.png")
-    fig, axs = plt.subplots(3, 3, figsize=(10, 9))
+    fig, axs = plt.subplots(4, 3, figsize=(10, 12)); [a.axis('off') for a in axs.ravel()]
     for a, n in zip(axs.ravel(), cfg):
+        a.axis('on')
         sns.heatmap(confusion_matrix(yv, ajustados[n].predict(Xv)), annot=True, fmt="d", cmap="Blues", cbar=False, ax=a, xticklabels=["0", "1"], yticklabels=["0", "1"])
         a.set_title(n); a.set_xlabel("Previsto"); a.set_ylabel("Real")
     guardar_fig(P, "matrizes_confusao.png")
