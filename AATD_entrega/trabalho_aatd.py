@@ -5,7 +5,7 @@ Trabalho AATD – classificação de produtos com desconto (y=1), metodologia CR
 Executa de ponta a ponta:
   1. Compreensão dos dados (EDA): descrição, histogramas, boxplots, correlações, testes
   2. Preparação: valores em falta, outliers, desequilíbrio, redundância, divisão treino/validação, CV
-  3. Modelação: KNN, Árvore de Decisão, Regressão Logística, Naive Bayes, MLP, Random Forest, Bagging, AdaBoost,
+  3. Modelação: KNN, K-Means (como classificador), Árvore de Decisão, Regressão Logística, SVM, Naive Bayes, MLP, Random Forest, Bagging, AdaBoost,
      Gradient Boosting (+ Extra Trees) com afinação por CV
   4. Avaliação: tabela comparativa (accuracy, precision, recall, F-measure), matrizes de confusão, ROC/PR
   5. Modelo final -> submission.csv (colunas i, y)
@@ -34,7 +34,10 @@ from sklearn.metrics import (accuracy_score, average_precision_score, confusion_
                              precision_recall_curve, precision_score, recall_score, roc_auc_score, roc_curve)
 from sklearn.model_selection import (GridSearchCV, RandomizedSearchCV, StratifiedKFold,
                                      cross_validate, train_test_split)
+from sklearn.base import BaseEstimator, ClassifierMixin
+from sklearn.cluster import KMeans
 from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.neural_network import MLPClassifier
@@ -250,6 +253,20 @@ def preparar(tr, D, X, P):
 # ---------------------------------------------------------------------------------------------
 # 3. MODELAÇÃO
 # ---------------------------------------------------------------------------------------------
+class KMeansClassifier(BaseEstimator, ClassifierMixin):
+    """K-Means usado como classificador (como no notebook das aulas): cada cluster recebe a classe
+    maioritária dos exemplos de TREINO que lhe pertencem (o notebook usava y_test, o que é fuga de informação)."""
+    def __init__(self, n_clusters=2, random_state=SEED): self.n_clusters = n_clusters; self.random_state = random_state
+    def fit(self, X, y):
+        y = np.asarray(y); self.classes_ = np.unique(y)
+        self.km_ = KMeans(self.n_clusters, n_init=10, random_state=self.random_state).fit(X); c = self.km_.labels_
+        self.p1_ = np.array([y[c == k].mean() if (c == k).any() else y.mean() for k in range(self.n_clusters)])
+        return self
+    def predict_proba(self, X):
+        p = self.p1_[self.km_.predict(X)]; return np.c_[1 - p, p]
+    def predict(self, X): return (self.predict_proba(X)[:, 1] >= .5).astype(int)
+
+
 def pipe(modelo, escalar):
     """imputação pela mediana + indicador de ausência; padronização nos modelos sensíveis à escala."""
     passos = [("imp", SimpleImputer(strategy="median", add_indicator=True))]
@@ -264,7 +281,9 @@ def configuracoes(rapido):
         return {
             "KNN": (pipe(KNeighborsClassifier(), True), {"m__n_neighbors": [5, 7, 15], "m__weights": ["distance"], "res": RES}),
             "Árvore de Decisão": (pipe(dt(), False), {"m__max_depth": [6, None], "m__min_samples_leaf": [1, 5], "res": RES}),
+            "K-Means (classificador)": (pipe(KMeansClassifier(), True), {"m__n_clusters": [2, 8, 32], "res": RES}),
             "Regressão Logística": (pipe(LogisticRegression(max_iter=3000), True), {"m__C": [0.1, 1, 10], "res": RES}),
+            "SVM": (pipe(SVC(random_state=SEED), True), {"m__C": [1, 10], "m__kernel": ["rbf"], "res": RES}),
             "Naive Bayes": (pipe(GaussianNB(), True), {"m__var_smoothing": [1e-6, 1e-1], "res": RES}),
             "MLP": (pipe(MLPClassifier(max_iter=600, early_stopping=True, random_state=SEED), True), {"m__hidden_layer_sizes": [(64, 32)], "m__alpha": [1e-4], "res": RES}),
             "Random Forest": (pipe(RandomForestClassifier(n_jobs=1, random_state=SEED), False), {"m__n_estimators": [300], "m__max_features": ["sqrt", 0.5], "res": RES}),
@@ -276,7 +295,9 @@ def configuracoes(rapido):
     return {
         "KNN": (pipe(KNeighborsClassifier(), True), {"m__n_neighbors": [3, 5, 7, 11, 15, 25], "m__weights": ["uniform", "distance"], "m__p": [1, 2], "res": RES}),
         "Árvore de Decisão": (pipe(dt(), False), {"m__max_depth": [4, 6, 8, 12, None], "m__min_samples_leaf": [1, 5, 10], "m__criterion": ["gini", "entropy"], "res": RES}),
+        "K-Means (classificador)": (pipe(KMeansClassifier(), True), {"m__n_clusters": [2, 3, 4, 8, 16, 32, 64], "res": RES}),
         "Regressão Logística": (pipe(LogisticRegression(max_iter=3000), True), {"m__C": [0.01, 0.1, 1, 10, 100], "res": RES}),
+        "SVM": (pipe(SVC(random_state=SEED), True), {"m__C": [0.1, 1, 10, 100], "m__kernel": ["rbf"], "m__gamma": ["scale", 0.01, 0.1], "res": RES}),
         "Naive Bayes": (pipe(GaussianNB(), True), {"m__var_smoothing": [1e-9, 1e-6, 1e-3, 1e-1], "res": RES}),
         "MLP": (pipe(MLPClassifier(max_iter=600, early_stopping=True, random_state=SEED), True), {"m__hidden_layer_sizes": [(32,), (64,), (64, 32)], "m__alpha": [1e-4, 1e-2], "m__learning_rate_init": [1e-3, 1e-2], "res": RES}),
         "Random Forest": (pipe(RandomForestClassifier(n_jobs=1, random_state=SEED), False), {"m__n_estimators": [300, 600], "m__max_features": ["sqrt", 0.5], "m__min_samples_leaf": [1, 2], "res": RES}),
@@ -299,7 +320,7 @@ def modelar(trn, val, D, X, cv, rapido, njobs, P):
             gs = GridSearchCV(p, grelha, cv=cv, scoring="accuracy", n_jobs=njobs)
         gs.fit(Xt, yt); melhor = gs.best_estimator_
         s = cross_validate(melhor, Xt, yt, cv=cv, scoring=["accuracy", "f1"])
-        pv, pr = melhor.predict(Xv), melhor.predict_proba(Xv)[:, 1]; ajustados[nome], probs[nome] = melhor, pr
+        pv = melhor.predict(Xv); pr = melhor.predict_proba(Xv)[:, 1] if hasattr(melhor, "predict_proba") else melhor.decision_function(Xv); ajustados[nome], probs[nome] = melhor, pr
         res = "nenhuma" if melhor.named_steps["res"] == "passthrough" else "SMOTE"
         params[nome] = {**{k: str(v) for k, v in gs.best_params_.items() if k != "res"}, "reamostragem": res}
         linhas.append(dict(modelo=nome, cv_accuracy=s["test_accuracy"].mean(), cv_std=s["test_accuracy"].std(), cv_f1=s["test_f1"].mean(),
