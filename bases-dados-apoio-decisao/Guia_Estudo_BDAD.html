@@ -1,0 +1,1365 @@
+<!doctype html><html lang="pt-PT"><head><meta charset="utf-8"><title>Guia de estudo — Bases de Dados para Apoio à Decisão</title><style>:root{--red:#b3122b;--red2:#7d0c1e;--ink:#1d1f24;--mute:#5b616b;--line:#d9dce1;--bg2:#f5f6f8;
+--tip:#e8f5ec;--tipb:#2e7d4f;--warn:#fdecec;--warnb:#c0392b;--exam:#e9f0fb;--examb:#2a5db0;--var:#f1ecfa;--varb:#6a43b5;--key:#f3f3f3;--keyb:#666;}
+*{box-sizing:border-box}
+html{font-size:10pt}
+body{font-family:"Inter","Segoe UI","DejaVu Sans",Arial,sans-serif;color:var(--ink);line-height:1.42;margin:0;background:#fff}
+h1,h2,h3,h4{font-weight:700;line-height:1.2;margin:0}
+h1.part{font-size:21pt;color:#fff;background:var(--red);padding:12pt 14pt;border-radius:6pt;margin:0 0 12pt;page-break-before:always;break-after:avoid}
+h1.part small{display:block;font-size:10pt;font-weight:400;opacity:.9;margin-top:3pt}
+h2{font-size:14pt;color:var(--red2);border-bottom:1.6pt solid var(--red);padding-bottom:2pt;margin:16pt 0 7pt;break-after:avoid}
+h3{font-size:11.5pt;color:var(--ink);margin:12pt 0 4pt;break-after:avoid}
+h4{font-size:10pt;color:var(--red2);margin:9pt 0 3pt;break-after:avoid}
+p{margin:0 0 6pt}
+ul,ol{margin:0 0 6pt;padding-left:16pt}
+li{margin:0 0 2pt}
+code,.mono{font-family:"JetBrains Mono","DejaVu Sans Mono",Consolas,monospace;font-size:.88em;background:var(--bg2);padding:0 2pt;border-radius:2pt}
+.cover{min-height:245mm;display:flex;flex-direction:column;justify-content:center}
+.cover .tag{color:var(--red);font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:10pt}
+.cover h1{font-size:34pt;margin:6pt 0 8pt;line-height:1.08}
+.cover .sub{font-size:14pt;color:var(--mute);margin-bottom:18pt}
+.cover ul{font-size:11pt}
+.box{border-left:3pt solid var(--keyb);background:var(--key);padding:6pt 9pt;margin:7pt 0;border-radius:0 4pt 4pt 0;break-inside:avoid}
+.box>b:first-child,.box>strong:first-child{display:inline-block;margin-right:4pt}
+.box p:last-child,.box ul:last-child{margin-bottom:0}
+.tip{background:var(--tip);border-color:var(--tipb)}.tip>b:first-child{color:var(--tipb)}
+.warn{background:var(--warn);border-color:var(--warnb)}.warn>b:first-child{color:var(--warnb)}
+.exam{background:var(--exam);border-color:var(--examb)}.exam>b:first-child{color:var(--examb)}
+.var{background:var(--var);border-color:var(--varb)}.var>b:first-child{color:var(--varb)}
+table{border-collapse:collapse;width:100%;margin:5pt 0 8pt;font-size:9pt;break-inside:avoid}
+th,td{border:.6pt solid var(--line);padding:3pt 5pt;text-align:left;vertical-align:top}
+th{background:var(--bg2);font-weight:700}
+table.res{width:auto;min-width:40%;font-size:8.2pt;margin:2pt 0 7pt;font-family:"DejaVu Sans Mono",monospace}
+table.res th{background:#eef0f3}
+table.res td.n{text-align:right}
+.reslabel{font-size:8pt;color:var(--mute);margin:2pt 0 0}
+pre,code,.mono{font-variant-ligatures:none;font-feature-settings:'liga' 0,'calt' 0}
+pre{font-family:"JetBrains Mono","DejaVu Sans Mono",Consolas,monospace;font-size:8.3pt;line-height:1.38;background:#fafafb;border:.6pt solid var(--line);border-left:2.5pt solid var(--red);border-radius:3pt;padding:5pt 8pt;margin:4pt 0;white-space:pre-wrap;break-inside:avoid}
+pre .k{color:#8a1230;font-weight:700}pre .s{color:#1c6b3a}pre .c{color:#7b8190;font-style:italic}pre .n{color:#1f4fa0}
+.fig{text-align:center;margin:6pt 0 8pt;break-inside:avoid}
+.fig svg{width:100%;height:auto}
+.fig .cap{font-size:8.5pt;color:var(--mute);margin-top:2pt}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10pt}
+.two>div{min-width:0}
+.pill{display:inline-block;font-size:7.5pt;font-weight:700;padding:0 5pt;border-radius:8pt;color:#fff;background:var(--red);vertical-align:1pt;margin-right:3pt}
+.pill.b{background:var(--examb)}.pill.g{background:var(--tipb)}.pill.p{background:var(--varb)}
+.toc{columns:2;column-gap:20pt;font-size:10pt;margin:8pt 0}
+.toc div{break-inside:avoid;margin-bottom:5pt}
+.toc a{color:inherit;text-decoration:none}
+.toc .p1{font-weight:700;color:var(--red2)}
+.toc .p2{padding-left:10pt;color:var(--mute);font-size:9.2pt}
+.q{margin:8pt 0 3pt;font-weight:700}
+.q span{color:var(--red2)}
+.small{font-size:8.6pt;color:var(--mute)}
+.nb{page-break-before:always}
+.item{margin-bottom:6pt}
+.q,.reslabel{break-after:avoid}
+.q{break-after:avoid}
+.sol-title{font-weight:700;color:var(--tipb);font-size:9pt;margin:5pt 0 0;text-transform:uppercase;letter-spacing:.05em}
+@page{size:A4;margin:15mm 15mm 17mm}
+</style></head><body><div class="cover">
+  <div class="tag">Bases de Dados para Apoio à Decisão · 2026/2027</div>
+  <h1>Guia de estudo<br>para o exame</h1>
+  <div class="sub">Módulos 1, 2 e 3 — resumo da matéria, exame modelo resolvido e comentado, variações possíveis e um exame de treino</div>
+  <ul>
+    <li><b>Módulo 1</b> — Modelação Entidade–Relacionamento e modelo relacional</li>
+    <li><b>Módulo 2</b> — SQL (CRUD, filtros, junções, agregação, subconsultas)</li>
+    <li><b>Módulo 3</b> — Inteligência para Negócios: OLTP/OLAP, Data Warehouse, ETL, modelo dimensional</li>
+  </ul>
+  <div class="box" style="margin-top:14pt">
+    <b>De onde vem este guia.</b> Foi construído a partir dos <b>slides das Aulas 1–3</b>, do <b>Exame modelo</b>, da respetiva <b>Resolução</b> e do <b>email da professora</b>. Tudo o que vai além disso (exemplos extra, variações, exame de treino) foi criado por mim para treino. <b>Não é uma previsão do exame:</b> o email avisa que o exame não reproduz o modelo nem garante os mesmos contextos ou distribuição de conteúdos.
+  </div>
+  <div class="box tip">
+    <b>Como usar.</b> (1) Lê o resumo de cada módulo. (2) Tapa a solução do exame modelo e resolve-o à mão, a cronometrar. (3) Faz as <span class="pill p">VARIAÇÃO</span> sem espreitar. (4) Faz o exame de treino (Parte 4) em 90 minutos. (5) Prepara a folha A4 com a Parte 5.
+  </div>
+</div>
+
+<h1 class="part" style="page-break-before:always">0 · O exame num relance<small>O que a professora disse e como o exame modelo se encaixa</small></h1>
+
+<div class="box exam"><b>Regras (email da professora).</b>
+<ul>
+<li>Duração <b>90 minutos</b>; cotação <b>20 valores</b>.</li>
+<li><b>Módulos 1 e 2: 15 valores · Módulo 3: 5 valores.</b></li>
+<li>Uma <b>folha A4 manuscrita</b> (frente e verso), preparada individualmente: fórmulas, definições, conceitos, apontamentos. <b>Sem</b> folhas impressas ou fotocopiadas, nem outros materiais.</li>
+<li>O exame modelo serve para dar uma ideia da estrutura e do tipo de questões — não é uma reprodução do exame.</li>
+</ul></div>
+
+<h2>Mapa do exame modelo</h2>
+<table>
+<tr><th style="width:12%">Grupo</th><th style="width:20%">Tema</th><th>O que pede</th><th style="width:12%">Neste guia</th></tr>
+<tr><td><b>I</b></td><td>Modelação ER e modelo relacional <span class="pill">M1</span></td><td>Q1 modelo ER (entidades, atributos, chaves, cardinalidades) · Q2 esquema relacional com PK e FK · Q3 chaves candidatas e violação da integridade de entidade</td><td>Parte 1</td></tr>
+<tr><td><b>II</b></td><td>SQL <span class="pill">M2</span></td><td>Q1 INSERT · Q2 UPDATE com subconsulta · Q3 JOIN + WHERE + ORDER BY · Q4 “sem nenhum…” (anti-junção) · Q5 GROUP BY + HAVING</td><td>Parte 2</td></tr>
+<tr><td><b>III</b></td><td>Sistemas analíticos e OLAP <span class="pill">M3</span></td><td>Q1 verdadeiro/falso justificado (OLTP, DW, ETL, OLAP) · Q2 modelo dimensional (granularidade, medidas, ≥4 dimensões) · Q3 operações OLAP (drill-down, slice, dice, pivot)</td><td>Parte 3</td></tr>
+</table>
+<p class="small">A ligação Grupo ↔ Módulo é <b>inferida do conteúdo</b>; o exame modelo não indica a cotação de cada pergunta. O que se sabe pelo email é: M3 = 5 valores, M1+M2 = 15 valores.</p>
+
+<h2>Sugestão de gestão do tempo (90 min)</h2>
+<table>
+<tr><th>Bloco</th><th>Tempo sugerido</th><th>Porquê</th></tr>
+<tr><td>Grupo I (ER + relacional + chaves)</td><td>≈ 25–30 min</td><td>O desenho do ER é o que mais tempo come; faz-o limpo à primeira.</td></tr>
+<tr><td>Grupo II (SQL)</td><td>≈ 30–35 min</td><td>5 consultas curtas; mecânicas se tiveres treinado.</td></tr>
+<tr><td>Grupo III (BI / OLAP)</td><td>≈ 20 min</td><td>Vale 5 valores (25 %): não gastes mais tempo do que a cotação justifica.</td></tr>
+<tr><td>Revisão</td><td>≈ 5 min</td><td>Aspas em texto, ponto e vírgula, PK/FK em todas as tabelas, unidades.</td></tr>
+</table>
+<p class="small">É uma sugestão minha, não uma regra: ajusta ao teu ritmo depois de fazeres o exame de treino.</p>
+
+<h2>Índice</h2>
+<div class="toc">
+<div><a class="p1">1 · Módulo 1 — ER e modelo relacional</a></div>
+<div><a class="p1">2 · Módulo 2 — SQL</a></div>
+<div><a class="p1">3 · Módulo 3 — Inteligência para Negócios</a></div>
+<div><a class="p1">4 · Exame de treino (com soluções)</a></div>
+<div><a class="p1">5 · Reta final: folha A4, erros típicos, glossário</a></div>
+<div><a class="p1">Anexos: fontes e limitações · dados de exemplo</a></div>
+</div>
+
+<h1 class="part">1 · Módulo 1<small>Modelação Entidade–Relacionamento e modelo relacional</small></h1>
+
+<h2>1.1 Ideias base</h2>
+<div class="two">
+<div>
+<ul>
+<li><b>Dados</b> = factos em bruto (42, 1850, 2026). <b>Informação</b> = dados com contexto/significado (Idade = 42). Informação útil: <i>correta, atual, relevante, completa, acessível</i>.</li>
+<li><b>Base de dados</b> = coleção organizada de dados relacionados, guardada de forma <b>persistente</b> (fechar a aplicação ou desligar o computador não apaga os dados).</li>
+<li><b>SGBD/DBMS</b> = software que permite criar, guardar, consultar, atualizar e gerir dados. Funções: armazenamento e acesso, <b>integridade</b>, controlo de acesso e segurança, <b>concorrência</b>, backup e recuperação. Exemplos: MySQL, PostgreSQL, Oracle, SQL Server, MariaDB, SQLite.</li>
+</ul>
+</div>
+<div>
+<ul>
+<li><b>Níveis de abstração</b>: <i>físico</i> (como os dados são guardados: ficheiros, índices), <i>lógico</i> (que dados e como se relacionam: tabelas, restrições), <i>vista</i> (o que cada utilizador/aplicação vê).</li>
+<li><b>Do mundo real à BD</b>: domínio/requisitos → <b>modelo conceptual (ER)</b> → <b>modelo lógico (relacional)</b> → implementação na BD.</li>
+<li><b>Modelar dados</b> = identificar e representar dados, relações e restrições do domínio: perceber o domínio, tornar relações explícitas, definir regras de negócio, reduzir ambiguidade <i>antes</i> de implementar.</li>
+<li>No nível conceptual interessa o <b>significado e estrutura</b> dos dados, não tabelas, índices ou armazenamento.</li>
+</ul>
+</div>
+</div>
+
+<h2>1.2 O modelo Entidade–Relacionamento (ER)</h2>
+<p>Modelo conceptual com três blocos: <b>entidades</b> (coisas/conceitos de interesse: STUDENT), <b>atributos</b> (propriedades: Name, DateOfBirth) e <b>relacionamentos</b> (associações entre entidades: ENROLLED_IN).</p>
+<div class="fig"><svg viewBox="0 0 960 100" xmlns="http://www.w3.org/2000/svg"><rect x="15.0" y="24.0" width="90" height="32" fill="#fdf0f1" stroke="#b3122b" stroke-width="1.6"/><text x="60" y="44" text-anchor="middle" font-size="12" font-weight="700" font-family="DejaVu Sans, Arial, sans-serif">ENTIDADE</text><text x="60" y="78" text-anchor="middle" font-size="9.5" fill="#333"  font-family="DejaVu Sans, Arial, sans-serif">Entidade</text><ellipse cx="185" cy="40" rx="42.8" ry="15" fill="#fff" stroke="#555" stroke-width="1.2"/><text x="185" y="44" text-anchor="middle" font-size="11.5" font-family="DejaVu Sans, Arial, sans-serif">Atributo</text><text x="185" y="78" text-anchor="middle" font-size="9.5" fill="#333"  font-family="DejaVu Sans, Arial, sans-serif">Atributo</text><ellipse cx="300" cy="40" rx="63.3" ry="15" fill="#fff" stroke="#555" stroke-width="1.2"/><text x="300" y="44" text-anchor="middle" font-size="11.5" font-family="DejaVu Sans, Arial, sans-serif" text-decoration="underline">Identificador</text><text x="300" y="78" text-anchor="middle" font-size="9.5" fill="#333"  font-family="DejaVu Sans, Arial, sans-serif">Identificador (sublinhado)</text><ellipse cx="430" cy="40" rx="42.8" ry="15" fill="#fff" stroke="#555" stroke-width="1.2"/><ellipse cx="430" cy="40" rx="46.3" ry="18.5" fill="none" stroke="#555" stroke-width="1.2"/><text x="430" y="44" text-anchor="middle" font-size="11.5" font-family="DejaVu Sans, Arial, sans-serif">Telefone</text><text x="430" y="78" text-anchor="middle" font-size="9.5" fill="#333"  font-family="DejaVu Sans, Arial, sans-serif">Multivalor (oval dupla)</text><ellipse cx="560" cy="40" rx="30.5" ry="15" fill="#fff" stroke="#555" stroke-width="1.2" stroke-dasharray="4 3"/><text x="560" y="44" text-anchor="middle" font-size="11.5" font-family="DejaVu Sans, Arial, sans-serif">Idade</text><text x="560" y="78" text-anchor="middle" font-size="9.5" fill="#333"  font-family="DejaVu Sans, Arial, sans-serif">Derivado (tracejado)</text><ellipse cx="690" cy="40" rx="34.599999999999994" ry="15" fill="#fff" stroke="#555" stroke-width="1.2"/><text x="690" y="44" text-anchor="middle" font-size="11.5" font-family="DejaVu Sans, Arial, sans-serif">Morada</text><text x="690" y="78" text-anchor="middle" font-size="9.5" fill="#333"  font-family="DejaVu Sans, Arial, sans-serif">Composto (decompõe-se</text><text x="690" y="90" text-anchor="middle" font-size="9.5" fill="#333"  font-family="DejaVu Sans, Arial, sans-serif">em rua, cidade…)</text><polygon points="820,18 860,40 820,62 780,40" fill="#e9f0fb" stroke="#2a5db0" stroke-width="1.5"/><text x="820" y="44" text-anchor="middle" font-size="11.5" font-family="DejaVu Sans, Arial, sans-serif">relação</text><text x="820" y="78" text-anchor="middle" font-size="9.5" fill="#333"  font-family="DejaVu Sans, Arial, sans-serif">Relacionamento</text><text x="910" y="44" text-anchor="middle" font-size="11" fill="#b3122b" font-weight="700" font-family="DejaVu Sans, Arial, sans-serif">(0,N)</text><text x="910" y="78" text-anchor="middle" font-size="9.5" fill="#333"  font-family="DejaVu Sans, Arial, sans-serif">(min,max)</text></svg></div>
+
+<h3>Entidades</h3>
+<p>Procura no enunciado as “coisas” principais: pessoas, organizações, produtos, serviços, locais, documentos, eventos, transações. <b>Nem todo o substantivo é uma entidade</b> — tem de ser algo relevante para o sistema de informação. Pergunta de decisão <i>atributo ou entidade?</i> “Este conceito precisa de existir independentemente no modelo?” (partilhado por vários, com propriedades próprias → entidade; senão → atributo).</p>
+
+<h3>Tipos de atributos</h3>
+<table>
+<tr><th style="width:17%">Tipo</th><th>Definição</th><th style="width:30%">Exemplo</th><th style="width:19%">Notação (aulas)</th></tr>
+<tr><td><b>Atómico / simples</b></td><td>Um único valor por instância</td><td>Name, Salary, Birthdate</td><td>oval</td></tr>
+<tr><td><b>Multivalor</b></td><td>Um ou mais valores para a mesma instância</td><td>Degrees (BSc, MSc, PhD); Telefones</td><td>oval dupla · <span class="mono">{Degrees}</span></td></tr>
+<tr><td><b>Composto</b></td><td>Hierarquia de atributos</td><td>Address = Street + City + Country</td><td>decomposto · <span class="mono">Plate(Registration, Country)</span></td></tr>
+<tr><td><b>Derivado</b></td><td>Calculado a partir de outros</td><td>Age a partir de Birthdate</td><td>oval tracejada</td></tr>
+<tr><td><b>Identificador</b></td><td>Distingue cada instância</td><td>EID, ISBN</td><td><u>sublinhado</u></td></tr>
+</table>
+
+<h3>Identificadores e chaves</h3>
+<ul>
+<li><b>Identificador</b>: atributo (ou combinação) que identifica <b>unicamente</b> cada instância. Toda a entidade deve ter um. Idealmente baseado em informação que <b>não muda</b> com o tempo.</li>
+<li><b>Chave candidata</b>: atributo(s) <b>único(s) e mínimo(s)</b> (retirar qualquer atributo destrói a unicidade). <b>Chave primária (PK)</b>: a candidata escolhida para identificar as instâncias. Ex.: STUDENT(<u>StudentID</u>, Name, Email) — StudentID e Email (se único) são candidatas; escolheu-se StudentID.</li>
+<li><b>Identificador composto</b>: dois ou mais atributos. Típico em <b>entidades associativas</b>: ENROLLMENT(<u>StudentID, CourseID</u>, EnrollmentDate) — nenhum sozinho identifica; o par sim, e é mínimo.</li>
+</ul>
+
+<h2>1.3 Relacionamentos</h2>
+<p>Ligação lógica entre entidades. Quatro características a identificar em cada um:</p>
+<table>
+<tr><th style="width:20%">Característica</th><th>Significado</th><th style="width:34%">Exemplo</th></tr>
+<tr><td><b>Grau</b></td><td>Nº de entidades que participam: <b>binário</b> (2), <b>ternário</b> (3), <b>recursivo</b> (a mesma entidade com papéis diferentes)</td><td>CLIENT–order–PRODUCT; STUDENT–enrol–COURSE–SUBJECT; EMPLOYEE <i>supervises</i> EMPLOYEE (supervisor/supervisee)</td></tr>
+<tr><td><b>Cardinalidade</b> (máximo)</td><td>Quantas instâncias podem participar: <b>1:1</b>, <b>1:N</b>, <b>N:M</b></td><td>PERSON 1:1 PASSPORT · CUSTOMER 1:N ORDER · STUDENT N:M COURSE</td></tr>
+<tr><td><b>Participação</b> (mínimo)</td><td><b>Total/obrigatória</b> (mín = 1): toda a instância participa · <b>Parcial/opcional</b> (mín = 0)</td><td>Todo o aluno está inscrito em ≥1 curso (total); um curso pode não ter alunos (parcial)</td></tr>
+<tr><td><b>Atributos do relacionamento</b></td><td>Factos que descrevem a <i>associação</i> e não uma das entidades</td><td>StartDate em EMPLOYEE–works on–PROJECT; EstadoDevolucao em EMPRESTIMO–LIVRO</td></tr>
+</table>
+
+<h3>Notação (mín, máx) — a leitura que usamos</h3>
+<p>O par <span class="mono">(min,max)</span> escreve-se <b>junto da entidade</b> e diz em quantas instâncias do relacionamento <b>cada instância dessa entidade</b> participa.</p>
+<table>
+<tr><th style="width:10%">(min,max)</th><th style="width:34%">Significado</th><th>Exemplo (aulas)</th></tr>
+<tr><td class="mono">(0,1)</td><td>opcional, no máximo um</td><td>Passport</td></tr>
+<tr><td class="mono">(1,1)</td><td>obrigatório, exatamente um</td><td>Order → pertence a exatamente um Customer</td></tr>
+<tr><td class="mono">(0,N)</td><td>opcional, vários possíveis</td><td>Customer → pode fazer zero ou mais Orders</td></tr>
+<tr><td class="mono">(1,N)</td><td>obrigatório, vários possíveis</td><td>Project → tem pelo menos um Employee</td></tr>
+</table>
+<div class="box tip"><b>Dica.</b> Lê sempre em voz baixa: “<i>uma instância de A pode/tem de estar ligada a quantas de B?</i>”. A resposta fala do <b>outro lado</b> da relação, mas escreve-se junto de <b>A</b>. Ex.: “Um leitor pode ter zero ou mais empréstimos” → <span class="mono">LEITOR (0,N)</span>; “um empréstimo pertence a exatamente um leitor” → <span class="mono">EMPRESTIMO (1,1)</span>. Escreve no exame que convenção usas (a resolução oficial usa a mesma: “do lado de EDITORA é 0..N, do lado de LIVRO é 1..1”).</div>
+
+<h2>1.4 Método para resolver um problema de ER</h2>
+<ol>
+<li><b>Sublinha</b> os substantivos relevantes → candidatas a <b>entidades</b>. Descarta os que são só atributos.</li>
+<li>Para cada entidade, lista os <b>atributos</b> do enunciado e escolhe o <b>identificador</b> (se o enunciado não dá um, cria um <i>ID</i> e diz que o criaste).</li>
+<li>Classifica atributos “especiais”: composto? multivalor? derivado?</li>
+<li>Sublinha os <b>verbos</b> → <b>relacionamentos</b>. Para cada um: quem participa? binário/ternário/recursivo?</li>
+<li><b>Cardinalidade máxima</b> (1:1, 1:N, N:M) a partir de frases como “cada X tem <i>um único</i> Y” / “um X pode ter <i>vários</i> Y”.</li>
+<li><b>Participação mínima</b> (0 ou 1) a partir de “tem de”, “pelo menos um”, “pode não ter”, “inclui um ou vários”.</li>
+<li><b>Atributos do relacionamento</b>: qualquer dado que só faz sentido para <i>um par concreto</i> (ex.: estado de devolução de <i>um livro num empréstimo</i>).</li>
+<li><b>Verifica regra a regra</b>: cada bullet do enunciado deve ter correspondência no teu diagrama.</li>
+</ol>
+<div class="box warn"><b>Atenção.</b> No ER <b>não há chaves estrangeiras</b> — as ligações são os losangos. As FK só aparecem no passo seguinte (modelo relacional). Pôr <span class="mono">EditoraID</span> dentro de LIVRO no ER é um erro frequente.</div>
+
+<h2>1.5 Exame modelo · Grupo I · Q1 — Modelo ER <span class="pill b">EXAME MODELO</span></h2>
+<div class="box exam"><b>Enunciado (resumo).</b> Biblioteca municipal: livros, leitores, editoras, empréstimos.
+<ul>
+<li>Livro: ISBN, título, ano de publicação. Cada livro é publicado por <b>uma única editora</b>; uma editora pode publicar <b>vários</b> livros.</li>
+<li>Editora: identificador, nome, país.</li>
+<li>Leitor: nº de leitor, nome, e-mail, data de inscrição.</li>
+<li>Empréstimo: <b>um único leitor</b>, data de levantamento, data prevista de devolução. Pode incluir <b>vários livros</b>; um livro pode estar em <b>vários empréstimos</b> ao longo do tempo. Para cada livro num empréstimo, regista-se o <b>estado em que foi devolvido</b>.</li>
+</ul></div>
+
+<h4>Passo 1 — traduzir cada regra</h4>
+<table>
+<tr><th style="width:42%">Regra de negócio</th><th>O que modelar</th></tr>
+<tr><td>Livro tem ISBN, título, ano</td><td>Entidade <b>LIVRO</b>(<u>ISBN</u>, Titulo, AnoPublicacao) — o ISBN é o identificador natural</td></tr>
+<tr><td>Editora: id, nome, país</td><td>Entidade <b>EDITORA</b>(<u>EditoraID</u>, Nome, Pais)</td></tr>
+<tr><td>Leitor: nº, nome, e-mail, inscrição</td><td>Entidade <b>LEITOR</b>(<u>NumeroLeitor</u>, Nome, Email, DataInscricao)</td></tr>
+<tr><td>Empréstimo: datas</td><td>Entidade <b>EMPRESTIMO</b>(<u>EmprestimoID</u>, DataLevantamento, DataPrevistaDevolucao). O enunciado não dá identificador → <b>cria-se EmprestimoID</b> (a resolução oficial fez o mesmo)</td></tr>
+<tr><td>Livro → uma só editora; editora → vários livros</td><td>EDITORA–LIVRO <b>1:N</b>: EDITORA <span class="mono">(0,N)</span> · LIVRO <span class="mono">(1,1)</span></td></tr>
+<tr><td>Empréstimo → um único leitor</td><td>LEITOR–EMPRESTIMO <b>1:N</b>: LEITOR <span class="mono">(0,N)</span> · EMPRESTIMO <span class="mono">(1,1)</span></td></tr>
+<tr><td>Empréstimo inclui vários livros; livro em vários empréstimos</td><td>EMPRESTIMO–LIVRO <b>N:M</b>: EMPRESTIMO <span class="mono">(1,N)</span> (“um ou vários”) · LIVRO <span class="mono">(0,N)</span> (pode nunca ter sido emprestado)</td></tr>
+<tr><td>Estado em que cada livro foi devolvido</td><td><b>Atributo do relacionamento</b> EMPRESTIMO–LIVRO: <span class="mono">EstadoDevolucao</span> (depende de <i>um livro específico num empréstimo específico</i>)</td></tr>
+</table>
+<div class="fig"><svg viewBox="0 0 980 330" xmlns="http://www.w3.org/2000/svg"><line x1="70" y1="140" x2="70" y2="85" stroke="#555" stroke-width="1.2"/><line x1="70" y1="180" x2="45" y2="240" stroke="#555" stroke-width="1.2"/><line x1="70" y1="180" x2="125" y2="240" stroke="#555" stroke-width="1.2"/><line x1="340" y1="140" x2="340" y2="85" stroke="#555" stroke-width="1.2"/><line x1="340" y1="180" x2="280" y2="240" stroke="#555" stroke-width="1.2"/><line x1="340" y1="180" x2="385" y2="240" stroke="#555" stroke-width="1.2"/><line x1="620" y1="140" x2="620" y2="85" stroke="#555" stroke-width="1.2"/><line x1="620" y1="180" x2="600" y2="240" stroke="#555" stroke-width="1.2"/><line x1="620" y1="180" x2="620" y2="285" stroke="#555" stroke-width="1.2"/><line x1="890" y1="140" x2="890" y2="85" stroke="#555" stroke-width="1.2"/><line x1="890" y1="180" x2="840" y2="240" stroke="#555" stroke-width="1.2"/><line x1="890" y1="180" x2="935" y2="240" stroke="#555" stroke-width="1.2"/><line x1="890" y1="180" x2="890" y2="285" stroke="#555" stroke-width="1.2"/><line x1="480" y1="134" x2="480" y2="85" stroke="#555" stroke-width="1.2"/><ellipse cx="70" cy="70" rx="46.9" ry="15" fill="#fff" stroke="#555" stroke-width="1.2"/><text x="70" y="74" text-anchor="middle" font-size="11.5" font-family="DejaVu Sans, Arial, sans-serif" text-decoration="underline">EditoraID</text><ellipse cx="45" cy="255" rx="30" ry="15" fill="#fff" stroke="#555" stroke-width="1.2"/><text x="45" y="259" text-anchor="middle" font-size="11.5" font-family="DejaVu Sans, Arial, sans-serif">Nome</text><ellipse cx="125" cy="255" rx="30" ry="15" fill="#fff" stroke="#555" stroke-width="1.2"/><text x="125" y="259" text-anchor="middle" font-size="11.5" font-family="DejaVu Sans, Arial, sans-serif">Pais</text><ellipse cx="340" cy="70" rx="30" ry="15" fill="#fff" stroke="#555" stroke-width="1.2"/><text x="340" y="74" text-anchor="middle" font-size="11.5" font-family="DejaVu Sans, Arial, sans-serif" text-decoration="underline">ISBN</text><ellipse cx="280" cy="255" rx="34.599999999999994" ry="15" fill="#fff" stroke="#555" stroke-width="1.2"/><text x="280" y="259" text-anchor="middle" font-size="11.5" font-family="DejaVu Sans, Arial, sans-serif">Titulo</text><ellipse cx="385" cy="255" rx="63.3" ry="15" fill="#fff" stroke="#555" stroke-width="1.2"/><text x="385" y="259" text-anchor="middle" font-size="11.5" font-family="DejaVu Sans, Arial, sans-serif">AnoPublicacao</text><ellipse cx="620" cy="70" rx="59.199999999999996" ry="15" fill="#fff" stroke="#555" stroke-width="1.2"/><text x="620" y="74" text-anchor="middle" font-size="11.5" font-family="DejaVu Sans, Arial, sans-serif" text-decoration="underline">EmprestimoID</text><ellipse cx="600" cy="255" rx="75.6" ry="15" fill="#fff" stroke="#555" stroke-width="1.2"/><text x="600" y="259" text-anchor="middle" font-size="11.5" font-family="DejaVu Sans, Arial, sans-serif">DataLevantamento</text><ellipse cx="620" cy="300" rx="96.1" ry="15" fill="#fff" stroke="#555" stroke-width="1.2"/><text x="620" y="304" text-anchor="middle" font-size="11.5" font-family="DejaVu Sans, Arial, sans-serif">DataPrevistaDevolucao</text><ellipse cx="890" cy="70" rx="59.199999999999996" ry="15" fill="#fff" stroke="#555" stroke-width="1.2"/><text x="890" y="74" text-anchor="middle" font-size="11.5" font-family="DejaVu Sans, Arial, sans-serif" text-decoration="underline">NumeroLeitor</text><ellipse cx="840" cy="255" rx="30" ry="15" fill="#fff" stroke="#555" stroke-width="1.2"/><text x="840" y="259" text-anchor="middle" font-size="11.5" font-family="DejaVu Sans, Arial, sans-serif">Nome</text><ellipse cx="935" cy="255" rx="30.5" ry="15" fill="#fff" stroke="#555" stroke-width="1.2"/><text x="935" y="259" text-anchor="middle" font-size="11.5" font-family="DejaVu Sans, Arial, sans-serif">Email</text><ellipse cx="890" cy="300" rx="63.3" ry="15" fill="#fff" stroke="#555" stroke-width="1.2"/><text x="890" y="304" text-anchor="middle" font-size="11.5" font-family="DejaVu Sans, Arial, sans-serif">DataInscricao</text><ellipse cx="480" cy="70" rx="71.5" ry="15" fill="#fff" stroke="#555" stroke-width="1.2"/><text x="480" y="74" text-anchor="middle" font-size="11.5" font-family="DejaVu Sans, Arial, sans-serif">EstadoDevolucao</text><line x1="120" y1="160" x2="161" y2="160" stroke="#555" stroke-width="1.2"/><line x1="249" y1="160" x2="290" y2="160" stroke="#555" stroke-width="1.2"/><line x1="390" y1="160" x2="436" y2="160" stroke="#555" stroke-width="1.2"/><line x1="524" y1="160" x2="570" y2="160" stroke="#555" stroke-width="1.2"/><line x1="670" y1="160" x2="711" y2="160" stroke="#555" stroke-width="1.2"/><line x1="799" y1="160" x2="840" y2="160" stroke="#555" stroke-width="1.2"/><rect x="20.0" y="140.0" width="100" height="40" fill="#fdf0f1" stroke="#b3122b" stroke-width="1.6"/><text x="70" y="164" text-anchor="middle" font-size="12" font-weight="700" font-family="DejaVu Sans, Arial, sans-serif">EDITORA</text><rect x="290.0" y="140.0" width="100" height="40" fill="#fdf0f1" stroke="#b3122b" stroke-width="1.6"/><text x="340" y="164" text-anchor="middle" font-size="12" font-weight="700" font-family="DejaVu Sans, Arial, sans-serif">LIVRO</text><rect x="570.0" y="140.0" width="100" height="40" fill="#fdf0f1" stroke="#b3122b" stroke-width="1.6"/><text x="620" y="164" text-anchor="middle" font-size="12" font-weight="700" font-family="DejaVu Sans, Arial, sans-serif">EMPRESTIMO</text><rect x="840.0" y="140.0" width="100" height="40" fill="#fdf0f1" stroke="#b3122b" stroke-width="1.6"/><text x="890" y="164" text-anchor="middle" font-size="12" font-weight="700" font-family="DejaVu Sans, Arial, sans-serif">LEITOR</text><polygon points="205,134 249,160 205,186 161,160" fill="#e9f0fb" stroke="#2a5db0" stroke-width="1.5"/><text x="205" y="164" text-anchor="middle" font-size="11.5" font-family="DejaVu Sans, Arial, sans-serif">publica</text><polygon points="480,134 524,160 480,186 436,160" fill="#e9f0fb" stroke="#2a5db0" stroke-width="1.5"/><text x="480" y="164" text-anchor="middle" font-size="11.5" font-family="DejaVu Sans, Arial, sans-serif">inclui</text><polygon points="755,134 799,160 755,186 711,160" fill="#e9f0fb" stroke="#2a5db0" stroke-width="1.5"/><text x="755" y="164" text-anchor="middle" font-size="11.5" font-family="DejaVu Sans, Arial, sans-serif">realiza</text><text x="141" y="154" text-anchor="middle" font-size="11.5" fill="#b3122b" font-weight="700" font-family="DejaVu Sans, Arial, sans-serif">(0,N)</text><text x="270" y="154" text-anchor="middle" font-size="11.5" fill="#b3122b" font-weight="700" font-family="DejaVu Sans, Arial, sans-serif">(1,1)</text><text x="413" y="154" text-anchor="middle" font-size="11.5" fill="#b3122b" font-weight="700" font-family="DejaVu Sans, Arial, sans-serif">(0,N)</text><text x="547" y="154" text-anchor="middle" font-size="11.5" fill="#b3122b" font-weight="700" font-family="DejaVu Sans, Arial, sans-serif">(1,N)</text><text x="691" y="154" text-anchor="middle" font-size="11.5" fill="#b3122b" font-weight="700" font-family="DejaVu Sans, Arial, sans-serif">(1,1)</text><text x="820" y="154" text-anchor="middle" font-size="11.5" fill="#b3122b" font-weight="700" font-family="DejaVu Sans, Arial, sans-serif">(0,N)</text></svg><div class="cap">Modelo ER (notação das aulas) para a biblioteca; (min,max) escrito junto de cada entidade.</div></div>
+<div class="box"><b>Porque é que EstadoDevolucao não fica em LIVRO nem em EMPRESTIMO?</b> Em LIVRO teria um único valor por livro (mas o mesmo livro é devolvido em estados diferentes em empréstimos diferentes). Em EMPRESTIMO teria um único valor por empréstimo (mas um empréstimo tem vários livros). Só o <b>par (empréstimo, livro)</b> o determina → pertence ao relacionamento N:M.</div>
+<div class="box var"><b>Detalhes aceitáveis.</b> A resolução diz que “outras respostas equivalentes e corretas devem ser aceites”. Por exemplo, EMPRESTIMO (1,N) vs (0,N) para “inclui livros” é discutível — o enunciado diz “um ou vários” (→ 1,N). Se tiveres dúvida, <b>escreve a tua leitura</b> do enunciado ao lado.</div>
+
+<h2>1.6 Modelo relacional</h2>
+<ul>
+<li><b>Relação</b> = tabela: conjunto de <b>tuplos</b> (linhas, instâncias) com <b>atributos</b> (colunas) definidos; nº de atributos fixo; nome de atributo único; <b>cada valor é atómico</b>; a ordem dos tuplos não tem significado. Vocabulário: Tabela = relação · Linha = tuplo · Coluna = atributo.</li>
+<li><b>Chave candidata</b>: conjunto mínimo de atributos que identifica unicamente cada tuplo. <b>Chave primária (PK)</b>: a candidata escolhida; valores únicos e <b>nunca NULL</b>. <b>Chave estrangeira (FK)</b>: atributo(s) que referencia(m) a chave de outra relação — representa a ligação entre tabelas.</li>
+</ul>
+<h3>Restrições de integridade</h3>
+<table>
+<tr><th style="width:20%">Tipo</th><th>Regra</th><th style="width:34%">Violação típica</th></tr>
+<tr><td><b>Domínio</b></td><td>Cada valor pertence ao domínio do atributo</td><td><span class="mono">Salary = 'abc'</span> numa coluna numérica</td></tr>
+<tr><td><b>Entidade</b></td><td>A PK identifica unicamente cada tuplo e <b>não pode ser NULL</b></td><td>Inserir <span class="mono">ColabID = NULL</span>; inserir um <span class="mono">ColabID</span> já existente</td></tr>
+<tr><td><b>Referencial</b></td><td>Um valor de FK ou <b>coincide</b> com um valor da chave referenciada, ou é <b>NULL</b> (se a relação for opcional)</td><td>Inserir livro com <span class="mono">EditoraID = 99</span> inexistente; apagar uma editora que ainda tem livros</td></tr>
+</table>
+
+<h3>Regras de transformação ER → relacional</h3>
+<table>
+<tr><th style="width:22%">No ER</th><th style="width:26%">No relacional</th><th>Exemplo (aulas)</th></tr>
+<tr><td>Entidade</td><td>Tabela</td><td>—</td></tr>
+<tr><td>Atributo</td><td>Coluna</td><td>—</td></tr>
+<tr><td>Identificador</td><td>Chave primária</td><td>—</td></tr>
+<tr><td><b>1:1</b></td><td>PK de um lado vira <b>FK no outro</b> (escolher o lado conforme a participação — habitualmente o lado de participação total)</td><td>PERSON(<u>PersonID</u>, Name) · PASSPORT(<u>PassportID</u>, IssueDate, <i>PersonID</i>)</td></tr>
+<tr><td><b>1:N</b></td><td>PK do lado “1” vira <b>FK no lado “N”</b></td><td>DEPARTMENT(<u>DepartmentID</u>, Name, Location) · EMPLOYEE(<u>EID</u>, Name, Salary, <i>DepartmentID</i>)</td></tr>
+<tr><td><b>N:M</b></td><td><b>Nova tabela</b> com as duas FK; a PK é a <b>combinação</b> das duas; atributos do relacionamento vão para aqui</td><td>EMPLOYEE_PROJECT(<u>EID, ProjectID</u>, StartDate)</td></tr>
+<tr><td><b>Recursivo</b></td><td>FK que referencia a <b>própria tabela</b> (pode ser NULL)</td><td>EMPLOYEE(<u>EID</u>, Name, Salary, <i>ManagerID</i>) com ManagerID → EMPLOYEE(EID)</td></tr>
+<tr><td>Atributo <b>composto</b></td><td>Cada componente é uma coluna</td><td>Address → Street, City, Country</td></tr>
+<tr><td>Atributo <b>multivalor</b></td><td>Nova tabela com FK para a entidade + o valor</td><td>DEGREE(<u>EID, Degree</u>)</td></tr>
+<tr><td>Atributo <b>derivado</b></td><td><b>Não se guarda</b>; calcula-se</td><td>Age calcula-se a partir de Birthdate</td></tr>
+<tr><td>Ternário <span class="pill p">extensão</span></td><td>Tabela própria com as 3 FK (a PK depende das cardinalidades)</td><td>ver exercício VI (secção 1.9)</td></tr>
+</table>
+<p class="small">A linha do ternário é uma extensão natural da regra N:M; não está nos slides.</p>
+<div class="box"><b>Mapa completo da empresa (slide 56).</b>
+DEGREE(<u>EID, Degree</u>) · EMPLOYEE(<u>EID</u>, Name, Street, City, Country, Salary, Birthdate, <i>SupervisorID</i>, <i>DepartmentID</i>) · DEPARTMENT(<u>DepartmentID</u>, Name, Location, <i>ManagerID</i>) · PROJECT(<u>ProjectID</u>, Name, Budget, <i>DepartmentID</i>) · EMPLOYEE_PROJECT(<u>EID, ProjectID</u>, StartDate). <br>
+Repara: Address → 3 colunas (composto); Age não existe (derivado); Degrees → tabela própria (multivalor); SupervisorID e ManagerID → FK para EMPLOYEE(EID); “gere” 1:1 → FK ManagerID em DEPARTMENT.</div>
+
+<h2>1.7 Exame modelo · Grupo I · Q2 — Esquema relacional <span class="pill b">EXAME MODELO</span></h2>
+<p>Aplica as regras tabela a tabela, na ordem: <b>entidades fortes “do lado 1” primeiro</b>, depois as do lado N, por fim as tabelas das N:M.</p>
+<table>
+<tr><th style="width:28%">Elemento do ER</th><th>Resultado</th></tr>
+<tr><td>EDITORA</td><td>EDITORA(<u>EditoraID</u>, Nome, Pais)</td></tr>
+<tr><td>LIVRO + 1:N com EDITORA</td><td>LIVRO(<u>ISBN</u>, Titulo, AnoPublicacao, <i>EditoraID</i>) — a PK de EDITORA (lado 1) vira FK em LIVRO (lado N)</td></tr>
+<tr><td>LEITOR</td><td>LEITOR(<u>NumeroLeitor</u>, Nome, Email, DataInscricao)</td></tr>
+<tr><td>EMPRESTIMO + 1:N com LEITOR</td><td>EMPRESTIMO(<u>EmprestimoID</u>, DataLevantamento, DataPrevistaDevolucao, <i>NumeroLeitor</i>)</td></tr>
+<tr><td>N:M EMPRESTIMO–LIVRO</td><td>EMPRESTIMO_LIVRO(<u>EmprestimoID, ISBN</u>, EstadoDevolucao) — nova tabela; PK composta; EstadoDevolucao vem do relacionamento</td></tr>
+</table>
+<div class="box exam"><b>Chaves estrangeiras (a pedir explicitamente).</b>
+<ul>
+<li>LIVRO.EditoraID → EDITORA.EditoraID</li>
+<li>EMPRESTIMO.NumeroLeitor → LEITOR.NumeroLeitor</li>
+<li>EMPRESTIMO_LIVRO.EmprestimoID → EMPRESTIMO.EmprestimoID</li>
+<li>EMPRESTIMO_LIVRO.ISBN → LIVRO.ISBN</li>
+</ul>
+<b>Chave primária de EMPRESTIMO_LIVRO</b> = (EmprestimoID, ISBN). Cada um dos dois atributos é <i>simultaneamente</i> parte da PK e FK.</div>
+<h4>Em SQL (caso peçam <span class="mono">CREATE TABLE</span> — variação provável)</h4>
+<pre><span class="k">CREATE TABLE</span> EDITORA (
+  EditoraID <span class="k">INTEGER</span> <span class="k">PRIMARY KEY</span>,
+  Nome <span class="k">TEXT</span> <span class="k">NOT</span> <span class="k">NULL</span>,
+  Pais <span class="k">TEXT</span>
+);
+<span class="k">CREATE TABLE</span> LIVRO (
+  ISBN <span class="k">TEXT</span> <span class="k">PRIMARY KEY</span>,
+  Titulo <span class="k">TEXT</span> <span class="k">NOT</span> <span class="k">NULL</span>,
+  AnoPublicacao <span class="k">INTEGER</span>,
+  EditoraID <span class="k">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span>,
+  <span class="k">FOREIGN KEY</span> (EditoraID) <span class="k">REFERENCES</span> EDITORA(EditoraID)
+);
+<span class="k">CREATE TABLE</span> EMPRESTIMO_LIVRO (
+  EmprestimoID <span class="k">INTEGER</span>,
+  ISBN <span class="k">TEXT</span>,
+  EstadoDevolucao <span class="k">TEXT</span>,
+  <span class="k">PRIMARY KEY</span> (EmprestimoID, ISBN),
+  <span class="k">FOREIGN KEY</span> (EmprestimoID) <span class="k">REFERENCES</span> EMPRESTIMO(EmprestimoID),
+  <span class="k">FOREIGN KEY</span> (ISBN) <span class="k">REFERENCES</span> LIVRO(ISBN)
+);</pre>
+<p class="small"><span class="mono">NOT NULL</span> em <span class="mono">LIVRO.EditoraID</span> traduz o <span class="mono">(1,1)</span> (participação obrigatória). Se fosse <span class="mono">(0,1)</span>, a FK poderia ser NULL.</p>
+<div class="box warn"><b>Erros frequentes.</b> (1) Esquecer a tabela da N:M ou pôr uma FK “de livros” dentro de EMPRESTIMO. (2) Esquecer <b>EstadoDevolucao</b>. (3) Pôr a FK no lado errado do 1:N (a FK vai sempre para o lado N). (4) PK simples em EMPRESTIMO_LIVRO (um empréstimo teria só um livro). (5) Não assinalar as FK.</div>
+
+<h2>1.8 Exame modelo · Grupo I · Q3 — Chaves e integridade de entidade <span class="pill b">EXAME MODELO</span></h2>
+<div class="box exam">COLABORADOR(<u>ColabID</u>, Nome, Email, NIF, Departamento). <b>Q3:</b> indique duas possíveis chaves candidatas e dê um exemplo de violação da integridade de entidade.</div>
+<ul>
+<li><b>Chaves candidatas:</b> <span class="mono">ColabID</span> e <span class="mono">NIF</span> — identificam univocamente cada colaborador, são mínimas (1 atributo) e assume-se que não admitem NULL. (<span class="mono">Email</span> também serve <i>se</i> for único.)</li>
+<li><b>Não são</b> candidatas: <span class="mono">Nome</span> (há homónimos) e <span class="mono">Departamento</span> (repete-se). Um conjunto como <span class="mono">{ColabID, Nome}</span> é único mas <b>não é mínimo</b> (super-chave).</li>
+<li><b>Porque é que só uma é “a” PK?</b> A PK é a candidata <i>escolhida</i> (aqui ColabID); as restantes ficam como chaves alternativas (UNIQUE).</li>
+<li><b>Violação da integridade de entidade:</b> inserir um colaborador com <span class="mono">ColabID = NULL</span> (a PK não pode ser nula) <b>ou</b> inserir um <span class="mono">ColabID</span> já existente (PK duplicada).</li>
+</ul>
+<div class="box tip"><b>Dica.</b> Resposta completa em 3 linhas: definição de candidata (única + mínima) → duas candidatas com justificação → exemplo concreto <span class="mono">INSERT … VALUES (NULL, 'Ana', …)</span>. Dar a definição não custa nada e mostra domínio.</div>
+
+<h2>1.9 Variações possíveis e exercícios</h2>
+<div class="box var"><b>O que a professora pode mudar sem sair da matéria.</b>
+<ul>
+<li>Outro <b>domínio</b> (hospital, escola, loja, transportes…), com outras regras de negócio.</li>
+<li>Outros <b>tipos de relacionamento</b>: 1:1 (com participação opcional), <b>recursivo</b>, <b>ternário</b>.</li>
+<li>Outros <b>tipos de atributo</b>: composto (morada), multivalor (telefones), derivado (idade).</li>
+<li>Pedir <b>o contrário</b>: dado um esquema/diagrama, identificar chaves, FK, cardinalidades ou violações de integridade.</li>
+<li>Pedir <b>CREATE TABLE</b> em vez de esquema abstrato; pedir <b>justificação</b> (“porquê tabela própria?”).</li>
+<li>Pedir <b>integridade referencial</b> (em vez de entidade) ou <b>domínio</b> na pergunta de chaves.</li>
+</ul></div>
+
+<h3>Caso A — Clínica veterinária <span class="small">(composto + multivalor + derivado + 1:N + N:M com atributos)</span></h3>
+<div class="box var"><b>Enunciado.</b> Uma clínica guarda os <b>donos</b> (NIF, nome, morada = rua, cidade e código postal, e vários telefones) e os <b>animais</b> (nº de chip, nome, espécie, data de nascimento; a idade é consultada com frequência). Cada animal pertence a um único dono; um dono pode (ainda) não ter animais. Os <b>veterinários</b> têm cédula profissional e nome. Uma <b>consulta</b> é feita por um veterinário a um animal numa data/hora e tem um diagnóstico; um animal pode ter várias consultas e ser visto por vários veterinários. Faça o ER e o esquema relacional.</div>
+<div class="two">
+<div><div class="sol-title">ER</div>
+<ul>
+<li>DONO(<u>NIF</u>, Nome, <b>Morada</b>(Rua, Cidade, CodPostal), <b>{Telefone}</b>)</li>
+<li>ANIMAL(<u>ChipID</u>, Nome, Especie, DataNascimento, <i>Idade</i> derivado)</li>
+<li>VETERINARIO(<u>Cedula</u>, Nome)</li>
+<li>DONO–possui–ANIMAL: <b>1:N</b>, DONO (0,N), ANIMAL (1,1)</li>
+<li>ANIMAL–consulta–VETERINARIO: <b>N:M</b>, ambos (0,N); atributos <b>DataHora, Diagnostico</b></li>
+</ul></div>
+<div><div class="sol-title">Relacional</div>
+<ul>
+<li>DONO(<u>NIF</u>, Nome, Rua, Cidade, CodPostal)</li>
+<li>DONO_TELEFONE(<u>NIF, Telefone</u>) — FK NIF→DONO</li>
+<li>ANIMAL(<u>ChipID</u>, Nome, Especie, DataNascimento, <i>NIF</i>) — FK NIF→DONO</li>
+<li>VETERINARIO(<u>Cedula</u>, Nome)</li>
+<li>CONSULTA(<u>ChipID, Cedula, DataHora</u>, Diagnostico) — FK ChipID→ANIMAL, Cedula→VETERINARIO</li>
+</ul></div>
+</div>
+<div class="box"><b>Porquê?</b> Morada composta → 3 colunas. Telefones multivalor → tabela própria (cada valor atómico). Idade derivada → <b>não</b> se guarda. <b>DataHora entra na PK de CONSULTA</b> porque o mesmo animal pode ver o mesmo veterinário várias vezes; sem ela, só haveria uma consulta por par.</div>
+
+<h3>Caso B — Universidade <span class="small">(N:M com atributo, 1:1, recursivo)</span></h3>
+<div class="box var"><b>Enunciado.</b> <b>Alunos</b> (nº mecanográfico, nome) inscrevem-se em <b>unidades curriculares</b> (código, nome, ECTS); cada inscrição tem <b>ano letivo</b> e <b>nota</b> (pode ainda não existir). Cada UC é <b>lecionada</b> por um docente (ID, nome); um docente leciona várias UC. Cada UC tem <b>exatamente um coordenador</b> (docente) e um docente coordena, no máximo, uma UC. Cada docente pode ter um <b>docente orientador</b>.</div>
+<div class="two">
+<div><div class="sol-title">ER</div>
+<ul>
+<li>ALUNO(<u>NumAluno</u>, Nome) · UC(<u>CodUC</u>, Nome, ECTS) · DOCENTE(<u>DocenteID</u>, Nome)</li>
+<li>ALUNO–inscreve-se–UC: <b>N:M</b>, atributos AnoLetivo, Nota; ALUNO (0,N), UC (0,N)</li>
+<li>DOCENTE–leciona–UC: <b>1:N</b>; DOCENTE (0,N), UC (1,1)</li>
+<li>DOCENTE–coordena–UC: <b>1:1</b>; DOCENTE (0,1), UC (1,1)</li>
+<li>DOCENTE–orienta–DOCENTE: <b>recursivo</b> 1:N; orientador (0,N), orientado (0,1)</li>
+</ul></div>
+<div><div class="sol-title">Relacional</div>
+<ul>
+<li>ALUNO(<u>NumAluno</u>, Nome)</li>
+<li>DOCENTE(<u>DocenteID</u>, Nome, <i>OrientadorID</i>) — FK→DOCENTE, pode ser NULL</li>
+<li>UC(<u>CodUC</u>, Nome, ECTS, <i>DocLecionaID</i>, <i>DocCoordID</i>) — duas FK→DOCENTE; <b>DocCoordID UNIQUE</b></li>
+<li>INSCRICAO(<u>NumAluno, CodUC, AnoLetivo</u>, Nota)</li>
+</ul></div>
+</div>
+<div class="box"><b>Porquê?</b> No 1:1 a FK vai para o lado de <b>participação total</b> (UC tem sempre coordenador) e fica <span class="mono">UNIQUE</span>, garantindo que um docente não coordena duas UC. <b>AnoLetivo na PK</b> permite repetir a UC noutro ano; se o enunciado dissesse “só uma inscrição por aluno e UC”, a PK seria (NumAluno, CodUC). <b>Nota</b> pode ser NULL.</div>
+
+<h3>Caso C — “Que violação é esta?” <span class="small">(integridade)</span></h3>
+<p>Dadas DEPARTAMENTO(<u>DepID</u>, Nome) com {(1,TI), (2,RH)} e FUNCIONARIO(<u>FuncID</u>, Nome, NIF, <i>DepID</i>) com {(10,Ana,111,1), (11,Rui,222,2)}, onde DepID → DEPARTAMENTO. Diz se cada operação viola alguma restrição:</p>
+<table>
+<tr><th style="width:45%">Operação</th><th>Resposta</th></tr>
+<tr><td>a) <span class="mono">INSERT INTO FUNCIONARIO VALUES (10,'Eva','333',1)</span></td><td><b>Entidade</b>: FuncID = 10 já existe (PK duplicada).</td></tr>
+<tr><td>b) <span class="mono">INSERT INTO FUNCIONARIO VALUES (12,'Eva','333',3)</span></td><td><b>Referencial</b>: não existe departamento 3.</td></tr>
+<tr><td>c) <span class="mono">INSERT INTO FUNCIONARIO VALUES (NULL,'Eva','333',1)</span></td><td><b>Entidade</b>: PK nula.</td></tr>
+<tr><td>d) <span class="mono">INSERT INTO FUNCIONARIO VALUES (13,'Eva','333',NULL)</span></td><td><b>Nenhuma</b> — uma FK pode ser NULL se a ligação for opcional (se DepID fosse NOT NULL, violava a regra de obrigatoriedade).</td></tr>
+<tr><td>e) <span class="mono">DELETE FROM DEPARTAMENTO WHERE DepID = 1</span></td><td><b>Referencial</b>: a Ana referencia o departamento 1. O SGBD rejeita (ou exige uma ação definida: CASCADE, SET NULL).</td></tr>
+<tr><td>f) <span class="mono">INSERT INTO FUNCIONARIO VALUES ('x','Eva','333',1)</span> com FuncID INTEGER</td><td><b>Domínio</b>: valor de tipo errado.</td></tr>
+</table>
+<p class="small">Testado em SQLite com <span class="mono">PRAGMA foreign_keys=ON</span>: a inserção de um livro com <span class="mono">EditoraID = 99</span> e o <span class="mono">DELETE</span> de uma editora com livros falham com <i>FOREIGN KEY constraint failed</i>; um <span class="mono">ColabID</span> duplicado falha com <i>UNIQUE constraint failed</i>.</p>
+
+<h3>Exercícios das aulas (Exercícios I–VI) — soluções sugeridas</h3>
+<p class="small">Os enunciados dos slides estão em inglês (e algumas passagens ficam ambíguas). As soluções abaixo são <b>uma possibilidade razoável</b> com as suposições indicadas — o importante é o raciocínio.</p>
+
+<div class="item"><b>I · ArtBase (galeria de arte)</b>
+<table>
+<tr><th style="width:36%">ER</th><th>Esquema relacional</th></tr>
+<tr><td>ARTISTA(<u>Nome</u>, LocalNascimento, Idade, Estilo) · OBRA(<u>Titulo</u>, Ano, Tipo, Preco) · GRUPO(<u>NomeGrupo</u>) · CLIENTE(<u>Nome</u>, Morada, TotalGasto).<br>ARTISTA–cria–OBRA <b>1:N</b>: artista (0,N), obra (1,1). OBRA–pertence–GRUPO <b>N:M</b> (uma obra pode estar em vários grupos). CLIENTE–gosta–ARTISTA <b>N:M</b>. CLIENTE–gosta–GRUPO <b>N:M</b>.</td>
+<td>ARTISTA(<u>Nome</u>, LocalNascimento, Idade, Estilo) · OBRA(<u>Titulo</u>, Ano, Tipo, Preco, <i>NomeArtista</i>) · GRUPO(<u>NomeGrupo</u>) · OBRA_GRUPO(<u>Titulo, NomeGrupo</u>) · CLIENTE(<u>NomeCliente</u>, Morada, TotalGasto) · CLIENTE_ARTISTA(<u>NomeCliente, NomeArtista</u>) · CLIENTE_GRUPO(<u>NomeCliente, NomeGrupo</u>).</td></tr>
+</table>
+<p class="small">Notas: “nomes únicos” → Nome serve de PK. Idade é derivável da data de nascimento, mas o enunciado dá a idade. <span class="mono">GROUP</span> é palavra reservada em SQL — usa outro nome na tabela.</p></div>
+
+<div class="item"><b>II · Livraria (clientes, compras, editoras)</b>
+<table>
+<tr><th style="width:36%">ER</th><th>Esquema relacional</th></tr>
+<tr><td>CLIENTE(<u>CodCliente</u>, Morada, Telefone, Tipo[singular/coletiva]) · LIVRO(<u>ISBN</u>, Autor, Assunto, Stock) · EDITORA(<u>CodEditora</u>, Morada, Telefone, NomeGestor).<br>CLIENTE–compra–LIVRO <b>N:M</b> com atributo <b>Data</b>: cliente (0,N), livro (0,N). EDITORA–fornece–LIVRO <b>1:N</b> (“editoras diferentes não fornecem o mesmo livro”): editora (0,N), livro (1,1).</td>
+<td>CLIENTE(<u>CodCliente</u>, Morada, Telefone, Tipo) · EDITORA(<u>CodEditora</u>, Morada, Telefone, NomeGestor) · LIVRO(<u>ISBN</u>, Autor, Assunto, Stock, <i>CodEditora</i>) · COMPRA(<u>CodCliente, ISBN, Data</u>).</td></tr>
+</table>
+<p class="small">Se o mesmo cliente puder comprar o mesmo livro em dias diferentes, a <b>Data entra na PK</b>; se só puder uma vez, a PK é (CodCliente, ISBN).</p></div>
+
+<div class="item"><b>III · Hospital universitário</b> — enunciado confuso; serve para treinar a identificação de entidades. Esboço: HOSPITAL(<u>CNPJ</u>) tem várias ALA (ala pertence a <b>um</b> hospital → 1:N); ENFERMEIRO(<u>CRE</u>, Nome) pertence a <b>uma</b> ala (N:1) e reporta a um <b>enfermeiro-chefe</b> (<b>recursivo</b>); MEDICO(<u>CRM</u>, Nome, Especialidade); PACIENTE(<u>CodUtente</u>, Nome) com PLANO_SAUDE(<u>CodPlano</u>, Nome, Telefone) (N:1); ATENDIMENTO = N:M MEDICO–PACIENTE com atributo <b>DataHora</b>; EXAME/ANALISE ligado a PACIENTE. “Todos os empregados têm contrato exclusivo” sugere uma generalização (EMPREGADO → médico/enfermeiro) que <b>não é matéria dos slides</b>.</div>
+
+<div class="item"><b>IV · Distribuição por camiões</b>
+<table>
+<tr><th style="width:36%">ER</th><th>Esquema relacional</th></tr>
+<tr><td>ARMAZEM(<u>NumArmazem</u>, <b>Localizacao</b>(Cidade, Rua, Numero)) · LOJA (mesma informação) · TIPO_CAMIAO(<u>CodTipo</u>, CapacidadeVolume, CapacidadePeso) · CAMIAO(<u>Matricula</u>, NumCamiao, Quilometros) · VIAGEM(<u>NumViagem</u>, DataPartida) · ETAPA(<u>NumEtapa</u> dentro da viagem) · PACOTE(<u>NumPacote</u>, Volume, Peso, PrazoEntrega).<br>CAMIAO–é_de–TIPO <b>N:1</b>; VIAGEM–usa–CAMIAO <b>N:1</b>; VIAGEM–parte_de–ARMAZEM <b>N:1</b>; ETAPA–pertence–VIAGEM <b>N:1</b> e ETAPA–termina_em–LOJA <b>N:1</b>; PACOTE–entregue_em–ETAPA <b>N:1</b> (suposição).</td>
+<td>ARMAZEM(<u>NumArmazem</u>, Cidade, Rua, Numero) · LOJA(<u>NumLoja</u>, Cidade, Rua, Numero) · TIPO_CAMIAO(<u>CodTipo</u>, CapVolume, CapPeso) · CAMIAO(<u>Matricula</u>, NumCamiao, Quilometros, <i>CodTipo</i>) · VIAGEM(<u>NumViagem</u>, DataPartida, <i>NumArmazem</i>, <i>Matricula</i>) · ETAPA(<u>NumViagem, NumEtapa</u>, <i>NumLoja</i>) · PACOTE(<u>NumPacote</u>, Volume, Peso, Prazo, <i>NumViagem, NumEtapa</i>).</td></tr>
+</table>
+<p class="small">Ponto-chave: o nº da etapa só identifica dentro da viagem → <b>PK composta (NumViagem, NumEtapa)</b>, e a FK de PACOTE para ETAPA é <b>composta</b>.</p></div>
+
+<div class="item"><b>V · Lar de idosos (torneios)</b>
+<table>
+<tr><th style="width:36%">ER</th><th>Esquema relacional</th></tr>
+<tr><td>PARTICIPANTE(<u>CodPart</u>, Nome, <b>DataNasc</b>(Dia, Ano), <i>NumJogos</i> derivado) · JOGO(<u>NomeJogo</u>, Tipo[pares/individual], DataSaida, <i>NumParticipantes</i> derivado) · PARTIDA(<u>CodPartida</u>, PontosEquipa).<br>PARTICIPANTE–participa–JOGO <b>N:M</b>: participante (0,N), jogo (<b>2</b>,N) (“não há jogos de um só jogador”). JOGO–tem–PARTIDA <b>1:N</b>: jogo (1,N), partida (1,1).</td>
+<td>PARTICIPANTE(<u>CodPart</u>, Nome, DiaNasc, AnoNasc) · JOGO(<u>NomeJogo</u>, Tipo, DataSaida) · PARTICIPA(<u>CodPart, NomeJogo</u>) · PARTIDA(<u>NomeJogo, CodPartida</u>, PontosEquipa).</td></tr>
+</table>
+<p class="small">Armadilha: “nº de jogos em que participou” e “nº total de participantes” são <b>derivados</b> (contagens) — não se guardam. A partida só existe dentro de um jogo → PK composta. Se os pontos fossem por equipa, precisarias de uma tabela de pontos (multivalor).</p></div>
+
+<div class="item"><b>VI · Pessoas, grupos, anos e cidades (ternário)</b>
+<table>
+<tr><th style="width:36%">ER</th><th>Esquema relacional</th></tr>
+<tr><td>PESSOA(<u>Nome</u>, Idade) · GRUPO(<u>Nome</u>) · ANO(<u>Ano</u>) · CIDADE(<u>Nome</u>).<br><b>Ternário</b> PESSOA–forma–GRUPO–ANO: em cada ano, cada pessoa pertence a <b>exatamente um</b> grupo (o enunciado diz que colocar o Ano como entidade limita os grupos por ano). <b>Ternário</b> GRUPO–viaja–ANO–CIDADE: em cada ano, cada grupo visita <b>pelo menos uma</b> cidade.</td>
+<td>PESSOA(<u>NomePessoa</u>, Idade) · GRUPO(<u>NomeGrupo</u>) · ANO(<u>Ano</u>) · CIDADE(<u>NomeCidade</u>) · FORMA(<u>NomePessoa, Ano</u>, <i>NomeGrupo</i>) · VIAJA(<u>NomeGrupo, Ano, NomeCidade</u>).</td></tr>
+</table>
+<p class="small">Ponto-chave: em FORMA a PK é (Pessoa, Ano) — não inclui o Grupo, porque “um grupo por pessoa e ano” é o que a restrição 1 impõe. Em VIAJA os três atributos juntos formam a PK (vários pares grupo-ano-cidade).</p></div>
+
+<h1 class="part">2 · Módulo 2<small>SQL: criar, consultar, atualizar, apagar, juntar, agregar</small></h1>
+
+<div class="box key"><b>Base de dados usada nos exemplos.</b> Para os exemplos de SQL uso o esquema do <b>Grupo II</b> do exame modelo (manutenção de bicicletas), preenchido com dados fictícios (anexo B). Todos os resultados mostrados foram obtidos <b>a executar as consultas em SQLite</b> — por isso são fiáveis, mas os <i>dados</i> são inventados.<br>
+TECNICO(<u>TecnicoID</u>, Nome, Certificacao, AnosExperiencia, Especialidade) · MANUTENCAO(<u>ManutencaoID</u>, Descricao, <i>TecnicoID</i>, Ano, Tipo, Custo) · CATEGORIA(<u>CategoriaID</u>, NomeCategoria) · MANUTENCAO_CATEGORIA(<u>ManutencaoID, CategoriaID</u>)</div>
+
+<h2>2.1 CRUD e criação de tabelas</h2>
+<p><b>CRUD</b> = as quatro operações fundamentais sobre dados persistentes: <b>C</b>reate (<span class="mono">INSERT</span>), <b>R</b>ead (<span class="mono">SELECT</span>), <b>U</b>pdate (<span class="mono">UPDATE</span>), <b>D</b>elete (<span class="mono">DELETE</span>).</p>
+<pre><span class="k">CREATE TABLE</span> employees (
+  id <span class="k">INTEGER</span> <span class="k">PRIMARY KEY</span> <span class="k">AUTOINCREMENT</span>,   <span class="c">-- chave primária gerada automaticamente</span>
+  name <span class="k">TEXT</span> <span class="k">NOT</span> <span class="k">NULL</span>,                     <span class="c">-- obrigatório</span>
+  department <span class="k">TEXT</span>,
+  salary <span class="k">REAL</span>
+);
+<span class="k">CREATE TABLE</span> employees2 (
+  id <span class="k">INTEGER</span> <span class="k">PRIMARY KEY</span>,
+  name <span class="k">TEXT</span> <span class="k">NOT</span> <span class="k">NULL</span>,
+  dept_id <span class="k">INTEGER</span>,
+  <span class="k">FOREIGN KEY</span> (dept_id) <span class="k">REFERENCES</span> departments(id)   <span class="c">-- chave estrangeira</span>
+);</pre>
+<p>Tipos usados nas aulas (SQLite): <span class="mono">INTEGER</span>, <span class="mono">TEXT</span>, <span class="mono">REAL</span>. PK composta: <span class="mono">PRIMARY KEY (ColA, ColB)</span> no fim da definição (ver 1.7).</p>
+
+<h3>INSERT · UPDATE · DELETE</h3>
+<pre><span class="k">INSERT INTO</span> employees (name, department, salary)
+<span class="k">VALUES</span> (<span class="s">'Jane Doe'</span>, <span class="s">'Engineering'</span>, <span class="n">75000.00</span>);
+
+<span class="k">UPDATE</span> employees
+<span class="k">SET</span> salary = <span class="n">65000.00</span>
+<span class="k">WHERE</span> name = <span class="s">'John Smith'</span>;
+
+<span class="k">DELETE FROM</span> employees
+<span class="k">WHERE</span> name = <span class="s">'Jane Doe'</span>;</pre>
+<div class="box warn"><b>Atenção.</b> <span class="mono">UPDATE</span> e <span class="mono">DELETE</span> <b>sem <span class="mono">WHERE</span> afetam todas as linhas</b>. É a observação mais repetida nos slides: “always use a WHERE clause!”. Textos entre <b>aspas simples</b>; números sem aspas; lista de colunas e lista de valores na <b>mesma ordem</b>.</div>
+
+<h2>2.2 SELECT: a ordem das cláusulas</h2>
+<pre><span class="k">SELECT</span>   [<span class="k">DISTINCT</span>] colunas / expressões / agregações
+<span class="k">FROM</span>     tabela [<span class="k">AS</span> alias]
+[<span class="k">JOIN</span>    outra_tabela [<span class="k">AS</span> alias] <span class="k">ON</span> condição_de_junção]
+[<span class="k">WHERE</span>   condição sobre linhas]
+[<span class="k">GROUP BY</span> colunas]
+[<span class="k">HAVING</span>  condição sobre grupos]
+[<span class="k">ORDER BY</span> colunas [<span class="k">ASC</span>|<span class="k">DESC</span>]]
+[<span class="k">LIMIT</span>   n];</pre>
+<p><b>Ordem em que o SGBD “pensa”</b> (útil para perceber erros): <b>FROM/JOIN</b> → <b>WHERE</b> → <b>GROUP BY</b> → <b>HAVING</b> → <b>SELECT</b> → <b>DISTINCT</b> → <b>ORDER BY</b> → <b>LIMIT</b>. Por isso o <span class="mono">WHERE</span> não pode usar funções de agregação (os grupos ainda não existem) e o <span class="mono">HAVING</span> sim.</p>
+
+<h3>Operadores de filtro</h3>
+<table>
+<tr><th style="width:24%">Operador</th><th>Uso</th><th style="width:36%">Exemplo</th></tr>
+<tr><td class="mono">= &lt;&gt; &gt; &gt;= &lt; &lt;=</td><td>comparações</td><td class="mono">Custo &gt; 100</td></tr>
+<tr><td class="mono">AND · OR · NOT</td><td>combinar condições (usa parênteses com OR)</td><td class="mono">Tipo='Corretiva' AND Ano=2026</td></tr>
+<tr><td class="mono">BETWEEN a AND b</td><td>intervalo <b>inclusivo</b></td><td class="mono">amount BETWEEN 500 AND 1000</td></tr>
+<tr><td class="mono">IN (…)</td><td>um de vários valores (alternativa limpa a vários OR)</td><td class="mono">region IN ('North','East')</td></tr>
+<tr><td class="mono">LIKE</td><td><b>%</b> = zero ou mais caracteres · <b>_</b> = exatamente um</td><td class="mono">name LIKE 'A%'</td></tr>
+<tr><td class="mono">IS NULL / IS NOT NULL</td><td>testar valores em falta (<b>nunca</b> <span class="mono">= NULL</span>) <span class="pill p">extra</span></td><td class="mono">Certificacao IS NULL</td></tr>
+<tr><td class="mono">DISTINCT</td><td>remove linhas repetidas do resultado</td><td class="mono">SELECT DISTINCT region …</td></tr>
+<tr><td class="mono">ORDER BY … DESC</td><td>ordenar (ASC por defeito)</td><td class="mono">ORDER BY amount DESC</td></tr>
+<tr><td class="mono">LIMIT n</td><td>restringe o nº de linhas (SQLite). Em SQL Server é <span class="mono">TOP n</span></td><td class="mono">… LIMIT 3</td></tr>
+</table>
+<p class="small"><span class="pill p">extra</span> = não está explicitamente nos slides mas é indispensável e aparece nas soluções ou nas variações naturais.</p>
+
+<h2>2.3 JOIN: combinar tabelas</h2>
+<ul>
+<li><span class="mono">JOIN … ON</span> (= INNER JOIN) liga linhas de duas tabelas quando a condição se verifica — normalmente <b>FK = PK</b>. Linhas sem correspondência <b>desaparecem</b>.</li>
+<li><span class="mono">LEFT JOIN</span> mantém <b>todas as linhas da tabela da esquerda</b>; onde não há correspondência, as colunas da direita vêm a NULL. Usa-se para “mesmo os que não têm…” e para anti-junções.</li>
+<li><b>Aliases</b> (<span class="mono">FROM MANUTENCAO AS M</span>) encurtam e resolvem ambiguidades: se duas tabelas têm a coluna <span class="mono">TecnicoID</span>, escreve <span class="mono">M.TecnicoID</span>.</li>
+<li>Relações <b>N:M</b> precisam de passar pela tabela de associação (ex.: MANUTENCAO → MANUTENCAO_CATEGORIA → CATEGORIA): dois JOIN seguidos.</li>
+</ul>
+<div class="box"><b>Como o slide decompõe uma consulta com JOIN + WHERE.</b> <span class="mono">FROM employees</span>: começa na tabela principal → <span class="mono">JOIN departments ON …</span>: junta cada linha ao departamento correspondente → <span class="mono">WHERE …</span>: filtra a tabela “larga” resultante → <span class="mono">SELECT …</span>: escolhe as colunas finais.</div>
+
+<h2>2.4 Agregação: GROUP BY e HAVING</h2>
+<ul>
+<li>Funções: <span class="mono">COUNT</span>, <span class="mono">SUM</span>, <span class="mono">AVG</span> (nos slides), mais <span class="mono">MIN</span>/<span class="mono">MAX</span> <span class="pill p">extra</span>.</li>
+<li><span class="mono">COUNT(*)</span> conta <b>linhas</b>; <span class="mono">COUNT(col)</span> conta valores <b>não NULL</b>; <span class="mono">AVG</span>/<span class="mono">SUM</span> ignoram NULL.</li>
+<li><span class="mono">GROUP BY</span> junta linhas com o mesmo valor em “linhas-resumo”. <b>Regra:</b> toda a coluna no <span class="mono">SELECT</span> que <i>não</i> seja agregada tem de estar no <span class="mono">GROUP BY</span>.</li>
+</ul>
+<table>
+<tr><th style="width:12%"></th><th>WHERE</th><th>HAVING</th></tr>
+<tr><td><b>Filtra</b></td><td><b>linhas</b> individuais, <i>antes</i> de agrupar</td><td><b>grupos</b>, <i>depois</i> de agrupar</td></tr>
+<tr><td><b>Agregações</b></td><td>não pode usar (<i>misuse of aggregate</i>)</td><td>pode e costuma usar</td></tr>
+<tr><td><b>Exemplo</b></td><td class="mono">WHERE Ano = 2026</td><td class="mono">HAVING COUNT(*) &gt;= 2</td></tr>
+</table>
+
+<h2>2.5 Subconsultas</h2>
+<table>
+<tr><th style="width:22%">Forma</th><th>Quando usar</th></tr>
+<tr><td><b>IN (SELECT …)</b></td><td>“pertence ao conjunto de…” — usada no UPDATE do exame modelo.</td></tr>
+<tr><td><b>EXISTS / NOT EXISTS</b></td><td>“existe / não existe nenhuma linha relacionada…”. <b>Correlacionada</b>: a subconsulta refere a tabela de fora. <span class="mono">SELECT 1</span> chega — só interessa se há linhas.</td></tr>
+<tr><td><b>Subconsulta escalar</b></td><td>devolve <b>um</b> valor: <span class="mono">Custo &gt; (SELECT AVG(Custo) FROM …)</span>.</td></tr>
+<tr><td><b>NOT IN</b></td><td>Cuidado: se a subconsulta devolver <b>algum NULL</b>, <span class="mono">NOT IN</span> não devolve <b>nenhuma</b> linha (ver armadilha abaixo).</td></tr>
+</table>
+
+<h2>2.6 Exame modelo · Grupo II resolvido <span class="pill b">EXAME MODELO</span></h2>
+
+<div class="item">
+<div class="q"><span>Q1.</span> Inserir um técnico: T15, Rita Lopes, certificação Shimano, 6 anos, especialidade Travões.</div>
+<p><b>Como pensar.</b> Tabela TECNICO, 5 colunas → <span class="mono">INSERT INTO … (colunas) VALUES (…)</span>. Texto entre aspas simples (inclusive <span class="mono">'T15'</span>, que é texto), 6 sem aspas, mesma ordem nas duas listas.</p>
+<pre><span class="k">INSERT INTO</span> TECNICO
+  (TecnicoID, Nome, Certificacao, AnosExperiencia, Especialidade)
+<span class="k">VALUES</span>
+  (<span class="s">'T15'</span>, <span class="s">'Rita Lopes'</span>, <span class="s">'Shimano'</span>, <span class="n">6</span>, <span class="s">'Travões'</span>);</pre><div class="reslabel">Estado da tabela depois de executar:</div><table class='res'><tr><th>TecnicoID</th><th>Nome</th><th>Certificacao</th><th>AnosExperiencia</th><th>Especialidade</th></tr><tr><td class=''>T15</td><td class=''>Rita Lopes</td><td class=''>Shimano</td><td class='n'>6</td><td class=''>Travões</td></tr></table>
+<div class="box warn"><b>Erros típicos.</b> <span class="mono">T15</span> sem aspas · 6 entre aspas · valores por ordem diferente das colunas · esquecer o acento em <i>Travões</i>.</div>
+</div>
+
+<div class="item">
+<div class="q"><span>Q2.</span> Aumentar 10 % o custo das intervenções do tipo <i>Corretiva</i> realizadas por técnicos cuja especialidade é <i>Transmissão</i>.</div>
+<p><b>Como pensar.</b> O que se altera (Custo) e o tipo estão em <b>MANUTENCAO</b>; a especialidade está em <b>TECNICO</b>. Em SQL padrão o <span class="mono">UPDATE</span> altera <b>uma só tabela</b>, por isso o filtro pela especialidade faz-se com uma <b>subconsulta</b>: “o TecnicoID está no conjunto dos técnicos de Transmissão”. Aumentar 10 % = <span class="mono">Custo * 1.10</span>.</p>
+<pre><span class="k">UPDATE</span> MANUTENCAO
+<span class="k">SET</span> Custo = Custo * <span class="n">1.10</span>
+<span class="k">WHERE</span> Tipo = <span class="s">'Corretiva'</span>
+  <span class="k">AND</span> TecnicoID <span class="k">IN</span> (
+        <span class="k">SELECT</span> TecnicoID
+        <span class="k">FROM</span> TECNICO
+        <span class="k">WHERE</span> Especialidade = <span class="s">'Transmissão'</span>
+  );</pre><div class="reslabel">Estado da tabela depois de executar:</div><table class='res'><tr><th>ManutencaoID</th><th>TecnicoID</th><th>Tipo</th><th>Custo</th></tr><tr><td class='n'>1</td><td class=''>T01</td><td class=''>Corretiva</td><td class='n'>132</td></tr><tr><td class='n'>2</td><td class=''>T02</td><td class=''>Preventiva</td><td class='n'>45</td></tr><tr><td class='n'>3</td><td class=''>T03</td><td class=''>Corretiva</td><td class='n'>150</td></tr><tr><td class='n'>4</td><td class=''>T05</td><td class=''>Preventiva</td><td class='n'>80</td></tr><tr><td class='n'>5</td><td class=''>T01</td><td class=''>Corretiva</td><td class='n'>231</td></tr><tr><td class='n'>6</td><td class=''>T04</td><td class=''>Corretiva</td><td class='n'>30</td></tr><tr><td class='n'>7</td><td class=''>T02</td><td class=''>Corretiva</td><td class='n'>104.5</td></tr><tr><td class='n'>8</td><td class=''>T03</td><td class=''>Preventiva</td><td class='n'>100</td></tr></table>
+<p>Só as intervenções corretivas dos técnicos T01 e T02 (Transmissão) subiram: 120→132, 210→231, 95→104,5 (o resto ficou igual; aqui vês as 8 linhas).</p>
+<h4>Solução alternativa (EXISTS correlacionado)</h4>
+<pre><span class="k">UPDATE</span> MANUTENCAO
+<span class="k">SET</span> Custo = Custo * <span class="n">1.10</span>
+<span class="k">WHERE</span> Tipo = <span class="s">'Corretiva'</span>
+  <span class="k">AND</span> <span class="k">EXISTS</span> (<span class="k">SELECT</span> <span class="n">1</span> <span class="k">FROM</span> TECNICO <span class="k">AS</span> T
+              <span class="k">WHERE</span> T.TecnicoID = MANUTENCAO.TecnicoID
+                <span class="k">AND</span> T.Especialidade = <span class="s">'Transmissão'</span>);</pre>
+<div class="box warn"><b>Erros típicos.</b> Escrever <span class="mono">WHERE Especialidade = 'Transmissão'</span> diretamente em MANUTENCAO (essa coluna não existe lá) · esquecer o <span class="mono">WHERE</span> (aumenta <b>tudo</b>) · <span class="mono">Custo * 0.10</span> ou <span class="mono">Custo + 10</span>.</div>
+</div>
+
+<div class="item">
+<div class="q"><span>Q3.</span> Descrição, custo e nome do técnico responsável pelas intervenções com custo superior a 100, por custo decrescente.</div>
+<p><b>Como pensar.</b> Colunas de <b>duas tabelas</b> (Descricao/Custo em MANUTENCAO, Nome em TECNICO) → <span class="mono">JOIN</span> pela FK. “Superior a 100” → <span class="mono">&gt; 100</span> (estrito). “Decrescente” → <span class="mono">ORDER BY … DESC</span>.</p>
+<pre><span class="k">SELECT</span> M.Descricao, M.Custo, T.Nome
+<span class="k">FROM</span> MANUTENCAO <span class="k">AS</span> M
+<span class="k">JOIN</span> TECNICO <span class="k">AS</span> T
+  <span class="k">ON</span> M.TecnicoID = T.TecnicoID
+<span class="k">WHERE</span> M.Custo &gt; <span class="n">100</span>
+<span class="k">ORDER BY</span> M.Custo <span class="k">DESC</span>;</pre><div class="reslabel">Resultado nos dados de exemplo:</div><table class='res'><tr><th>Descricao</th><th>Custo</th><th>Nome</th></tr><tr><td class=''>Troca de cassete</td><td class='n'>210</td><td class=''>Ana Sousa</td></tr><tr><td class=''>Substituição de pastilhas</td><td class='n'>150</td><td class=''>Carla Dias</td></tr><tr><td class=''>Troca de corrente</td><td class='n'>120</td><td class=''>Ana Sousa</td></tr></table>
+<div class="box warn"><b>Erros típicos.</b> Esquecer o <span class="mono">ON</span> (produto cartesiano) · <span class="mono">TecnicoID</span> ambíguo sem alias · <span class="mono">&gt;=</span> em vez de <span class="mono">&gt;</span> · <span class="mono">ORDER BY</span> antes do <span class="mono">WHERE</span> (ordem das cláusulas).</div>
+</div>
+
+<div class="item">
+<div class="q"><span>Q4.</span> Técnicos que ainda não realizaram qualquer intervenção.</div>
+<p><b>Como pensar.</b> “Nunca/nenhum” = <b>anti-junção</b>: o técnico para o qual <i>não existe</i> linha em MANUTENCAO. Um <span class="mono">INNER JOIN</span> não serve (só traz quem tem intervenções).</p>
+<pre><span class="k">SELECT</span> T.TecnicoID, T.Nome
+<span class="k">FROM</span> TECNICO <span class="k">AS</span> T
+<span class="k">WHERE</span> <span class="k">NOT</span> <span class="k">EXISTS</span> (
+        <span class="k">SELECT</span> <span class="n">1</span>
+        <span class="k">FROM</span> MANUTENCAO <span class="k">AS</span> M
+        <span class="k">WHERE</span> M.TecnicoID = T.TecnicoID
+);</pre><div class="reslabel">Resultado nos dados de exemplo:</div><table class='res'><tr><th>TecnicoID</th><th>Nome</th></tr><tr><td class=''>T06</td><td class=''>Filipe Cruz</td></tr></table>
+<h4>Alternativas aceites (a resolução oficial indica a do LEFT JOIN)</h4>
+<pre><span class="k">SELECT</span> T.TecnicoID, T.Nome
+<span class="k">FROM</span> TECNICO <span class="k">AS</span> T
+<span class="k">LEFT</span> <span class="k">JOIN</span> MANUTENCAO <span class="k">AS</span> M
+  <span class="k">ON</span> M.TecnicoID = T.TecnicoID
+<span class="k">WHERE</span> M.ManutencaoID <span class="k">IS</span> <span class="k">NULL</span>;</pre><div class="reslabel">Resultado nos dados de exemplo:</div><table class='res'><tr><th>TecnicoID</th><th>Nome</th></tr><tr><td class=''>T06</td><td class=''>Filipe Cruz</td></tr></table>
+<pre><span class="k">SELECT</span> TecnicoID, Nome
+<span class="k">FROM</span> TECNICO
+<span class="k">WHERE</span> TecnicoID <span class="k">NOT</span> <span class="k">IN</span> (
+        <span class="k">SELECT</span> TecnicoID
+        <span class="k">FROM</span> MANUTENCAO
+        <span class="k">WHERE</span> TecnicoID <span class="k">IS</span> <span class="k">NOT</span> <span class="k">NULL</span>
+);</pre>
+<div class="box warn"><b>Armadilha do NOT IN.</b> Se existir uma manutenção com <span class="mono">TecnicoID = NULL</span>, o <span class="mono">NOT IN</span> “sem proteção” <b>não devolve nada</b>. Com uma linha extra de teste (<i>manutenção sem técnico</i>):
+<pre><span class="c">-- Atenção: existe uma manutenção com TecnicoID = NULL</span>
+<span class="k">SELECT</span> Nome <span class="k">FROM</span> TECNICO
+<span class="k">WHERE</span> TecnicoID <span class="k">NOT</span> <span class="k">IN</span> (<span class="k">SELECT</span> TecnicoID <span class="k">FROM</span> MANUTENCAO);</pre><div class="reslabel">Resultado nos dados de exemplo:</div><table class='res'><tr><th>Nome</th></tr><tr><td colspan='1'><i>(0 linhas)</i></td></tr></table>
+Por isso a variante acima inclui <span class="mono">WHERE TecnicoID IS NOT NULL</span>, e <span class="mono">NOT EXISTS</span> / <span class="mono">LEFT JOIN … IS NULL</span> são mais seguras.</div>
+</div>
+
+<div class="item">
+<div class="q"><span>Q5.</span> Por especialidade: nº de técnicos e média de anos de experiência, só especialidades com pelo menos dois técnicos.</div>
+<p><b>Como pensar.</b> “Por especialidade” → <span class="mono">GROUP BY Especialidade</span>. “Número” → <span class="mono">COUNT(*)</span>; “média” → <span class="mono">AVG</span>. “Apenas as especialidades com pelo menos dois” é uma condição sobre o <b>grupo</b> → <span class="mono">HAVING</span>, não <span class="mono">WHERE</span>.</p>
+<pre><span class="k">SELECT</span> Especialidade,
+       <span class="k">COUNT</span>(*)             <span class="k">AS</span> NumeroTecnicos,
+       <span class="k">AVG</span>(AnosExperiencia) <span class="k">AS</span> MediaAnosExperiencia
+<span class="k">FROM</span> TECNICO
+<span class="k">GROUP BY</span> Especialidade
+<span class="k">HAVING</span> <span class="k">COUNT</span>(*) &gt;= 2;</pre><div class="reslabel">Resultado nos dados de exemplo:</div><table class='res'><tr><th>Especialidade</th><th>NumeroTecnicos</th><th>MediaAnosExperiencia</th></tr><tr><td class=''>Transmissão</td><td class='n'>2</td><td class='n'>5.5</td></tr><tr><td class=''>Travões</td><td class='n'>2</td><td class='n'>8.5</td></tr></table>
+<div class="box warn"><b>Erros típicos.</b> <span class="mono">WHERE COUNT(*) &gt;= 2</span> (erro: <i>misuse of aggregate</i>) · usar <span class="mono">&gt; 2</span> em vez de <span class="mono">&gt;= 2</span> · esquecer o <span class="mono">GROUP BY</span> · pôr no SELECT uma coluna não agregada que não está no GROUP BY.</div>
+</div>
+
+<h2>2.7 Variações possíveis <span class="pill p">VARIAÇÃO</span></h2>
+<div class="box var">A professora pode usar a mesma técnica com outras tabelas, outros filtros, outro operador. Abaixo, uma bateria de pedidos <b>do mesmo género</b> que as perguntas do exame modelo — todos testados nos dados de exemplo. Treina escrevendo primeiro e só depois espreitando.</div>
+
+<h3>Variações de INSERT</h3>
+<div class="item"><div class="q">Inserir duas categorias numa só instrução (5 · Pneus, 6 · Iluminação).</div><pre><span class="k">INSERT INTO</span> CATEGORIA (CategoriaID, NomeCategoria)
+<span class="k">VALUES</span> (<span class="n">5</span>, <span class="s">'Pneus'</span>),
+       (<span class="n">6</span>, <span class="s">'Iluminação'</span>);</pre><div class="reslabel">Estado da tabela depois de executar:</div><table class='res'><tr><th>CategoriaID</th><th>NomeCategoria</th></tr><tr><td class='n'>1</td><td class=''>Mecânica</td></tr><tr><td class='n'>2</td><td class=''>Segurança</td></tr><tr><td class='n'>3</td><td class=''>Estética</td></tr><tr><td class='n'>4</td><td class=''>Elétrica</td></tr><tr><td class='n'>5</td><td class=''>Pneus</td></tr><tr><td class='n'>6</td><td class=''>Iluminação</td></tr></table></div>
+<div class="item"><div class="q">Registar uma manutenção e associá-la à categoria 1 (duas tabelas, ordem importa: primeiro a MANUTENCAO, depois a tabela de associação).</div><pre><span class="k">INSERT INTO</span> MANUTENCAO (ManutencaoID, Descricao, TecnicoID, Ano, Tipo, Custo)
+<span class="k">VALUES</span> (<span class="n">9</span>, <span class="s">'Troca de pneu'</span>, <span class="s">'T05'</span>, <span class="n">2026</span>, <span class="s">'Corretiva'</span>, <span class="n">25.00</span>);
+
+<span class="k">INSERT INTO</span> MANUTENCAO_CATEGORIA (ManutencaoID, CategoriaID)
+<span class="k">VALUES</span> (<span class="n">9</span>, <span class="n">1</span>);</pre><p class="small">Se inverteres a ordem, a FK de MANUTENCAO_CATEGORIA falha (a manutenção ainda não existe). Mesmo raciocínio para apagar: primeiro as linhas “filhas”.</p></div>
+<div class="item"><div class="q">Inserir um técnico sem certificação (omitir a coluna).</div><pre><span class="c">-- técnico sem certificação (a coluna omitida fica NULL)</span>
+<span class="k">INSERT INTO</span> TECNICO (TecnicoID, Nome, AnosExperiencia, Especialidade)
+<span class="k">VALUES</span> (<span class="s">'T16'</span>, <span class="s">'Hugo Neves'</span>, <span class="n">0</span>, <span class="s">'Rodas'</span>);</pre><div class="reslabel">Estado da tabela depois de executar:</div><table class='res'><tr><th>TecnicoID</th><th>Nome</th><th>Certificacao</th><th>AnosExperiencia</th><th>Especialidade</th></tr><tr><td class=''>T16</td><td class=''>Hugo Neves</td><td class=''>NULL</td><td class='n'>0</td><td class=''>Rodas</td></tr></table></div>
+
+<h3>Variações de UPDATE</h3>
+<div class="item"><div class="q">Reduzir 5 % o custo das intervenções preventivas de 2025.</div><pre><span class="k">UPDATE</span> MANUTENCAO
+<span class="k">SET</span> Custo = Custo * <span class="n">0.95</span>
+<span class="k">WHERE</span> Tipo = <span class="s">'Preventiva'</span>
+  <span class="k">AND</span> Ano = 2025;</pre><div class="reslabel">Estado da tabela depois de executar:</div><table class='res'><tr><th>ManutencaoID</th><th>Tipo</th><th>Ano</th><th>Custo</th></tr><tr><td class='n'>2</td><td class=''>Preventiva</td><td class='n'>2025</td><td class='n'>42.75</td></tr><tr><td class='n'>4</td><td class=''>Preventiva</td><td class='n'>2026</td><td class='n'>80</td></tr><tr><td class='n'>8</td><td class=''>Preventiva</td><td class='n'>2026</td><td class='n'>100</td></tr></table></div>
+<div class="item"><div class="q">Mudar a especialidade do técnico T04 para Transmissão e somar 1 ano de experiência (vários <span class="mono">SET</span>).</div><pre><span class="k">UPDATE</span> TECNICO
+<span class="k">SET</span> Especialidade = <span class="s">'Transmissão'</span>,
+    AnosExperiencia = AnosExperiencia + <span class="n">1</span>
+<span class="k">WHERE</span> TecnicoID = <span class="s">'T04'</span>;</pre><div class="reslabel">Estado da tabela depois de executar:</div><table class='res'><tr><th>TecnicoID</th><th>Nome</th><th>Certificacao</th><th>AnosExperiencia</th><th>Especialidade</th></tr><tr><td class=''>T04</td><td class=''>Diogo Faria</td><td class=''>NULL</td><td class='n'>2</td><td class=''>Transmissão</td></tr></table></div>
+<div class="item"><div class="q">Somar 20 ao custo das intervenções de técnicos Shimano com pelo menos 10 anos de experiência (subconsulta com duas condições).</div><pre><span class="k">UPDATE</span> MANUTENCAO
+<span class="k">SET</span> Custo = Custo + <span class="n">20</span>
+<span class="k">WHERE</span> TecnicoID <span class="k">IN</span> (
+        <span class="k">SELECT</span> TecnicoID
+        <span class="k">FROM</span> TECNICO
+        <span class="k">WHERE</span> Certificacao = <span class="s">'Shimano'</span>
+          <span class="k">AND</span> AnosExperiencia &gt;= <span class="n">10</span>
+);</pre><div class="reslabel">Estado da tabela depois de executar:</div><table class='res'><tr><th>ManutencaoID</th><th>TecnicoID</th><th>Custo</th></tr><tr><td class='n'>3</td><td class=''>T03</td><td class='n'>170</td></tr><tr><td class='n'>8</td><td class=''>T03</td><td class='n'>120</td></tr></table></div>
+
+<h3>Variações de DELETE</h3>
+<div class="item"><div class="q">Apagar as manutenções de 2025 (e primeiro as suas associações a categorias, por causa da FK).</div><pre><span class="k">DELETE FROM</span> MANUTENCAO_CATEGORIA
+<span class="k">WHERE</span> ManutencaoID <span class="k">IN</span> (<span class="k">SELECT</span> ManutencaoID <span class="k">FROM</span> MANUTENCAO <span class="k">WHERE</span> Ano = <span class="n">2025</span>);
+
+<span class="k">DELETE FROM</span> MANUTENCAO
+<span class="k">WHERE</span> Ano = 2025;</pre><div class="reslabel">Estado da tabela depois de executar:</div><table class='res'><tr><th>ManutencaoID</th><th>Ano</th></tr><tr><td class='n'>3</td><td class='n'>2026</td></tr><tr><td class='n'>4</td><td class='n'>2026</td></tr><tr><td class='n'>5</td><td class='n'>2026</td></tr><tr><td class='n'>7</td><td class='n'>2026</td></tr><tr><td class='n'>8</td><td class='n'>2026</td></tr></table></div>
+<div class="item"><div class="q">Apagar as categorias que nunca foram usadas.</div><pre><span class="k">DELETE FROM</span> CATEGORIA
+<span class="k">WHERE</span> CategoriaID <span class="k">NOT</span> <span class="k">IN</span> (
+        <span class="k">SELECT</span> CategoriaID
+        <span class="k">FROM</span> MANUTENCAO_CATEGORIA
+);</pre><div class="reslabel">Estado da tabela depois de executar:</div><table class='res'><tr><th>CategoriaID</th><th>NomeCategoria</th></tr><tr><td class='n'>1</td><td class=''>Mecânica</td></tr><tr><td class='n'>2</td><td class=''>Segurança</td></tr></table><p class="small">Com dados de exemplo, desaparecem Estética e Elétrica. (Aqui <span class="mono">NOT IN</span> é seguro porque <span class="mono">CategoriaID</span> é parte da PK da tabela de associação e nunca é NULL.)</p></div>
+
+<h3>Variações de SELECT — filtros e ordenação</h3>
+<div class="item"><div class="q">Nome e experiência dos técnicos Shimano com mais de 5 anos.</div><pre><span class="k">SELECT</span> Nome, AnosExperiencia
+<span class="k">FROM</span> TECNICO
+<span class="k">WHERE</span> Certificacao = <span class="s">'Shimano'</span>
+  <span class="k">AND</span> AnosExperiencia &gt; 5;</pre><div class="reslabel">Resultado nos dados de exemplo:</div><table class='res'><tr><th>Nome</th><th>AnosExperiencia</th></tr><tr><td class=''>Ana Sousa</td><td class='n'>8</td></tr><tr><td class=''>Carla Dias</td><td class='n'>12</td></tr></table></div>
+<div class="item"><div class="q">Especialidades distintas, por ordem alfabética.</div><pre><span class="k">SELECT</span> <span class="k">DISTINCT</span> Especialidade
+<span class="k">FROM</span> TECNICO
+<span class="k">ORDER BY</span> Especialidade;</pre><div class="reslabel">Resultado nos dados de exemplo:</div><table class='res'><tr><th>Especialidade</th></tr><tr><td class=''>Rodas</td></tr><tr><td class=''>Suspensão</td></tr><tr><td class=''>Transmissão</td></tr><tr><td class=''>Travões</td></tr></table></div>
+<div class="item"><div class="q">Manutenções cuja descrição começa por “Troca”, em 2025–2026, dos tipos Corretiva ou Preventiva (<span class="mono">LIKE</span> + <span class="mono">BETWEEN</span> + <span class="mono">IN</span>).</div><pre><span class="k">SELECT</span> ManutencaoID, Descricao, Ano, Custo
+<span class="k">FROM</span> MANUTENCAO
+<span class="k">WHERE</span> Descricao <span class="k">LIKE</span> <span class="s">'Troca%'</span>
+  <span class="k">AND</span> Ano <span class="k">BETWEEN</span> <span class="n">2025</span> <span class="k">AND</span> <span class="n">2026</span>
+  <span class="k">AND</span> Tipo <span class="k">IN</span> (<span class="s">'Corretiva'</span>, <span class="s">'Preventiva'</span>);</pre><div class="reslabel">Resultado nos dados de exemplo:</div><table class='res'><tr><th>ManutencaoID</th><th>Descricao</th><th>Ano</th><th>Custo</th></tr><tr><td class='n'>1</td><td class=''>Troca de corrente</td><td class='n'>2025</td><td class='n'>120</td></tr><tr><td class='n'>5</td><td class=''>Troca de cassete</td><td class='n'>2026</td><td class='n'>210</td></tr><tr><td class='n'>7</td><td class=''>Troca de desviador</td><td class='n'>2026</td><td class='n'>95</td></tr></table></div>
+<div class="item"><div class="q">Técnicos sem certificação registada.</div><pre><span class="k">SELECT</span> Nome
+<span class="k">FROM</span> TECNICO
+<span class="k">WHERE</span> Certificacao <span class="k">IS</span> <span class="k">NULL</span>;</pre><div class="reslabel">Resultado nos dados de exemplo:</div><table class='res'><tr><th>Nome</th></tr><tr><td class=''>Diogo Faria</td></tr></table></div>
+<div class="item"><div class="q">As 3 intervenções mais caras (<span class="mono">LIMIT</span>).</div><pre><span class="k">SELECT</span> Descricao, Custo
+<span class="k">FROM</span> MANUTENCAO
+<span class="k">ORDER BY</span> Custo <span class="k">DESC</span>
+<span class="k">LIMIT</span> 3;</pre><div class="reslabel">Resultado nos dados de exemplo:</div><table class='res'><tr><th>Descricao</th><th>Custo</th></tr><tr><td class=''>Troca de cassete</td><td class='n'>210</td></tr><tr><td class=''>Substituição de pastilhas</td><td class='n'>150</td></tr><tr><td class=''>Troca de corrente</td><td class='n'>120</td></tr></table></div>
+
+<h3>Variações de SELECT — junções</h3>
+<div class="item"><div class="q">Descrição, categoria e técnico das intervenções da categoria “Segurança” (4 tabelas, passa pela N:M).</div><pre><span class="k">SELECT</span> M.Descricao, C.NomeCategoria, T.Nome <span class="k">AS</span> Tecnico
+<span class="k">FROM</span> MANUTENCAO <span class="k">AS</span> M
+<span class="k">JOIN</span> MANUTENCAO_CATEGORIA <span class="k">AS</span> MC <span class="k">ON</span> MC.ManutencaoID = M.ManutencaoID
+<span class="k">JOIN</span> CATEGORIA            <span class="k">AS</span> C  <span class="k">ON</span> C.CategoriaID   = MC.CategoriaID
+<span class="k">JOIN</span> TECNICO              <span class="k">AS</span> T  <span class="k">ON</span> T.TecnicoID     = M.TecnicoID
+<span class="k">WHERE</span> C.NomeCategoria = <span class="s">'Segurança'</span>;</pre><div class="reslabel">Resultado nos dados de exemplo:</div><table class='res'><tr><th>Descricao</th><th>NomeCategoria</th><th>Tecnico</th></tr><tr><td class=''>Substituição de pastilhas</td><td class=''>Segurança</td><td class=''>Carla Dias</td></tr><tr><td class=''>Revisão de travões</td><td class=''>Segurança</td><td class=''>Eva Matos</td></tr><tr><td class=''>Revisão geral</td><td class=''>Segurança</td><td class=''>Carla Dias</td></tr></table></div>
+<div class="item"><div class="q">Quantas intervenções tem cada categoria utilizada?</div><pre><span class="k">SELECT</span> C.NomeCategoria, <span class="k">COUNT</span>(*) <span class="k">AS</span> NumIntervencoes
+<span class="k">FROM</span> CATEGORIA <span class="k">AS</span> C
+<span class="k">JOIN</span> MANUTENCAO_CATEGORIA <span class="k">AS</span> MC <span class="k">ON</span> MC.CategoriaID = C.CategoriaID
+<span class="k">GROUP BY</span> C.CategoriaID, C.NomeCategoria;</pre><div class="reslabel">Resultado nos dados de exemplo:</div><table class='res'><tr><th>NomeCategoria</th><th>NumIntervencoes</th></tr><tr><td class=''>Mecânica</td><td class='n'>7</td></tr><tr><td class=''>Segurança</td><td class='n'>3</td></tr></table></div>
+
+<h3>Variações de SELECT — agregação</h3>
+<div class="item"><div class="q">Custo total por técnico, só técnicos com total acima de 200, do maior para o menor.</div><pre><span class="k">SELECT</span> T.Nome, <span class="k">SUM</span>(M.Custo) <span class="k">AS</span> CustoTotal
+<span class="k">FROM</span> TECNICO <span class="k">AS</span> T
+<span class="k">JOIN</span> MANUTENCAO <span class="k">AS</span> M <span class="k">ON</span> M.TecnicoID = T.TecnicoID
+<span class="k">GROUP BY</span> T.TecnicoID, T.Nome
+<span class="k">HAVING</span> <span class="k">SUM</span>(M.Custo) &gt; <span class="n">200</span>
+<span class="k">ORDER BY</span> CustoTotal <span class="k">DESC</span>;</pre><div class="reslabel">Resultado nos dados de exemplo:</div><table class='res'><tr><th>Nome</th><th>CustoTotal</th></tr><tr><td class=''>Ana Sousa</td><td class='n'>330</td></tr><tr><td class=''>Carla Dias</td><td class='n'>250</td></tr></table></div>
+<div class="item"><div class="q">Número de intervenções por técnico, <b>incluindo os que têm zero</b> (<span class="mono">LEFT JOIN</span> + <span class="mono">COUNT(coluna da direita)</span>).</div><pre><span class="k">SELECT</span> T.Nome, <span class="k">COUNT</span>(M.ManutencaoID) <span class="k">AS</span> NumIntervencoes
+<span class="k">FROM</span> TECNICO <span class="k">AS</span> T
+<span class="k">LEFT</span> <span class="k">JOIN</span> MANUTENCAO <span class="k">AS</span> M <span class="k">ON</span> M.TecnicoID = T.TecnicoID
+<span class="k">GROUP BY</span> T.TecnicoID, T.Nome
+<span class="k">ORDER BY</span> NumIntervencoes <span class="k">DESC</span>, T.Nome;</pre><div class="reslabel">Resultado nos dados de exemplo:</div><table class='res'><tr><th>Nome</th><th>NumIntervencoes</th></tr><tr><td class=''>Ana Sousa</td><td class='n'>2</td></tr><tr><td class=''>Bruno Reis</td><td class='n'>2</td></tr><tr><td class=''>Carla Dias</td><td class='n'>2</td></tr><tr><td class=''>Diogo Faria</td><td class='n'>1</td></tr><tr><td class=''>Eva Matos</td><td class='n'>1</td></tr><tr><td class=''>Filipe Cruz</td><td class='n'>0</td></tr></table><p class="small">Com <span class="mono">COUNT(*)</span> o Filipe apareceria com 1 (a linha “vazia” do LEFT JOIN conta). <span class="mono">COUNT(M.ManutencaoID)</span> ignora NULL e dá o 0 correto.</p></div>
+<div class="item"><div class="q">Nº de intervenções e custo médio por ano e tipo (<span class="mono">GROUP BY</span> com duas colunas).</div><pre><span class="k">SELECT</span> Ano, Tipo,
+       <span class="k">COUNT</span>(*)  <span class="k">AS</span> NumIntervencoes,
+       <span class="k">AVG</span>(Custo) <span class="k">AS</span> CustoMedio
+<span class="k">FROM</span> MANUTENCAO
+<span class="k">GROUP BY</span> Ano, Tipo
+<span class="k">ORDER BY</span> Ano, Tipo;</pre><div class="reslabel">Resultado nos dados de exemplo:</div><table class='res'><tr><th>Ano</th><th>Tipo</th><th>NumIntervencoes</th><th>CustoMedio</th></tr><tr><td class='n'>2025</td><td class=''>Corretiva</td><td class='n'>2</td><td class='n'>75</td></tr><tr><td class='n'>2025</td><td class=''>Preventiva</td><td class='n'>1</td><td class='n'>45</td></tr><tr><td class='n'>2026</td><td class=''>Corretiva</td><td class='n'>3</td><td class='n'>151.67</td></tr><tr><td class='n'>2026</td><td class=''>Preventiva</td><td class='n'>2</td><td class='n'>90</td></tr></table></div>
+<div class="item"><div class="q">Custo total em 2026 por especialidade (junção + WHERE + GROUP BY + ORDER BY).</div><pre><span class="k">SELECT</span> T.Especialidade, <span class="k">SUM</span>(M.Custo) <span class="k">AS</span> CustoTotal
+<span class="k">FROM</span> MANUTENCAO <span class="k">AS</span> M
+<span class="k">JOIN</span> TECNICO <span class="k">AS</span> T <span class="k">ON</span> T.TecnicoID = M.TecnicoID
+<span class="k">WHERE</span> M.Ano = <span class="n">2026</span>
+<span class="k">GROUP BY</span> T.Especialidade
+<span class="k">ORDER BY</span> CustoTotal <span class="k">DESC</span>;</pre><div class="reslabel">Resultado nos dados de exemplo:</div><table class='res'><tr><th>Especialidade</th><th>CustoTotal</th></tr><tr><td class=''>Travões</td><td class='n'>330</td></tr><tr><td class=''>Transmissão</td><td class='n'>305</td></tr></table></div>
+
+<h3>Variações de SELECT — subconsultas</h3>
+<div class="item"><div class="q">Intervenções com custo acima da média.</div><pre><span class="k">SELECT</span> Descricao, Custo
+<span class="k">FROM</span> MANUTENCAO
+<span class="k">WHERE</span> Custo &gt; (<span class="k">SELECT</span> <span class="k">AVG</span>(Custo) <span class="k">FROM</span> MANUTENCAO);</pre><div class="reslabel">Resultado nos dados de exemplo:</div><table class='res'><tr><th>Descricao</th><th>Custo</th></tr><tr><td class=''>Troca de corrente</td><td class='n'>120</td></tr><tr><td class=''>Substituição de pastilhas</td><td class='n'>150</td></tr><tr><td class=''>Troca de cassete</td><td class='n'>210</td></tr></table></div>
+<div class="item"><div class="q">O(s) técnico(s) com mais anos de experiência.</div><pre><span class="k">SELECT</span> Nome, AnosExperiencia
+<span class="k">FROM</span> TECNICO
+<span class="k">WHERE</span> AnosExperiencia = (<span class="k">SELECT</span> <span class="k">MAX</span>(AnosExperiencia) <span class="k">FROM</span> TECNICO);</pre><div class="reslabel">Resultado nos dados de exemplo:</div><table class='res'><tr><th>Nome</th><th>AnosExperiencia</th></tr><tr><td class=''>Carla Dias</td><td class='n'>12</td></tr></table></div>
+<div class="item"><div class="q">Categorias nunca usadas (anti-junção na N:M).</div><pre><span class="k">SELECT</span> C.NomeCategoria
+<span class="k">FROM</span> CATEGORIA <span class="k">AS</span> C
+<span class="k">WHERE</span> <span class="k">NOT</span> <span class="k">EXISTS</span> (
+        <span class="k">SELECT</span> <span class="n">1</span>
+        <span class="k">FROM</span> MANUTENCAO_CATEGORIA <span class="k">AS</span> MC
+        <span class="k">WHERE</span> MC.CategoriaID = C.CategoriaID
+);</pre><div class="reslabel">Resultado nos dados de exemplo:</div><table class='res'><tr><th>NomeCategoria</th></tr><tr><td class=''>Estética</td></tr><tr><td class=''>Elétrica</td></tr></table></div>
+<div class="item"><div class="q">Técnicos que fizeram intervenções corretivas <b>e</b> preventivas (dois <span class="mono">EXISTS</span>).</div><pre><span class="k">SELECT</span> T.Nome
+<span class="k">FROM</span> TECNICO <span class="k">AS</span> T
+<span class="k">WHERE</span> <span class="k">EXISTS</span> (<span class="k">SELECT</span> <span class="n">1</span> <span class="k">FROM</span> MANUTENCAO M
+              <span class="k">WHERE</span> M.TecnicoID = T.TecnicoID <span class="k">AND</span> M.Tipo = <span class="s">'Corretiva'</span>)
+  <span class="k">AND</span> <span class="k">EXISTS</span> (<span class="k">SELECT</span> <span class="n">1</span> <span class="k">FROM</span> MANUTENCAO M
+              <span class="k">WHERE</span> M.TecnicoID = T.TecnicoID <span class="k">AND</span> M.Tipo = <span class="s">'Preventiva'</span>);</pre><div class="reslabel">Resultado nos dados de exemplo:</div><table class='res'><tr><th>Nome</th></tr><tr><td class=''>Bruno Reis</td></tr><tr><td class=''>Carla Dias</td></tr></table></div>
+
+<div class="box warn"><b>Armadilha do COUNT.</b>
+<pre><span class="k">SELECT</span> <span class="k">COUNT</span>(*) <span class="k">AS</span> TodasLinhas, <span class="k">COUNT</span>(Certificacao) <span class="k">AS</span> ComCertificacao
+<span class="k">FROM</span> TECNICO;</pre><div class="reslabel">Resultado nos dados de exemplo:</div><table class='res'><tr><th>TodasLinhas</th><th>ComCertificacao</th></tr><tr><td class='n'>6</td><td class='n'>5</td></tr></table>
+<span class="mono">COUNT(*)</span> conta todas as linhas; <span class="mono">COUNT(coluna)</span> só as que não são NULL.</div>
+
+<h3>Variações em cima do Grupo I (biblioteca)</h3>
+<p>O enunciado pode pedir SQL sobre o esquema do Grupo I. Com o esquema relacional da secção 1.7:</p>
+<div class="item"><div class="q">Título e editora de cada livro.</div><pre><span class="k">SELECT</span> L.Titulo, E.Nome <span class="k">AS</span> Editora
+<span class="k">FROM</span> LIVRO <span class="k">AS</span> L
+<span class="k">JOIN</span> EDITORA <span class="k">AS</span> E <span class="k">ON</span> E.EditoraID = L.EditoraID
+<span class="k">ORDER BY</span> L.Titulo;</pre><div class="reslabel">Resultado nos dados de exemplo:</div><table class='res'><tr><th>Titulo</th><th>Editora</th></tr><tr><td class=''>1984</td><td class=''>Penguin</td></tr><tr><td class=''>Dom Quixote</td><td class=''>Planeta</td></tr><tr><td class=''>Mensagem</td><td class=''>Porto Editora</td></tr><tr><td class=''>Os Maias</td><td class=''>Porto Editora</td></tr></table></div>
+<div class="item"><div class="q">Leitores que nunca pediram um empréstimo.</div><pre><span class="k">SELECT</span> Nome
+<span class="k">FROM</span> LEITOR <span class="k">AS</span> L
+<span class="k">WHERE</span> <span class="k">NOT</span> <span class="k">EXISTS</span> (<span class="k">SELECT</span> <span class="n">1</span> <span class="k">FROM</span> EMPRESTIMO E <span class="k">WHERE</span> E.NumeroLeitor = L.NumeroLeitor);</pre><div class="reslabel">Resultado nos dados de exemplo:</div><table class='res'><tr><th>Nome</th></tr><tr><td class=''>Tiago Pinto</td></tr></table></div>
+<div class="item"><div class="q">Títulos devolvidos “Danificado” e a data de levantamento (passa pela tabela N:M).</div><pre><span class="k">SELECT</span> LI.Titulo, EL.EstadoDevolucao, EM.DataLevantamento
+<span class="k">FROM</span> EMPRESTIMO_LIVRO <span class="k">AS</span> EL
+<span class="k">JOIN</span> LIVRO      <span class="k">AS</span> LI <span class="k">ON</span> LI.ISBN         = EL.ISBN
+<span class="k">JOIN</span> EMPRESTIMO <span class="k">AS</span> EM <span class="k">ON</span> EM.EmprestimoID = EL.EmprestimoID
+<span class="k">WHERE</span> EL.EstadoDevolucao = <span class="s">'Danificado'</span>;</pre><div class="reslabel">Resultado nos dados de exemplo:</div><table class='res'><tr><th>Titulo</th><th>EstadoDevolucao</th><th>DataLevantamento</th></tr><tr><td class=''>1984</td><td class=''>Danificado</td><td class=''>2026-03-01</td></tr></table></div>
+<div class="item"><div class="q">Editoras com pelo menos dois livros.</div><pre><span class="k">SELECT</span> E.Nome, <span class="k">COUNT</span>(*) <span class="k">AS</span> NumLivros
+<span class="k">FROM</span> EDITORA <span class="k">AS</span> E
+<span class="k">JOIN</span> LIVRO <span class="k">AS</span> L <span class="k">ON</span> L.EditoraID = E.EditoraID
+<span class="k">GROUP BY</span> E.EditoraID, E.Nome
+<span class="k">HAVING</span> <span class="k">COUNT</span>(*) &gt;= 2;</pre><div class="reslabel">Resultado nos dados de exemplo:</div><table class='res'><tr><th>Nome</th><th>NumLivros</th></tr><tr><td class=''>Porto Editora</td><td class='n'>2</td></tr></table></div>
+
+<h2>2.8 Exercícios das aulas (universidade e livraria)</h2>
+<p>Os slides trazem dois cenários com tarefas em 3 partes: <b>CRUD</b>, <b>filtros</b> e <b>junções/agregação</b>.</p>
+<h3>Universidade — tabelas <span class="mono">students</span>(student_id, name, major, enrollment_year) e <span class="mono">grades</span>(grade_id, student_id, course_name, score)</h3>
+<pre><span class="c">-- 1. Create: nova aluna</span>
+<span class="k">INSERT INTO</span> students (name, major, enrollment_year)
+<span class="k">VALUES</span> (<span class="s">'Alice Smith'</span>, <span class="s">'Computer Science'</span>, <span class="n">2024</span>);
+<span class="c">-- 2. Update: mudou de curso</span>
+<span class="k">UPDATE</span> students <span class="k">SET</span> major = <span class="s">'Data Science'</span> <span class="k">WHERE</span> name = <span class="s">'Alice Smith'</span>;
+<span class="c">-- 3. Delete: curso cancelado</span>
+<span class="k">DELETE FROM</span> grades <span class="k">WHERE</span> course_name = <span class="s">'Intro to Basket Weaving'</span>;</pre>
+<p><b>Filtros</b> — majors <i>distintos</i> de alunos inscritos entre 2018 e 2022, com nome a começar por J, em Physics/Mathematics/Engineering:</p>
+<pre><span class="k">SELECT</span> <span class="k">DISTINCT</span> major
+<span class="k">FROM</span> students
+<span class="k">WHERE</span> enrollment_year <span class="k">BETWEEN</span> <span class="n">2018</span> <span class="k">AND</span> <span class="n">2022</span>
+  <span class="k">AND</span> name <span class="k">LIKE</span> <span class="s">'J%'</span>
+  <span class="k">AND</span> major <span class="k">IN</span> (<span class="s">'Physics'</span>, <span class="s">'Mathematics'</span>, <span class="s">'Engineering'</span>);</pre><div class="reslabel">Resultado nos dados de exemplo:</div><table class='res'><tr><th>major</th></tr><tr><td class=''>Physics</td></tr><tr><td class=''>Mathematics</td></tr><tr><td class=''>Engineering</td></tr></table>
+<p><b>Junção + agregação</b> — os <b>2 majors</b> com maior média de notas, só com média estritamente superior a 85: <i>JOIN → GROUP BY major → HAVING → ORDER BY → LIMIT</i>:</p>
+<pre><span class="k">SELECT</span> s.major, <span class="k">AVG</span>(g.score) <span class="k">AS</span> average_score
+<span class="k">FROM</span> students s
+<span class="k">JOIN</span> grades g <span class="k">ON</span> s.student_id = g.student_id
+<span class="k">GROUP BY</span> s.major
+<span class="k">HAVING</span> <span class="k">AVG</span>(g.score) &gt; <span class="n">85</span>
+<span class="k">ORDER BY</span> average_score <span class="k">DESC</span>
+<span class="k">LIMIT</span> 2;</pre><div class="reslabel">Resultado nos dados de exemplo:</div><table class='res'><tr><th>major</th><th>average_score</th></tr><tr><td class=''>Mathematics</td><td class='n'>91.5</td></tr><tr><td class=''>Physics</td><td class='n'>90.33</td></tr></table>
+<h3>Livraria — tabelas <span class="mono">books</span>(book_id, title, author, genre, price) e <span class="mono">sales</span>(sale_id, book_id, quantity, sale_date)</h3>
+<pre><span class="k">INSERT INTO</span> books (title, author, genre, price) <span class="k">VALUES</span> (<span class="s">'Dune'</span>, <span class="s">'Frank Herbert'</span>, <span class="s">'Sci-Fi'</span>, <span class="n">14.99</span>);
+<span class="k">UPDATE</span> books <span class="k">SET</span> price = <span class="n">9.99</span> <span class="k">WHERE</span> title = <span class="s">'1984'</span>;
+<span class="k">DELETE FROM</span> books <span class="k">WHERE</span> title = <span class="s">'Encyclopedia Vol 1'</span>;</pre>
+<p><b>Top 3</b> títulos únicos mais caros, género em (Mystery, Sci-Fi), preço entre 10 e 20, autor a começar por “A”, por preço decrescente:</p>
+<pre><span class="k">SELECT</span> <span class="k">DISTINCT</span> title, price
+<span class="k">FROM</span> books
+<span class="k">WHERE</span> genre <span class="k">IN</span> (<span class="s">'Mystery'</span>, <span class="s">'Sci-Fi'</span>)
+  <span class="k">AND</span> price <span class="k">BETWEEN</span> <span class="n">10.00</span> <span class="k">AND</span> <span class="n">20.00</span>
+  <span class="k">AND</span> author <span class="k">LIKE</span> <span class="s">'A%'</span>
+<span class="k">ORDER BY</span> price <span class="k">DESC</span>
+<span class="k">LIMIT</span> 3;</pre><div class="reslabel">Resultado nos dados de exemplo:</div><table class='res'><tr><th>title</th><th>price</th></tr><tr><td class=''>Atlas Dark</td><td class='n'>19</td></tr><tr><td class=''>Gone Girl</td><td class='n'>15.5</td></tr></table>
+<p><b>Receita total por género</b> (<span class="mono">SUM(price * quantity)</span>), só géneros com mais de 250:</p>
+<pre><span class="k">SELECT</span> b.genre, <span class="k">SUM</span>(b.price * s.quantity) <span class="k">AS</span> total_revenue
+<span class="k">FROM</span> books b
+<span class="k">JOIN</span> sales s <span class="k">ON</span> b.book_id = s.book_id
+<span class="k">GROUP BY</span> b.genre
+<span class="k">HAVING</span> <span class="k">SUM</span>(b.price * s.quantity) &gt; 250;</pre><div class="reslabel">Resultado nos dados de exemplo:</div><table class='res'><tr><th>genre</th><th>total_revenue</th></tr><tr><td class=''>Mystery</td><td class='n'>305.5</td></tr><tr><td class=''>Sci-Fi</td><td class='n'>429.7</td></tr></table>
+<div class="box warn"><b>Inconsistências nos slides — não copies cegamente.</b> (1) Na slide “Solutions: Part 2” da livraria o enunciado diz autor a começar por <b>A</b> mas a solução usa <span class="mono">LIKE 'F%'</span>. (2) Na “Part 3” o enunciado diz <b>250</b> e a solução usa <span class="mono">&gt; 100</span>. (3) A nota “<i>LIKE '&gt;%'</i>” na universidade é gralha de <span class="mono">'J%'</span>. No exame, <b>segue sempre o enunciado</b>.<br>
+(4) A solução usa o alias <span class="mono">total_revenue</span> no <span class="mono">HAVING</span>: funciona em SQLite/MySQL, mas <b>não é SQL padrão</b> (SQL Server/Oracle dão erro). Repetir a expressão — <span class="mono">HAVING SUM(price*quantity) &gt; 250</span> — funciona em todo o lado.</div>
+
+<h2>2.9 Checklist rápida de SQL</h2>
+<table>
+<tr><th style="width:30%">Antes de entregares…</th><th>Verifica</th></tr>
+<tr><td>Texto e números</td><td>Texto entre <b>aspas simples</b>, números sem aspas; acentos iguais ao enunciado (<i>Travões</i>, <i>Transmissão</i>).</td></tr>
+<tr><td>UPDATE / DELETE</td><td>Tem <span class="mono">WHERE</span>? Filtra o que o enunciado pede?</td></tr>
+<tr><td>JOIN</td><td>Tem <span class="mono">ON</span> com FK = PK? Colunas ambíguas qualificadas com alias?</td></tr>
+<tr><td>“Nenhum / nunca / sem…”</td><td>Anti-junção: <span class="mono">NOT EXISTS</span> ou <span class="mono">LEFT JOIN … IS NULL</span>.</td></tr>
+<tr><td>“Por X / para cada X”</td><td><span class="mono">GROUP BY X</span>; tudo o que não é agregado no SELECT está no GROUP BY.</td></tr>
+<tr><td>“Apenas os que têm pelo menos / mais de…”</td><td><span class="mono">HAVING</span> (grupo) — e “pelo menos 2” é <span class="mono">&gt;= 2</span>, “mais de 2” é <span class="mono">&gt; 2</span>.</td></tr>
+<tr><td>“Ordenadas por … decrescente”</td><td><span class="mono">ORDER BY … DESC</span> no fim; “os 3 primeiros” → <span class="mono">LIMIT 3</span>.</td></tr>
+<tr><td>Pontuação</td><td>Vírgulas entre colunas, nenhuma antes do <span class="mono">FROM</span>; <span class="mono">;</span> no fim.</td></tr>
+</table>
+
+<h1 class="part">3 · Módulo 3<small>Inteligência para Negócios: OLTP, OLAP, Data Warehouse, ETL e modelo dimensional</small></h1>
+<div class="box key"><b>Peso no exame:</b> 5 valores em 20. Matéria mais “de conceito”: vale a pena dominar as definições e ser capaz de <b>desenhar um modelo dimensional simples</b>.</div>
+
+<h2>3.1 Dos dados à decisão</h2>
+<ul>
+<li><b>Inteligência para Negócios (BI)</b>: métodos e tecnologias que transformam dados em informação útil para apoiar decisões — <i>recolher e integrar</i>, <i>organizar e analisar</i>, <i>comunicar</i> (relatórios, indicadores, painéis).</li>
+<li><b>Cadeia:</b> <b>Dados</b> (registos: data, loja, viagem) → <b>Informação</b> (nº de entregas por mês) → <b>Conhecimento</b> (que meses/centros têm mais volume) → <b>Decisão</b> (ajustar recursos). <i>Os dados, por si só, não garantem uma boa decisão.</i></li>
+<li><b>Começar pelas perguntas de negócio</b>: “Quantas entregas por mês?”, “Que centros realizam mais entregas?”. Antes de analisar, define: a pergunta, os dados necessários e a <b>medida</b> que responde.</li>
+<li><b>Processo de negócio</b> = conjunto de atividades relacionadas que produz um resultado (preparar encomenda → organizar viagem → transportar → entregar). Cada atividade <b>gera dados</b>; estes ficam em sistemas diferentes, com formatos distintos, erros e duplicados → têm de ser <b>integrados e preparados</b>.</li>
+<li><b>Big Data</b>: dados cuja dimensão, rapidez de geração ou diversidade tornam o tratamento mais exigente — os 3 V: <b>Volume</b>, <b>Velocidade</b>, <b>Variedade</b>.</li>
+</ul>
+<div class="fig"><svg viewBox="0 0 920 106" xmlns="http://www.w3.org/2000/svg"><rect x="10" y="10" width="164" height="86" rx="6" fill="#f5f6f8" stroke="#777" stroke-width="1.2"/><text x="92.0" y="31" text-anchor="middle" font-size="12" font-weight="700" font-family="DejaVu Sans, Arial, sans-serif">Sistemas operacionais</text><text x="92.0" y="50" text-anchor="middle" font-size="10" fill="#444" font-family="DejaVu Sans, Arial, sans-serif">(OLTP)</text><text x="92.0" y="65" text-anchor="middle" font-size="10" fill="#444" font-family="DejaVu Sans, Arial, sans-serif">entregas, viagens,</text><text x="92.0" y="80" text-anchor="middle" font-size="10" fill="#444" font-family="DejaVu Sans, Arial, sans-serif">lojas, camiões</text><polygon points="177,47 191,47 191,42 198,53 191,64 191,59 177,59" fill="#b3122b" transform="translate(-3,-6)"/><rect x="194" y="10" width="164" height="86" rx="6" fill="#fff7e6" stroke="#777" stroke-width="1.2"/><text x="276.0" y="31" text-anchor="middle" font-size="12" font-weight="700" font-family="DejaVu Sans, Arial, sans-serif">ETL</text><text x="276.0" y="50" text-anchor="middle" font-size="10" fill="#444" font-family="DejaVu Sans, Arial, sans-serif">Extrair → Transformar</text><text x="276.0" y="65" text-anchor="middle" font-size="10" fill="#444" font-family="DejaVu Sans, Arial, sans-serif">→ Carregar</text><text x="276.0" y="80" text-anchor="middle" font-size="10" fill="#444" font-family="DejaVu Sans, Arial, sans-serif">limpar e integrar</text><polygon points="361,47 375,47 375,42 382,53 375,64 375,59 361,59" fill="#b3122b" transform="translate(-3,-6)"/><rect x="378" y="10" width="164" height="86" rx="6" fill="#e9f0fb" stroke="#777" stroke-width="1.2"/><text x="460.0" y="31" text-anchor="middle" font-size="12" font-weight="700" font-family="DejaVu Sans, Arial, sans-serif">Data Warehouse</text><text x="460.0" y="50" text-anchor="middle" font-size="10" fill="#444" font-family="DejaVu Sans, Arial, sans-serif">dados integrados</text><text x="460.0" y="65" text-anchor="middle" font-size="10" fill="#444" font-family="DejaVu Sans, Arial, sans-serif">e históricos</text><text x="460.0" y="80" text-anchor="middle" font-size="10" fill="#444" font-family="DejaVu Sans, Arial, sans-serif">(esquema em estrela)</text><polygon points="545,47 559,47 559,42 566,53 559,64 559,59 545,59" fill="#b3122b" transform="translate(-3,-6)"/><rect x="562" y="10" width="164" height="86" rx="6" fill="#e8f5ec" stroke="#777" stroke-width="1.2"/><text x="644.0" y="31" text-anchor="middle" font-size="12" font-weight="700" font-family="DejaVu Sans, Arial, sans-serif">Análise OLAP</text><text x="644.0" y="50" text-anchor="middle" font-size="10" fill="#444" font-family="DejaVu Sans, Arial, sans-serif">cubos, agregações,</text><text x="644.0" y="65" text-anchor="middle" font-size="10" fill="#444" font-family="DejaVu Sans, Arial, sans-serif">drill-down, slice…</text><text x="644.0" y="80" text-anchor="middle" font-size="10" fill="#444" font-family="DejaVu Sans, Arial, sans-serif">relatórios, painéis</text><polygon points="729,47 743,47 743,42 750,53 743,64 743,59 729,59" fill="#b3122b" transform="translate(-3,-6)"/><rect x="746" y="10" width="164" height="86" rx="6" fill="#fdf0f1" stroke="#777" stroke-width="1.2"/><text x="828.0" y="31" text-anchor="middle" font-size="12" font-weight="700" font-family="DejaVu Sans, Arial, sans-serif">Decisão</text><text x="828.0" y="50" text-anchor="middle" font-size="10" fill="#444" font-family="DejaVu Sans, Arial, sans-serif">ajustar recursos,</text><text x="828.0" y="65" text-anchor="middle" font-size="10" fill="#444" font-family="DejaVu Sans, Arial, sans-serif">detetar atrasos,</text><text x="828.0" y="80" text-anchor="middle" font-size="10" fill="#444" font-family="DejaVu Sans, Arial, sans-serif">planear</text></svg><div class="cap">Da operação à decisão: onde entram OLTP, ETL, Data Warehouse e OLAP.</div></div>
+
+<h2>3.2 OLTP vs OLAP · Data Warehouse · ETL</h2>
+<table>
+<tr><th style="width:18%"></th><th>OLTP (<i>Online Transaction Processing</i>)</th><th>OLAP (<i>Online Analytical Processing</i>)</th></tr>
+<tr><td><b>Objetivo</b></td><td>Registar as operações diárias</td><td>Analisar dados e apoiar decisões</td></tr>
+<tr><td><b>Operações</b></td><td>Inserir e atualizar registos</td><td>Agregar e comparar dados</td></tr>
+<tr><td><b>Dados</b></td><td>Sobretudo atuais e detalhados</td><td>Integrados e históricos</td></tr>
+<tr><td><b>Consultas</b></td><td>Geralmente curtas (muitas transações curtas)</td><td>Analíticas, muitas vezes complexas</td></tr>
+<tr><td><b>Utilizadores</b></td><td>Aplicações e equipas operacionais</td><td>Analistas e decisores</td></tr>
+<tr><td><b>Exemplo</b></td><td>Registar uma entrega</td><td>Comparar entregas por ano e por centro</td></tr>
+</table>
+<div class="box tip"><b>Em resumo (slide):</b> OLTP regista <i>o que acontece</i>; OLAP ajuda a perceber <i>o que aconteceu</i>.</div>
+<p><b>Porque não analisar diretamente no sistema operacional?</b> As BD operacionais são feitas para registar/atualizar; uma análise histórica pode exigir muitos registos e juntar várias tabelas, pode não existir todo o histórico, e consultas demoradas <b>prejudicam o desempenho das operações diárias</b>.</p>
+<ul>
+<li><b>Data Warehouse (DW)</b>: repositório que <b>integra</b> dados de diferentes fontes e os organiza para análise; conserva <b>informação histórica</b>; permite comparar períodos, locais e tipos de operação; facilita relatórios e indicadores.</li>
+<li><b>ETL</b> = <b>E</b>xtração (recolher dos sistemas de origem), <b>T</b>ransformação (validar, limpar, uniformizar), <b>C</b>arregamento (guardar no DW). Ex. de transformação: uniformizar formatos de data, corrigir códigos de loja inconsistentes, tratar duplicados.</li>
+<li><b>Arquiteturas OLAP</b>: <b>ROLAP</b> (tabelas relacionais e consultas SQL), <b>MOLAP</b> (estruturas multidimensionais, podendo pré-calcular agregações), <b>HOLAP</b> (combina as duas). Escolha depende do volume, do desempenho pretendido e da tecnologia.</li>
+</ul>
+
+<h2>3.3 O modelo dimensional</h2>
+<table>
+<tr><th style="width:18%">Conceito</th><th>Definição</th><th style="width:32%">Exemplo (entregas)</th></tr>
+<tr><td><b>Facto</b></td><td>O acontecimento que queremos analisar</td><td>Uma etapa de entrega / uma entrega</td></tr>
+<tr><td><b>Medida</b></td><td>Valor que queremos quantificar</td><td>Peso transportado, volume, custo, nº de entregas</td></tr>
+<tr><td><b>Dimensão</b></td><td>Perspetiva/contexto de análise do facto; atributos descritivos que permitem filtrar e agrupar</td><td>Data, loja, centro, camião</td></tr>
+<tr><td><b>Granularidade</b></td><td><b>Nível de detalhe de cada registo</b> da tabela de factos</td><td>“Uma etapa de entrega numa viagem” → cada linha é uma etapa</td></tr>
+<tr><td><b>Hierarquia</b></td><td>Organiza atributos do mais detalhado para o mais geral numa dimensão</td><td>dia → mês → trimestre/ano · loja → cidade → distrito · produto → categoria</td></tr>
+</table>
+<div class="box warn"><b>Granularidade primeiro.</b> Define-a <i>antes</i> de escolher as medidas; tem de ser clara e consistente em toda a tabela. Uma definição incorreta leva à <b>contagem duplicada</b> de entregas, peso ou quilómetros. Cada linha da tabela de factos tem de corresponder ao evento definido.</div>
+
+<h3>Tabela de factos vs tabelas de dimensão</h3>
+<div class="two">
+<div><b>Tabela de factos</b>: regista eventos ao nível da granularidade; contém <b>medidas</b>; inclui <b>chaves estrangeiras</b> para as dimensões (ex.: <span class="mono">DataKey</span> → DimData, <span class="mono">LojaKey</span> → DimLoja).</div>
+<div><b>Tabelas de dimensão</b>: descrevem o contexto do evento; contêm <b>atributos descritivos</b>; permitem filtrar e agrupar os factos. Cada dimensão tem a sua <b>PK</b>, referenciada pela FK da tabela de factos.</div>
+</div>
+
+<h3>Tipos de medidas (aditividade)</h3>
+<table>
+<tr><th style="width:16%">Tipo</th><th>Regra</th><th style="width:36%">Exemplo</th></tr>
+<tr><td><b>Aditiva</b></td><td>Pode ser <b>somada em todas</b> as dimensões</td><td>Peso entregue (se cada encomenda for contabilizada uma só vez); nº de entregas; custo</td></tr>
+<tr><td><b>Semi-aditiva</b></td><td>Somável em <b>algumas</b> dimensões, não em todas</td><td>Quilómetros acumulados de um camião ao longo do tempo (somas entre camiões ok; somar no tempo não)</td></tr>
+<tr><td><b>Não aditiva</b></td><td><b>Não se soma</b>; recalcula-se a partir dos valores que lhe dão origem</td><td>% de entregas pontuais, médias, rácios (custo por km)</td></tr>
+</table>
+<p>A resolução do exame modelo repete a ideia: “uma média ou uma percentagem não é, em geral, aditiva: deve ser recalculada a partir dos valores que lhe dão origem”. Uma medida só é fiável se estiver definida de forma consistente com a granularidade.</p>
+<h3>Esquemas: estrela, floco de neve, galáxia</h3>
+<table>
+<tr><th style="width:20%">Esquema</th><th style="width:36%">Estrutura</th><th>Característica principal</th></tr>
+<tr><td><b>Star</b> (estrela)</td><td>Uma tabela de factos ligada <b>diretamente</b> às dimensões</td><td>Simples de compreender e consultar</td></tr>
+<tr><td><b>Snowflake</b> (floco de neve)</td><td>Dimensões <b>divididas em tabelas relacionadas</b></td><td>Reduz redundância, mas pode exigir mais junções</td></tr>
+<tr><td><b>Galaxy</b> (constelação)</td><td><b>Várias tabelas de factos</b> que podem partilhar dimensões</td><td>Permite analisar vários processos de negócio; estrutura mais complexa</td></tr>
+</table>
+<div class="fig"><svg viewBox="0 0 840 120" xmlns="http://www.w3.org/2000/svg"><rect x="20" y="30" width="170" height="70" rx="4" fill="#fdf0f1" stroke="#b3122b" stroke-width="2"/><text x="105" y="52" text-anchor="middle" font-size="12" font-weight="700" font-family="DejaVu Sans, Arial, sans-serif">FACT_ENTREGA</text><text x="105" y="72" text-anchor="middle" font-size="10" font-family="DejaVu Sans, Arial, sans-serif">ArmazemKey (FK), …</text><line x1="190" y1="65" x2="250" y2="65" stroke="#999" stroke-width="1.5"/><line x1="400" y1="65" x2="460" y2="65" stroke="#999" stroke-width="1.5"/><line x1="610" y1="65" x2="670" y2="65" stroke="#999" stroke-width="1.5"/><rect x="250" y="30" width="150" height="70" rx="4" fill="#f5f6f8" stroke="#2a5db0" stroke-width="1.5"/><text x="325" y="49" text-anchor="middle" font-size="11.5" font-weight="700" font-family="DejaVu Sans, Arial, sans-serif">DIM_ARMAZEM</text><text x="260" y="67" font-size="10" font-family="DejaVu Sans, Arial, sans-serif">ArmazemKey (PK)</text><text x="260" y="81" font-size="10" font-family="DejaVu Sans, Arial, sans-serif">Nome</text><text x="260" y="95" font-size="10" font-family="DejaVu Sans, Arial, sans-serif">CidadeKey (FK)</text><rect x="460" y="30" width="150" height="70" rx="4" fill="#f5f6f8" stroke="#2a5db0" stroke-width="1.5"/><text x="535" y="49" text-anchor="middle" font-size="11.5" font-weight="700" font-family="DejaVu Sans, Arial, sans-serif">DIM_CIDADE</text><text x="470" y="67" font-size="10" font-family="DejaVu Sans, Arial, sans-serif">CidadeKey (PK)</text><text x="470" y="81" font-size="10" font-family="DejaVu Sans, Arial, sans-serif">Cidade</text><text x="470" y="95" font-size="10" font-family="DejaVu Sans, Arial, sans-serif">RegiaoKey (FK)</text><rect x="670" y="30" width="150" height="70" rx="4" fill="#f5f6f8" stroke="#2a5db0" stroke-width="1.5"/><text x="745" y="49" text-anchor="middle" font-size="11.5" font-weight="700" font-family="DejaVu Sans, Arial, sans-serif">DIM_REGIAO</text><text x="680" y="67" font-size="10" font-family="DejaVu Sans, Arial, sans-serif">RegiaoKey (PK)</text><text x="680" y="81" font-size="10" font-family="DejaVu Sans, Arial, sans-serif">Regiao</text><text x="680" y="95" font-size="10" font-family="DejaVu Sans, Arial, sans-serif">Pais</text></svg><div class="cap">Snowflake: a dimensão Armazém é normalizada em várias tabelas (mais junções, menos redundância).</div></div>
+<p class="small">Galaxy: p.ex. analisar “entregas” e “custos de transporte” em duas tabelas de factos que partilham as dimensões Data, Centro e Camião.</p>
+
+<h2>3.4 Operações OLAP</h2>
+<p>As operações permitem <b>resumir, detalhar, filtrar e reorganizar</b> a análise sobre o <b>cubo</b> (medidas analisadas por várias dimensões; cada combinação de valores das dimensões corresponde a uma célula/resultado; podemos analisar uma dimensão isolada ou combinar várias).</p>
+<table>
+<tr><th style="width:15%">Operação</th><th style="width:30%">O que faz</th><th>Exemplo</th><th style="width:20%">Truque</th></tr>
+<tr><td><b>Roll-up</b></td><td>Passa para um nível <b>mais geral</b> (resumir)</td><td>Entregas por <b>mês</b> → entregas por <b>ano</b></td><td>menos detalhe</td></tr>
+<tr><td><b>Drill-down</b></td><td>Passa para um nível <b>mais específico</b> (detalhar)</td><td>Entregas por <b>ano</b> → por <b>mês</b> (ou por dia)</td><td>mais detalhe</td></tr>
+<tr><td><b>Slice</b></td><td><b>Fixa um valor numa dimensão</b></td><td>Só as entregas de <b>2026</b></td><td>1 valor, 1 dimensão</td></tr>
+<tr><td><b>Dice</b></td><td>Seleciona dados com <b>vários critérios</b> (sub-cubo)</td><td>Lojas de Braga <b>e</b> Guimarães <b>e</b> camiões pesados</td><td>combinação de critérios</td></tr>
+<tr><td><b>Pivot</b></td><td><b>Troca a disposição</b> das dimensões (linhas ↔ colunas); não altera os dados</td><td>Anos nas linhas e tipos de camião nas colunas → trocar</td><td>só muda a vista</td></tr>
+</table>
+
+<h3>Ver as operações em números</h3>
+<p>Dados de exemplo do esquema em estrela da secção 3.5 (8 entregas). Cada tabela abaixo é o resultado <b>real</b> da consulta SQL indicada.</p>
+<div class="two">
+<div><b>Roll-up</b> (nível Ano)<br><div class="reslabel">Resultado nos dados de exemplo:</div><table class='res'><tr><th>Ano</th><th>NumEntregas</th><th>PesoTotalKg</th></tr><tr><td class='n'>2025</td><td class='n'>2</td><td class='n'>4300</td></tr><tr><td class='n'>2026</td><td class='n'>6</td><td class='n'>23150</td></tr></table></div>
+<div><b>Drill-down</b> (nível Ano → Mês)<br><div class="reslabel">Resultado nos dados de exemplo:</div><table class='res'><tr><th>Ano</th><th>Mes</th><th>NumEntregas</th></tr><tr><td class='n'>2025</td><td class='n'>11</td><td class='n'>1</td></tr><tr><td class='n'>2025</td><td class='n'>12</td><td class='n'>1</td></tr><tr><td class='n'>2026</td><td class='n'>1</td><td class='n'>2</td></tr><tr><td class='n'>2026</td><td class='n'>2</td><td class='n'>2</td></tr><tr><td class='n'>2026</td><td class='n'>3</td><td class='n'>2</td></tr></table></div>
+</div>
+<div class="two">
+<div><b>Slice</b>: Ano = 2026 (por cidade do armazém)<br><div class="reslabel">Resultado nos dados de exemplo:</div><table class='res'><tr><th>Cidade</th><th>NumEntregas</th></tr><tr><td class=''>Aveiro</td><td class='n'>2</td></tr><tr><td class=''>Lisboa</td><td class='n'>1</td></tr><tr><td class=''>Porto</td><td class='n'>3</td></tr></table></div>
+<div><b>Dice</b>: Porto e Aveiro <b>e</b> veículos pesados<br><div class="reslabel">Resultado nos dados de exemplo:</div><table class='res'><tr><th>Cidade</th><th>TipoVeiculo</th><th>NumEntregas</th></tr><tr><td class=''>Aveiro</td><td class=''>Pesado</td><td class='n'>2</td></tr><tr><td class=''>Porto</td><td class=''>Pesado</td><td class='n'>2</td></tr></table></div>
+</div>
+<div class="two">
+<div><b>Antes do pivot</b> (Mês nas linhas, tipo de veículo nas colunas)<br><div class="reslabel">Resultado nos dados de exemplo:</div><table class='res'><tr><th>Mes</th><th>Ligeiro</th><th>Pesado</th></tr><tr><td class='n'>1</td><td class='n'>1</td><td class='n'>1</td></tr><tr><td class='n'>2</td><td class='n'>0</td><td class='n'>2</td></tr><tr><td class='n'>3</td><td class='n'>1</td><td class='n'>1</td></tr></table></div>
+<div><b>Depois do pivot</b> (tipo nas linhas, mês nas colunas)
+<table class="res"><tr><th>Tipo</th><th>Mes 1</th><th>Mes 2</th><th>Mes 3</th></tr><tr><td>Ligeiro</td><td class="n">1</td><td class="n">0</td><td class="n">1</td></tr><tr><td>Pesado</td><td class="n">1</td><td class="n">2</td><td class="n">1</td></tr></table>
+<span class="small">Mesmos números, nova disposição.</span></div>
+</div>
+<div class="box tip"><b>Dica slice vs dice.</b> <b>Slice</b> = <i>um valor</i> numa dimensão. <b>Dice</b> = combinação de critérios (vários valores e/ou mais de uma dimensão). “Armazéns do Porto <b>e</b> de Aveiro, apenas veículos pesados” → <b>dice</b> (dois valores + duas dimensões). “Apenas 2026” → <b>slice</b>.</div>
+
+<h3>As operações em SQL (esquema em estrela)</h3>
+<p>O padrão é sempre: <span class="mono">FROM</span> a tabela de factos <span class="mono">JOIN</span> as dimensões necessárias <span class="mono">GROUP BY</span> os atributos da dimensão pelos quais queres analisar, com <span class="mono">SUM/COUNT/AVG</span> sobre as medidas.</p>
+<pre><span class="k">SELECT</span> t.Ano, <span class="k">COUNT</span>(*) <span class="k">AS</span> NumEntregas, <span class="k">SUM</span>(f.QuantidadeKg) <span class="k">AS</span> PesoTotalKg
+<span class="k">FROM</span> FACT_ENTREGA <span class="k">AS</span> f
+<span class="k">JOIN</span> DIM_TEMPO    <span class="k">AS</span> t <span class="k">ON</span> f.TempoKey = t.TempoKey
+<span class="k">GROUP BY</span> t.Ano
+<span class="k">ORDER BY</span> t.Ano;</pre><div class="reslabel">Resultado nos dados de exemplo:</div><table class='res'><tr><th>Ano</th><th>NumEntregas</th><th>PesoTotalKg</th></tr><tr><td class='n'>2025</td><td class='n'>2</td><td class='n'>4300</td></tr><tr><td class='n'>2026</td><td class='n'>6</td><td class='n'>23150</td></tr></table>
+<p><b>Drill-down</b>: acrescenta o nível mais fino ao <span class="mono">SELECT</span>/<span class="mono">GROUP BY</span> (<span class="mono">t.Ano, t.Mes</span>). <b>Roll-up</b>: retira-o. <b>Slice</b>: acrescenta <span class="mono">WHERE t.Ano = 2026</span>. <b>Dice</b>: <span class="mono">WHERE a.Cidade IN ('Porto','Aveiro') AND v.TipoVeiculo = 'Pesado'</span>. <b>Pivot</b>: um <span class="mono">SUM(CASE WHEN … THEN 1 ELSE 0 END)</span> por coluna.</p>
+<pre><span class="k">SELECT</span> a.Cidade, v.TipoVeiculo, <span class="k">COUNT</span>(*) <span class="k">AS</span> NumEntregas
+<span class="k">FROM</span> FACT_ENTREGA <span class="k">AS</span> f
+<span class="k">JOIN</span> DIM_ARMAZEM <span class="k">AS</span> a <span class="k">ON</span> f.ArmazemKey = a.ArmazemKey
+<span class="k">JOIN</span> DIM_VEICULO <span class="k">AS</span> v <span class="k">ON</span> f.VeiculoKey = v.VeiculoKey
+<span class="k">WHERE</span> a.Cidade <span class="k">IN</span> (<span class="s">'Porto'</span>, <span class="s">'Aveiro'</span>)
+  <span class="k">AND</span> v.TipoVeiculo = <span class="s">'Pesado'</span>
+<span class="k">GROUP BY</span> a.Cidade, v.TipoVeiculo;</pre>
+<pre><span class="k">SELECT</span> t.Mes,
+       <span class="k">SUM</span>(<span class="k">CASE</span> <span class="k">WHEN</span> v.TipoVeiculo = <span class="s">'Ligeiro'</span> <span class="k">THEN</span> <span class="n">1</span> <span class="k">ELSE</span> <span class="n">0</span> <span class="k">END</span>) <span class="k">AS</span> Ligeiro,
+       <span class="k">SUM</span>(<span class="k">CASE</span> <span class="k">WHEN</span> v.TipoVeiculo = <span class="s">'Pesado'</span>  <span class="k">THEN</span> <span class="n">1</span> <span class="k">ELSE</span> <span class="n">0</span> <span class="k">END</span>) <span class="k">AS</span> Pesado
+<span class="k">FROM</span> FACT_ENTREGA <span class="k">AS</span> f
+<span class="k">JOIN</span> DIM_TEMPO    <span class="k">AS</span> t <span class="k">ON</span> f.TempoKey   = t.TempoKey
+<span class="k">JOIN</span> DIM_VEICULO  <span class="k">AS</span> v <span class="k">ON</span> f.VeiculoKey = v.VeiculoKey
+<span class="k">WHERE</span> t.Ano = <span class="n">2026</span>
+<span class="k">GROUP BY</span> t.Mes
+<span class="k">ORDER BY</span> t.Mes;</pre>
+
+<h3>Outras consultas analíticas (slides)</h3>
+<ul>
+<li><b>Top-N</b> (os 5 distritos com maior peso transportado) → <span class="mono">ORDER BY … DESC LIMIT N</span>.</li>
+<li><b>Por limiar</b> (lojas com mais de 100 entregas) → <span class="mono">HAVING COUNT(*) &gt; 100</span>.</li>
+<li><b>Tendência</b> (evolução mensal) → agrupar por mês, ordenar por tempo.</li>
+<li><b>Comparação temporal</b> (2025 vs 2026) → agrupar por ano ou duas colunas condicionais.</li>
+</ul>
+<pre><span class="k">SELECT</span> a.Cidade, <span class="k">SUM</span>(f.QuantidadeKg) <span class="k">AS</span> PesoTotalKg
+<span class="k">FROM</span> FACT_ENTREGA <span class="k">AS</span> f
+<span class="k">JOIN</span> DIM_ARMAZEM  <span class="k">AS</span> a <span class="k">ON</span> f.ArmazemKey = a.ArmazemKey
+<span class="k">GROUP BY</span> a.Cidade
+<span class="k">ORDER BY</span> PesoTotalKg <span class="k">DESC</span>
+<span class="k">LIMIT</span> 2;</pre><div class="reslabel">Resultado nos dados de exemplo:</div><table class='res'><tr><th>Cidade</th><th>PesoTotalKg</th></tr><tr><td class=''>Porto</td><td class='n'>11550</td></tr><tr><td class=''>Lisboa</td><td class='n'>8000</td></tr></table>
+<pre><span class="k">SELECT</span> a.Cidade,
+       <span class="k">SUM</span>(<span class="k">CASE</span> <span class="k">WHEN</span> t.Ano = <span class="n">2025</span> <span class="k">THEN</span> <span class="n">1</span> <span class="k">ELSE</span> <span class="n">0</span> <span class="k">END</span>) <span class="k">AS</span> Entregas2025,
+       <span class="k">SUM</span>(<span class="k">CASE</span> <span class="k">WHEN</span> t.Ano = <span class="n">2026</span> <span class="k">THEN</span> <span class="n">1</span> <span class="k">ELSE</span> <span class="n">0</span> <span class="k">END</span>) <span class="k">AS</span> Entregas2026
+<span class="k">FROM</span> FACT_ENTREGA <span class="k">AS</span> f
+<span class="k">JOIN</span> DIM_TEMPO    <span class="k">AS</span> t <span class="k">ON</span> f.TempoKey   = t.TempoKey
+<span class="k">JOIN</span> DIM_ARMAZEM  <span class="k">AS</span> a <span class="k">ON</span> f.ArmazemKey = a.ArmazemKey
+<span class="k">GROUP BY</span> a.Cidade;</pre><div class="reslabel">Resultado nos dados de exemplo:</div><table class='res'><tr><th>Cidade</th><th>Entregas2025</th><th>Entregas2026</th></tr><tr><td class=''>Aveiro</td><td class='n'>1</td><td class='n'>2</td></tr><tr><td class=''>Lisboa</td><td class='n'>0</td><td class='n'>1</td></tr><tr><td class=''>Porto</td><td class='n'>1</td><td class='n'>3</td></tr></table>
+<p><b>Desempenho:</b> índices adequados às consultas · pré-cálculo de agregações frequentes · particionamento (p.ex. por data) · otimização de junções e consultas. A escolha depende do volume, das consultas e da frequência de atualização.</p>
+
+<h2>3.5 Exame modelo · Grupo III resolvido <span class="pill b">EXAME MODELO</span></h2>
+<div class="box exam"><b>Contexto.</b> Uma empresa de distribuição alimentar analisa as entregas aos clientes empresariais; a direção quer comparar resultados por <b>período temporal, armazém, zona geográfica e tipo de veículo</b>.</div>
+
+<h3>Q1 — Verdadeiro ou falso (com justificação breve)</h3>
+<table>
+<tr><th style="width:42%">Afirmação</th><th style="width:10%">Resposta</th><th>Justificação (modelo)</th></tr>
+<tr><td>a) Um sistema <b>OLTP</b> é normalmente utilizado para registar operações do dia a dia.</td><td><b style="color:#2e7d4f">Verdadeiro</b></td><td>Suporta as operações correntes (registar encomendas, atualizar dados operacionais).</td></tr>
+<tr><td>b) Um <b>Data Warehouse</b> integra dados para apoiar a análise e a tomada de decisão.</td><td><b style="color:#2e7d4f">Verdadeiro</b></td><td>Integra e organiza dados, frequentemente de várias fontes, para análise e decisão.</td></tr>
+<tr><td>c) O processo <b>ETL</b> inclui extração, transformação e carregamento dos dados.</td><td><b style="color:#2e7d4f">Verdadeiro</b></td><td>ETL = <i>Extract, Transform, Load</i>.</td></tr>
+<tr><td>d) Um sistema <b>OLAP</b> destina-se sobretudo ao registo de transações operacionais curtas.</td><td><b style="color:#c0392b">Falso</b></td><td>OLAP destina-se à <b>análise multidimensional</b> e exploração de informação para apoio à decisão; o registo de transações curtas é o OLTP.</td></tr>
+</table>
+<p class="small">Como responder: “Verdadeiro/Falso” + <b>uma frase</b> que mostre o conceito certo. Nas falsas, diz o que seria verdadeiro (a troca OLTP↔OLAP é o clássico).</p>
+
+<h3>Q2 — Modelo dimensional</h3>
+<p><b>Como pensar (4 passos):</b></p>
+<ol>
+<li><b>Processo de negócio / facto</b>: as entregas aos clientes.</li>
+<li><b>Granularidade</b> (primeiro!): <b>um registo por entrega realizada</b>.</li>
+<li><b>Dimensões</b> — repara que o enunciado já as dá: “<i>por período temporal, armazém, zona geográfica e tipo de veículo</i>” → Tempo, Armazém, Zona, Veículo (a resolução acrescenta Cliente, pois são “clientes empresariais”).</li>
+<li><b>Medidas</b>: valores numéricos coerentes com a granularidade: nº de entregas (1 por linha), quantidade entregue, distância percorrida, custo.</li>
+</ol>
+<div class="fig"><svg viewBox="0 0 820 500" xmlns="http://www.w3.org/2000/svg"><line x1="130" y1="60" x2="410.0" y2="265.0" stroke="#999" stroke-width="1.4"/><line x1="690" y1="60" x2="410.0" y2="265.0" stroke="#999" stroke-width="1.4"/><line x1="130" y1="335" x2="410.0" y2="265.0" stroke="#999" stroke-width="1.4"/><line x1="690" y1="335" x2="410.0" y2="265.0" stroke="#999" stroke-width="1.4"/><line x1="400" y1="440" x2="410.0" y2="265.0" stroke="#999" stroke-width="1.4"/><rect x="30" y="15" width="200" height="92" rx="4" fill="#f5f6f8" stroke="#2a5db0" stroke-width="1.5"/><rect x="30" y="15" width="200" height="22" rx="4" fill="#2a5db0"/><text x="130.0" y="30" text-anchor="middle" font-size="11.5" font-weight="700" fill="#fff" font-family="DejaVu Sans, Arial, sans-serif">DIM_TEMPO</text><text x="40" y="54" font-size="10.5" font-family="DejaVu Sans, Arial, sans-serif">TempoKey (PK)</text><text x="40" y="69" font-size="10.5" font-family="DejaVu Sans, Arial, sans-serif">Data</text><text x="40" y="84" font-size="10.5" font-family="DejaVu Sans, Arial, sans-serif">Dia, Mes, Trimestre</text><text x="40" y="99" font-size="10.5" font-family="DejaVu Sans, Arial, sans-serif">Ano</text><rect x="590" y="15" width="200" height="92" rx="4" fill="#f5f6f8" stroke="#2a5db0" stroke-width="1.5"/><rect x="590" y="15" width="200" height="22" rx="4" fill="#2a5db0"/><text x="690.0" y="30" text-anchor="middle" font-size="11.5" font-weight="700" fill="#fff" font-family="DejaVu Sans, Arial, sans-serif">DIM_ARMAZEM</text><text x="600" y="54" font-size="10.5" font-family="DejaVu Sans, Arial, sans-serif">ArmazemKey (PK)</text><text x="600" y="69" font-size="10.5" font-family="DejaVu Sans, Arial, sans-serif">Nome</text><text x="600" y="84" font-size="10.5" font-family="DejaVu Sans, Arial, sans-serif">Cidade</text><text x="600" y="99" font-size="10.5" font-family="DejaVu Sans, Arial, sans-serif">Regiao</text><rect x="30" y="290" width="200" height="92" rx="4" fill="#f5f6f8" stroke="#2a5db0" stroke-width="1.5"/><rect x="30" y="290" width="200" height="22" rx="4" fill="#2a5db0"/><text x="130.0" y="305" text-anchor="middle" font-size="11.5" font-weight="700" fill="#fff" font-family="DejaVu Sans, Arial, sans-serif">DIM_CLIENTE</text><text x="40" y="329" font-size="10.5" font-family="DejaVu Sans, Arial, sans-serif">ClienteKey (PK)</text><text x="40" y="344" font-size="10.5" font-family="DejaVu Sans, Arial, sans-serif">Nome</text><text x="40" y="359" font-size="10.5" font-family="DejaVu Sans, Arial, sans-serif">Setor</text><text x="40" y="374" font-size="10.5" font-family="DejaVu Sans, Arial, sans-serif">Cidade</text><rect x="590" y="290" width="200" height="92" rx="4" fill="#f5f6f8" stroke="#2a5db0" stroke-width="1.5"/><rect x="590" y="290" width="200" height="22" rx="4" fill="#2a5db0"/><text x="690.0" y="305" text-anchor="middle" font-size="11.5" font-weight="700" fill="#fff" font-family="DejaVu Sans, Arial, sans-serif">DIM_VEICULO</text><text x="600" y="329" font-size="10.5" font-family="DejaVu Sans, Arial, sans-serif">VeiculoKey (PK)</text><text x="600" y="344" font-size="10.5" font-family="DejaVu Sans, Arial, sans-serif">TipoVeiculo</text><text x="600" y="359" font-size="10.5" font-family="DejaVu Sans, Arial, sans-serif">Capacidade</text><text x="600" y="374" font-size="10.5" font-family="DejaVu Sans, Arial, sans-serif">Combustivel</text><rect x="300" y="395" width="200" height="92" rx="4" fill="#f5f6f8" stroke="#2a5db0" stroke-width="1.5"/><rect x="300" y="395" width="200" height="22" rx="4" fill="#2a5db0"/><text x="400.0" y="410" text-anchor="middle" font-size="11.5" font-weight="700" fill="#fff" font-family="DejaVu Sans, Arial, sans-serif">DIM_ZONA</text><text x="310" y="434" font-size="10.5" font-family="DejaVu Sans, Arial, sans-serif">ZonaKey (PK)</text><text x="310" y="449" font-size="10.5" font-family="DejaVu Sans, Arial, sans-serif">Zona</text><text x="310" y="464" font-size="10.5" font-family="DejaVu Sans, Arial, sans-serif">Distrito</text><text x="310" y="479" font-size="10.5" font-family="DejaVu Sans, Arial, sans-serif">Regiao</text><rect x="300" y="170" width="220" height="190" rx="4" fill="#fdf0f1" stroke="#b3122b" stroke-width="2"/><rect x="300" y="170" width="220" height="24" rx="4" fill="#b3122b"/><text x="410.0" y="186" text-anchor="middle" font-size="12" font-weight="700" fill="#fff" font-family="DejaVu Sans, Arial, sans-serif">FACT_ENTREGA</text><text x="310" y="210.0" font-size="10" font-family="DejaVu Sans, Arial, sans-serif">EntregaID (PK)</text><text x="310" y="223.6" font-size="10" font-family="DejaVu Sans, Arial, sans-serif">TempoKey (FK)</text><text x="310" y="237.2" font-size="10" font-family="DejaVu Sans, Arial, sans-serif">ArmazemKey (FK)</text><text x="310" y="250.8" font-size="10" font-family="DejaVu Sans, Arial, sans-serif">ClienteKey (FK)</text><text x="310" y="264.4" font-size="10" font-family="DejaVu Sans, Arial, sans-serif">VeiculoKey (FK)</text><text x="310" y="278.0" font-size="10" font-family="DejaVu Sans, Arial, sans-serif">ZonaKey (FK)</text><text x="310" y="291.6" font-size="10" font-family="DejaVu Sans, Arial, sans-serif" font-weight="700">— medidas —</text><text x="310" y="305.2" font-size="10" font-family="DejaVu Sans, Arial, sans-serif">NumEntregas (=1)</text><text x="310" y="318.8" font-size="10" font-family="DejaVu Sans, Arial, sans-serif">QuantidadeKg</text><text x="310" y="332.4" font-size="10" font-family="DejaVu Sans, Arial, sans-serif">DistanciaKm</text><text x="310" y="346.0" font-size="10" font-family="DejaVu Sans, Arial, sans-serif">CustoEntrega</text></svg><div class="cap">Esquema em estrela para as entregas (granularidade: uma linha por entrega realizada).</div></div>
+<table>
+<tr><th style="width:22%">Tabela</th><th>Atributos</th></tr>
+<tr><td><b>FACT_ENTREGA</b></td><td>FK para cada dimensão (TempoKey, ArmazemKey, ClienteKey, VeiculoKey, ZonaKey) + medidas: <b>NumEntregas</b> (indicador 1), <b>QuantidadeKg</b>, <b>DistanciaKm</b>, <b>CustoEntrega</b></td></tr>
+<tr><td>DIM_TEMPO</td><td>data, dia, mês, trimestre, ano (hierarquia dia → mês → trimestre → ano)</td></tr>
+<tr><td>DIM_ARMAZEM</td><td>identificador, nome, cidade, região</td></tr>
+<tr><td>DIM_CLIENTE</td><td>identificador, nome, setor de atividade, cidade</td></tr>
+<tr><td>DIM_VEICULO</td><td>identificador, tipo de veículo, capacidade, combustível</td></tr>
+<tr><td>DIM_ZONA</td><td>identificador, zona geográfica, distrito, região</td></tr>
+</table>
+<div class="box"><b>Aditividade das medidas aqui.</b> NumEntregas, quantidade, distância e custo são <b>aditivas</b> (registadas por entrega, somam-se por tempo, armazém, zona…). Já um <b>custo por km</b> ou uma <b>percentagem de entregas pontuais</b> são <b>não aditivas</b>: calcula-se <span class="mono">SUM(custo)/SUM(distância)</span> no nível pretendido, nunca somando rácios.
+<pre><span class="c">-- custo médio por km: recalcular a partir das somas (não somar/médias de rácios)</span>
+<span class="k">SELECT</span> a.Cidade,
+       <span class="k">SUM</span>(f.CustoEntrega) / <span class="k">SUM</span>(f.DistanciaKm) <span class="k">AS</span> CustoPorKm
+<span class="k">FROM</span> FACT_ENTREGA <span class="k">AS</span> f
+<span class="k">JOIN</span> DIM_ARMAZEM  <span class="k">AS</span> a <span class="k">ON</span> f.ArmazemKey = a.ArmazemKey
+<span class="k">GROUP BY</span> a.Cidade;</pre><div class="reslabel">Resultado nos dados de exemplo:</div><table class='res'><tr><th>Cidade</th><th>CustoPorKm</th></tr><tr><td class=''>Aveiro</td><td class='n'>2.23</td></tr><tr><td class=''>Lisboa</td><td class='n'>4.5</td></tr><tr><td class=''>Porto</td><td class='n'>3.60</td></tr></table></div>
+<div class="box warn"><b>Erros típicos.</b> (1) Não dizer a granularidade, ou dizê-la mal (“por armazém” — isso é uma dimensão, não o grão). (2) Pôr medidas como dimensões (ou o contrário: “tipo de veículo” é dimensão). (3) Menos de 4 dimensões ou sem atributos. (4) Esquecer as <b>chaves</b> (PK nas dimensões, FK na tabela de factos). (5) Medidas incompatíveis com o grão (ex.: “média de entregas por mês” numa tabela com uma linha por entrega).</div>
+
+<h3>Q3 — Operações OLAP</h3>
+<table>
+<tr><th style="width:56%">Situação</th><th style="width:14%">Operação</th><th>Porquê</th></tr>
+<tr><td>a) Passar da análise <b>anual</b> do nº de entregas para uma <b>mensal</b></td><td><b>Drill-down</b></td><td>Mais detalhe na hierarquia do tempo (ano → mês).</td></tr>
+<tr><td>b) Consultar <b>apenas</b> as entregas de <b>2026</b></td><td><b>Slice</b></td><td>Fixa <b>um valor</b> (2026) numa dimensão (Tempo).</td></tr>
+<tr><td>c) Armazéns do <b>Porto e Aveiro</b>, só veículos <b>pesados</b></td><td><b>Dice</b></td><td>Combina critérios em duas dimensões (Armazém e Veículo), com mais de um valor.</td></tr>
+<tr><td>d) <b>Trocar linhas e colunas</b> de uma tabela (mês × tipo de veículo)</td><td><b>Pivot</b></td><td>Só muda a disposição das dimensões na apresentação.</td></tr>
+</table>
+
+<h2>3.6 Variações possíveis <span class="pill p">VARIAÇÃO</span></h2>
+<div class="box var"><b>O que pode mudar:</b> outro contexto (retalho, hospital, cinema, manutenção…); V/F sobre outras afirmações da matéria (aditividade, granularidade, esquemas, ROLAP/MOLAP, 3 V); pedir <b>modelo em floco de neve</b> ou com <b>hierarquias</b> explícitas; pedir a <b>operação OLAP certa</b> (incluindo <b>roll-up</b>) para outras situações; pedir <b>uma consulta SQL</b> sobre o modelo dimensional; perguntar <b>porque não usar o OLTP</b> para análise.</div>
+
+<h3>V1 — Banco de afirmações verdadeiro/falso (com respostas)</h3>
+<table>
+<tr><th style="width:62%">Afirmação</th><th style="width:9%">V/F</th><th>Porquê</th></tr>
+<tr><td>Um Data Warehouse conserva apenas os dados atuais.</td><td><b>F</b></td><td>Conserva <b>informação histórica</b> integrada.</td></tr>
+<tr><td>A granularidade deve ser definida depois de escolher as medidas.</td><td><b>F</b></td><td>Define-se <b>antes</b>; as medidas têm de ser coerentes com ela.</td></tr>
+<tr><td>A tabela de factos contém medidas e chaves estrangeiras para as dimensões.</td><td><b>V</b></td><td>É a sua definição.</td></tr>
+<tr><td>As percentagens de entregas pontuais podem ser somadas entre armazéns.</td><td><b>F</b></td><td>Não aditiva: recalcula-se a partir dos valores de origem.</td></tr>
+<tr><td>Roll-up é passar para um nível mais detalhado.</td><td><b>F</b></td><td>Roll-up = menos detalhe; <b>drill-down</b> = mais detalhe.</td></tr>
+<tr><td>No esquema em estrela as dimensões ligam diretamente à tabela de factos.</td><td><b>V</b></td><td>Simples de consultar; sem dimensões intermédias.</td></tr>
+<tr><td>O esquema snowflake reduz redundância mas pode exigir mais junções.</td><td><b>V</b></td><td>Dimensões normalizadas em várias tabelas.</td></tr>
+<tr><td>O ETL consiste apenas em extrair os dados dos sistemas de origem.</td><td><b>F</b></td><td>Extrair, <b>transformar</b> (limpar/uniformizar) e <b>carregar</b>.</td></tr>
+<tr><td>Um slice fixa vários valores em várias dimensões.</td><td><b>F</b></td><td>Slice fixa <b>um valor</b> numa dimensão; a combinação é o dice.</td></tr>
+<tr><td>Um pivot altera os dados guardados no Data Warehouse.</td><td><b>F</b></td><td>Só muda a forma de visualizar o resultado.</td></tr>
+<tr><td>MOLAP usa estruturas multidimensionais e pode pré-calcular agregações.</td><td><b>V</b></td><td>ROLAP usa tabelas relacionais/SQL; HOLAP combina.</td></tr>
+<tr><td>Big Data refere-se apenas ao volume de dados.</td><td><b>F</b></td><td>Também a velocidade e a variedade (3 V).</td></tr>
+<tr><td>As consultas OLTP são tipicamente analíticas e complexas.</td><td><b>F</b></td><td>OLTP: transações geralmente curtas; analíticas = OLAP.</td></tr>
+<tr><td>Correr análises pesadas sobre o sistema operacional pode prejudicar as operações diárias.</td><td><b>V</b></td><td>Motivo para existir um ambiente preparado para análise (DW).</td></tr>
+<tr><td>Um sistema OLTP é o destino do carregamento do ETL.</td><td><b>F</b></td><td>O destino é o Data Warehouse; o OLTP é <b>origem</b>.</td></tr>
+</table>
+
+<h3>V2 — Classificar medidas (aditiva / semi-aditiva / não aditiva)</h3>
+<table>
+<tr><th style="width:44%">Medida</th><th style="width:20%">Classificação</th><th>Raciocínio</th></tr>
+<tr><td>Peso entregue por encomenda (cada encomenda contada uma vez)</td><td>Aditiva</td><td>Soma-se por tempo, armazém, veículo…</td></tr>
+<tr><td>Nº de entregas realizadas</td><td>Aditiva</td><td>Contagem somável em todas as dimensões.</td></tr>
+<tr><td>Quilómetros acumulados do camião (conta-quilómetros)</td><td>Semi-aditiva</td><td>Somas entre camiões fazem sentido; somar leituras ao longo do tempo não.</td></tr>
+<tr><td>% de entregas pontuais</td><td>Não aditiva</td><td>Recalcular: entregas pontuais ÷ entregas totais.</td></tr>
+<tr><td>Custo médio por entrega</td><td>Não aditiva</td><td>Média: recalcular = custo total ÷ nº de entregas.</td></tr>
+<tr><td>Custo por km</td><td>Não aditiva</td><td><span class="mono">SUM(custo)/SUM(km)</span>.</td></tr>
+<tr><td>Saldo de stock no fim do dia</td><td>Semi-aditiva</td><td>Soma-se por armazém, não ao longo dos dias.</td></tr>
+</table>
+
+<h3>V3 — Identificar a operação OLAP</h3>
+<table>
+<tr><th style="width:62%">Situação</th><th>Operação</th></tr>
+<tr><td>Passar das vendas por <b>dia</b> para vendas por <b>trimestre</b></td><td><b>Roll-up</b> (menos detalhe)</td></tr>
+<tr><td>Ver só as entregas do armazém <b>de Aveiro</b></td><td><b>Slice</b> (um valor, uma dimensão)</td></tr>
+<tr><td>Ver só as entregas de <b>2025 e 2026</b> dos veículos <b>elétricos</b> nas zonas <b>Norte</b> e <b>Centro</b></td><td><b>Dice</b> (vários critérios)</td></tr>
+<tr><td>Passar de “por cidade” para “por <b>loja</b> dentro de cada cidade”</td><td><b>Drill-down</b></td></tr>
+<tr><td>Mostrar zonas nas colunas e anos nas linhas em vez do contrário</td><td><b>Pivot</b></td></tr>
+<tr><td>Dos <b>distritos</b> para o total do <b>país</b></td><td><b>Roll-up</b></td></tr>
+</table>
+
+<h3>V4 — Outro contexto: manutenção de bicicletas (liga o Grupo III ao Grupo II)</h3>
+<div class="box var"><b>Enunciado.</b> A empresa de aluguer de bicicletas quer analisar os custos de manutenção por <b>ano</b>, <b>técnico</b>, <b>especialidade</b>, <b>categoria de serviço</b> e <b>tipo de intervenção</b>. Proponha um modelo dimensional.</div>
+<ul>
+<li><b>Processo:</b> intervenções de manutenção. <b>Grão:</b> <i>uma intervenção de manutenção</i> (uma linha por <span class="mono">ManutencaoID</span>).</li>
+<li><b>Medidas:</b> <b>Custo</b> (aditiva), <b>NumIntervencoes</b> (=1, aditiva). Custo médio = SUM(Custo)/SUM(NumIntervencoes) (não aditiva, recalcular).</li>
+<li><b>Dimensões:</b> DIM_TEMPO (ano; se houver data: mês, trimestre) · DIM_TECNICO (nome, certificação, anos de experiência, especialidade) · DIM_TIPO (corretiva/preventiva) · DIM_CATEGORIA (nome da categoria).</li>
+<li><b>Atenção ao grão!</b> Uma intervenção pode ter <b>várias categorias</b> (tabela N:M no relacional). Se a tabela de factos tiver uma linha por intervenção <i>e por categoria</i>, o custo <b>conta-se duas vezes</b> para quem tem duas categorias — viola a ideia “cada linha = o evento definido”. Soluções: (a) grão “intervenção × categoria” e <b>não somar</b> o custo por intervenção em análises sem categoria; (b) tabela de <i>bridge</i>; (c) categoria principal. O ponto a mostrar no exame é <b>perceber o risco da dupla contagem</b>.</li>
+</ul>
+<p>O mesmo exemplo em <b>snowflake</b>: DIM_TECNICO → DIM_ESPECIALIDADE (a especialidade passa para a sua própria tabela, ligada por FK).</p>
+
+<h3>V5 — Esboços rápidos para outros contextos</h3>
+<table>
+<tr><th style="width:18%">Contexto</th><th style="width:25%">Grão</th><th style="width:27%">Medidas</th><th>Dimensões (atributos)</th></tr>
+<tr><td><b>Retalho</b></td><td>uma linha de venda (produto em cada talão)</td><td>quantidade, valor, desconto</td><td>Tempo (dia, mês, ano) · Loja (cidade, distrito) · Produto (categoria) · Cliente · Promoção</td></tr>
+<tr><td><b>Hospital</b></td><td>uma consulta</td><td>duração, custo, nº consultas</td><td>Tempo · Médico (especialidade) · Paciente (idade, plano) · Serviço/Ala · Diagnóstico</td></tr>
+<tr><td><b>Cinema</b></td><td>um bilhete vendido</td><td>nº bilhetes (1), receita</td><td>Tempo · Cinema (cidade) · Filme (género) · Sessão (horário, tipo de sala) · Tipo de bilhete</td></tr>
+<tr><td><b>Transportes (aulas)</b></td><td>uma etapa de entrega numa viagem</td><td>peso, volume, km, nº etapas</td><td>Data · Loja · Centro · Camião (tipo) · Viagem</td></tr>
+<tr><td><b>Biblioteca (Gr. I)</b></td><td>um livro num empréstimo</td><td>nº livros emprestados, dias de atraso</td><td>Tempo · Livro (editora, ano) · Leitor · Estado devolução</td></tr>
+</table>
+
+<h3>V6 — Pergunta de negócio → consulta (liga SQL e BI)</h3>
+<p><b>“Que armazéns tiveram mais de 2 entregas?”</b> → junção facto-dimensão + <span class="mono">HAVING</span>:</p>
+<pre><span class="k">SELECT</span> a.Cidade, <span class="k">COUNT</span>(*) <span class="k">AS</span> NumEntregas
+<span class="k">FROM</span> FACT_ENTREGA <span class="k">AS</span> f
+<span class="k">JOIN</span> DIM_ARMAZEM  <span class="k">AS</span> a <span class="k">ON</span> f.ArmazemKey = a.ArmazemKey
+<span class="k">GROUP BY</span> a.Cidade
+<span class="k">HAVING</span> <span class="k">COUNT</span>(*) &gt; 2;</pre><div class="reslabel">Resultado nos dados de exemplo:</div><table class='res'><tr><th>Cidade</th><th>NumEntregas</th></tr><tr><td class=''>Aveiro</td><td class='n'>3</td></tr><tr><td class=''>Porto</td><td class='n'>4</td></tr></table>
+<p><b>Truque de tradução:</b> as palavras “<i>por</i> X” dão o <span class="mono">GROUP BY</span> (e a dimensão); “<i>quantas/quanto</i>” dão a medida e a agregação; “<i>só</i> em 2026” dá o <span class="mono">WHERE</span> (slice); “<i>mais de</i> N” dá o <span class="mono">HAVING</span>.</p>
+
+<h1 class="part">4 · Exame de treino<small>Mesma estrutura do exame modelo, outros domínios — faz em 90 minutos, sem consultar, e só depois confere as soluções</small></h1>
+<div class="box key"><b>Instruções.</b> Duração 90 min · cotação sugerida: <b>Grupo I = 7,5 · Grupo II = 7,5 · Grupo III = 5</b> (15 + 5, como no email). Usa só a tua folha A4 manuscrita. Os dados de exemplo da Loja Online (Grupo II) estão no anexo B para quem quiser testar as consultas em SQLite — no exame real não terás os dados, só o esquema.</div>
+
+<h2>Grupo I <span class="small">(7,5 val)</span></h2>
+<p>Uma escola de música pretende informatizar a gestão de alunos, professores, instrumentos e aulas. Regras de negócio:</p>
+<ul>
+<li>Cada <b>aluno</b> tem um número de aluno, um nome, uma data de nascimento e um ou mais contactos telefónicos.</li>
+<li>Cada <b>professor</b> tem um identificador, um nome e um endereço de correio eletrónico.</li>
+<li>Cada <b>instrumento</b> tem um código e um nome. Um professor leciona <b>pelo menos um</b> instrumento e pode lecionar vários; cada instrumento pode ser lecionado por vários professores (ou por nenhum, se estiver temporariamente sem professor).</li>
+<li>Cada <b>aula</b> tem um número, uma data/hora e uma sala. É dada por <b>um único professor</b> e incide sobre <b>um único instrumento</b>. Uma aula tem sempre <b>pelo menos um aluno</b> (aula individual ou de grupo) e um aluno pode frequentar várias aulas. Para cada aluno numa aula regista-se a <b>classificação</b>, que pode ainda não existir.</li>
+</ul>
+<ol>
+<li>Construa o modelo Entidade–Relacionamento: entidades, principais atributos, chaves e cardinalidades (mín, máx). <i>(3,5 val)</i></li>
+<li>Apresente o esquema relacional correspondente, identificando chaves primárias e estrangeiras. <i>(2,5 val)</i></li>
+<li>Considere PROFESSOR(<u>ProfID</u>, Nome, Email) com os tuplos (1, Ana, ana@m.pt) e (2, Rui, rui@m.pt), e AULA(<u>AulaID</u>, DataHora, Sala, <i>ProfID</i>) com ProfID a referenciar PROFESSOR e existindo uma aula do professor 1. Indique, justificando, se cada operação viola alguma restrição de integridade (e qual): <i>(1,5 val)</i><br>
+a) inserir uma aula com ProfID = 3 &nbsp; b) inserir um professor com ProfID = NULL &nbsp; c) apagar o professor 1 &nbsp; d) inserir um professor (3, Eva, ana@m.pt) sabendo que o Email é chave candidata.</li>
+</ol>
+
+<h2>Grupo II <span class="small">(7,5 val)</span></h2>
+<p>Uma loja online tem as relações seguintes (chaves primárias sublinhadas; as FK estão indicadas em itálico):</p>
+<ul>
+<li>CLIENTE(<u>ClienteID</u>, Nome, Cidade, DataRegisto)</li>
+<li>PRODUTO(<u>ProdutoID</u>, Nome, Categoria, Preco)</li>
+<li>ENCOMENDA(<u>EncomendaID</u>, <i>ClienteID</i>, Data, Estado)</li>
+<li>LINHA_ENCOMENDA(<u>EncomendaID, ProdutoID</u>, Quantidade) — com FK para ENCOMENDA e PRODUTO</li>
+</ul>
+<ol>
+<li>Insira o cliente 20, Marta Gomes, de Braga, registada em 2026-03-01. <i>(1 val)</i></li>
+<li>Aumente 5 % o preço dos produtos da categoria <i>Acessórios</i> cuja quantidade total encomendada seja pelo menos 5. <i>(1,5 val)</i></li>
+<li>Apresente o nome do cliente, o número da encomenda, o nome do produto e a quantidade, para clientes de <i>Porto</i>, ordenado por número da encomenda e nome do produto. <i>(1,5 val)</i></li>
+<li>Apresente os produtos que nunca foram encomendados. <i>(1,5 val)</i></li>
+<li>Para cada cliente, apresente o nome, o número de encomendas e o valor total gasto (quantidade × preço), apenas para clientes com valor total superior a 100, por valor decrescente. <i>(2 val)</i></li>
+</ol>
+
+<h2>Grupo III <span class="small">(5 val)</span></h2>
+<p>Uma cadeia de cinemas pretende analisar a venda de bilhetes por período temporal, cinema, filme e tipo de bilhete (normal, estudante, sénior).</p>
+<ol>
+<li>Classifique como verdadeira ou falsa e justifique brevemente: <i>(1,5 val)</i><br>
+a) Um sistema OLAP é adequado para registar a venda de um bilhete no balcão.<br>
+b) Na fase de transformação do ETL limpam-se e uniformizam-se os dados antes de os carregar no Data Warehouse.<br>
+c) A percentagem de ocupação das salas pode ser somada entre cinemas, como qualquer medida aditiva.<br>
+d) No esquema em estrela as dimensões ligam diretamente à tabela de factos.</li>
+<li>Proponha um modelo dimensional: granularidade, principais medidas, pelo menos quatro dimensões com atributos. <i>(2 val)</i></li>
+<li>Identifique a operação OLAP (roll-up, drill-down, slice, dice ou pivot): <i>(1,5 val)</i><br>
+a) passar de vendas por trimestre para vendas por mês &nbsp; b) consultar só o filme “Duna” &nbsp; c) analisar os cinemas de Lisboa e Porto apenas para filmes de animação &nbsp; d) trocar as linhas (meses) e as colunas (tipos de bilhete) &nbsp; e) passar de vendas por cinema para vendas por cidade.</li>
+</ol>
+
+<h1 class="part">Soluções do exame de treino<small>Não leias antes de fazeres o exame</small></h1>
+
+<h2>Grupo I — solução</h2>
+<h3>1. Modelo ER</h3>
+<table>
+<tr><th style="width:30%">Entidades</th><th>Atributos e identificadores</th></tr>
+<tr><td>ALUNO</td><td><u>NumAluno</u>, Nome, DataNascimento, <b>{Telefone}</b> (multivalor)</td></tr>
+<tr><td>PROFESSOR</td><td><u>ProfID</u>, Nome, Email</td></tr>
+<tr><td>INSTRUMENTO</td><td><u>CodInstrumento</u>, Nome</td></tr>
+<tr><td>AULA</td><td><u>NumAula</u>, DataHora, Sala</td></tr>
+</table>
+<table>
+<tr><th style="width:30%">Relacionamento</th><th style="width:12%">Tipo</th><th style="width:30%">(min,max)</th><th>Atributos / justificação</th></tr>
+<tr><td>PROFESSOR – <i>leciona</i> – INSTRUMENTO</td><td>N:M</td><td>PROFESSOR (1,N) · INSTRUMENTO (0,N)</td><td>“pelo menos um instrumento”; instrumento pode não ter professor</td></tr>
+<tr><td>PROFESSOR – <i>dá</i> – AULA</td><td>1:N</td><td>PROFESSOR (0,N) · AULA (1,1)</td><td>cada aula tem um único professor</td></tr>
+<tr><td>AULA – <i>incide em</i> – INSTRUMENTO</td><td>N:1</td><td>AULA (1,1) · INSTRUMENTO (0,N)</td><td>cada aula tem um único instrumento</td></tr>
+<tr><td>ALUNO – <i>frequenta</i> – AULA</td><td>N:M</td><td>ALUNO (0,N) · AULA (1,N)</td><td><b>Classificacao</b> (opcional): atributo do relacionamento — depende do par aluno–aula</td></tr>
+</table>
+<p class="small">Regra de negócio não capturável só com este modelo: “o professor da aula leciona o instrumento da aula” — seria uma restrição adicional.</p>
+<h3>2. Esquema relacional</h3>
+<ul>
+<li>ALUNO(<u>NumAluno</u>, Nome, DataNascimento)</li>
+<li>ALUNO_TELEFONE(<u>NumAluno, Telefone</u>) — NumAluno → ALUNO <i>(multivalor → tabela própria)</i></li>
+<li>PROFESSOR(<u>ProfID</u>, Nome, Email)</li>
+<li>INSTRUMENTO(<u>CodInstrumento</u>, Nome)</li>
+<li>PROFESSOR_INSTRUMENTO(<u>ProfID, CodInstrumento</u>) — ProfID → PROFESSOR; CodInstrumento → INSTRUMENTO <i>(N:M)</i></li>
+<li>AULA(<u>NumAula</u>, DataHora, Sala, <i>ProfID</i>, <i>CodInstrumento</i>) — ProfID → PROFESSOR; CodInstrumento → INSTRUMENTO <i>(duas 1:N; ambas NOT NULL)</i></li>
+<li>FREQUENTA(<u>NumAluno, NumAula</u>, Classificacao) — NumAluno → ALUNO; NumAula → AULA <i>(N:M; Classificacao pode ser NULL)</i></li>
+</ul>
+<h3>3. Integridade</h3>
+<table>
+<tr><th style="width:40%">Operação</th><th>Resposta</th></tr>
+<tr><td>a) AULA com ProfID = 3</td><td><b>Integridade referencial</b>: não existe professor 3.</td></tr>
+<tr><td>b) PROFESSOR com ProfID = NULL</td><td><b>Integridade de entidade</b>: a PK não pode ser NULL.</td></tr>
+<tr><td>c) apagar o professor 1</td><td><b>Integridade referencial</b>: há uma aula que o referencia (rejeitado, ou exige CASCADE/SET NULL — mas ProfID de AULA é obrigatório, logo SET NULL não serviria).</td></tr>
+<tr><td>d) professor (3, Eva, ana@m.pt)</td><td>Viola a <b>unicidade da chave candidata Email</b> (repete o e-mail da Ana). Não é entidade (ProfID é novo e não nulo) nem referencial; é uma restrição de unicidade (UNIQUE).</td></tr>
+</table>
+
+<h2>Grupo II — solução</h2>
+<div class="q"><span>1.</span> INSERT</div><pre><span class="k">INSERT INTO</span> CLIENTE (ClienteID, Nome, Cidade, DataRegisto)
+<span class="k">VALUES</span> (<span class="n">20</span>, <span class="s">'Marta Gomes'</span>, <span class="s">'Braga'</span>, <span class="s">'2026-03-01'</span>);</pre><div class="reslabel">Estado da tabela depois de executar:</div><table class='res'><tr><th>ClienteID</th><th>Nome</th><th>Cidade</th><th>DataRegisto</th></tr><tr><td class='n'>20</td><td class=''>Marta Gomes</td><td class=''>Braga</td><td class=''>2026-03-01</td></tr></table>
+<div class="q"><span>2.</span> UPDATE com subconsulta agregada</div>
+<p class="small">A condição “quantidade total encomendada ≥ 5” é sobre <b>grupos</b> de linhas de LINHA_ENCOMENDA → subconsulta com <span class="mono">GROUP BY … HAVING</span>. Só a “Capa de telemóvel” (3+2 = 5 unidades) cumpre; o “Carregador USB” só tem 3.</p>
+<pre><span class="k">UPDATE</span> PRODUTO
+<span class="k">SET</span> Preco = Preco * <span class="n">1.05</span>
+<span class="k">WHERE</span> Categoria = <span class="s">'Acessórios'</span>
+  <span class="k">AND</span> ProdutoID <span class="k">IN</span> (
+        <span class="k">SELECT</span> ProdutoID
+        <span class="k">FROM</span> LINHA_ENCOMENDA
+        <span class="k">GROUP BY</span> ProdutoID
+        <span class="k">HAVING</span> <span class="k">SUM</span>(Quantidade) &gt;= <span class="n">5</span>
+  );</pre><div class="reslabel">Estado da tabela depois de executar:</div><table class='res'><tr><th>ProdutoID</th><th>Nome</th><th>Categoria</th><th>Preco</th></tr><tr><td class='n'>1</td><td class=''>Capa de telemóvel</td><td class=''>Acessórios</td><td class='n'>13.13</td></tr><tr><td class='n'>2</td><td class=''>Carregador USB</td><td class=''>Acessórios</td><td class='n'>20</td></tr><tr><td class='n'>3</td><td class=''>Auscultadores</td><td class=''>Áudio</td><td class='n'>60</td></tr><tr><td class='n'>4</td><td class=''>Coluna Bluetooth</td><td class=''>Áudio</td><td class='n'>90</td></tr><tr><td class='n'>5</td><td class=''>Cabo HDMI</td><td class=''>Acessórios</td><td class='n'>8</td></tr><tr><td class='n'>6</td><td class=''>Portátil</td><td class=''>Computadores</td><td class='n'>800</td></tr></table>
+<div class="q"><span>3.</span> Junção de 4 tabelas</div><pre><span class="k">SELECT</span> C.Nome, E.EncomendaID, P.Nome <span class="k">AS</span> Produto, LE.Quantidade
+<span class="k">FROM</span> CLIENTE <span class="k">AS</span> C
+<span class="k">JOIN</span> ENCOMENDA <span class="k">AS</span> E <span class="k">ON</span> E.ClienteID = C.ClienteID
+<span class="k">JOIN</span> LINHA_ENCOMENDA <span class="k">AS</span> LE <span class="k">ON</span> LE.EncomendaID = E.EncomendaID
+<span class="k">JOIN</span> PRODUTO <span class="k">AS</span> P <span class="k">ON</span> P.ProdutoID = LE.ProdutoID
+<span class="k">WHERE</span> C.Cidade = <span class="s">'Porto'</span>
+<span class="k">ORDER BY</span> E.EncomendaID, P.Nome;</pre><div class="reslabel">Resultado nos dados de exemplo:</div><table class='res'><tr><th>Nome</th><th>EncomendaID</th><th>Produto</th><th>Quantidade</th></tr><tr><td class=''>Inês Castro</td><td class='n'>1</td><td class=''>Auscultadores</td><td class='n'>1</td></tr><tr><td class=''>Inês Castro</td><td class='n'>1</td><td class=''>Capa de telemóvel</td><td class='n'>3</td></tr><tr><td class=''>Inês Castro</td><td class='n'>2</td><td class=''>Capa de telemóvel</td><td class='n'>2</td></tr><tr><td class=''>Inês Castro</td><td class='n'>2</td><td class=''>Carregador USB</td><td class='n'>2</td></tr><tr><td class=''>Lara Moura</td><td class='n'>4</td><td class=''>Portátil</td><td class='n'>1</td></tr></table>
+<div class="q"><span>4.</span> Anti-junção</div><pre><span class="k">SELECT</span> P.ProdutoID, P.Nome
+<span class="k">FROM</span> PRODUTO <span class="k">AS</span> P
+<span class="k">WHERE</span> <span class="k">NOT</span> <span class="k">EXISTS</span> (
+        <span class="k">SELECT</span> <span class="n">1</span>
+        <span class="k">FROM</span> LINHA_ENCOMENDA <span class="k">AS</span> LE
+        <span class="k">WHERE</span> LE.ProdutoID = P.ProdutoID
+);</pre><div class="reslabel">Resultado nos dados de exemplo:</div><table class='res'><tr><th>ProdutoID</th><th>Nome</th></tr><tr><td class='n'>5</td><td class=''>Cabo HDMI</td></tr></table>
+<div class="q"><span>5.</span> Junção + agregação com expressão</div>
+<p class="small">Para “número de encomendas” usa <span class="mono">COUNT(DISTINCT E.EncomendaID)</span>: como há várias linhas por encomenda, <span class="mono">COUNT(*)</span> contaria linhas de produto e não encomendas.</p>
+<pre><span class="k">SELECT</span> C.Nome,
+       <span class="k">COUNT</span>(<span class="k">DISTINCT</span> E.EncomendaID)   <span class="k">AS</span> NumEncomendas,
+       <span class="k">SUM</span>(LE.Quantidade * P.Preco)    <span class="k">AS</span> ValorTotal
+<span class="k">FROM</span> CLIENTE <span class="k">AS</span> C
+<span class="k">JOIN</span> ENCOMENDA       <span class="k">AS</span> E  <span class="k">ON</span> E.ClienteID   = C.ClienteID
+<span class="k">JOIN</span> LINHA_ENCOMENDA <span class="k">AS</span> LE <span class="k">ON</span> LE.EncomendaID = E.EncomendaID
+<span class="k">JOIN</span> PRODUTO         <span class="k">AS</span> P  <span class="k">ON</span> P.ProdutoID    = LE.ProdutoID
+<span class="k">GROUP BY</span> C.ClienteID, C.Nome
+<span class="k">HAVING</span> <span class="k">SUM</span>(LE.Quantidade * P.Preco) &gt; <span class="n">100</span>
+<span class="k">ORDER BY</span> ValorTotal <span class="k">DESC</span>;</pre><div class="reslabel">Resultado nos dados de exemplo:</div><table class='res'><tr><th>Nome</th><th>NumEncomendas</th><th>ValorTotal</th></tr><tr><td class=''>Lara Moura</td><td class='n'>1</td><td class='n'>800</td></tr><tr><td class=''>Inês Castro</td><td class='n'>2</td><td class='n'>162.5</td></tr><tr><td class=''>João Pires</td><td class='n'>1</td><td class='n'>110</td></tr></table>
+<div class="box warn"><b>Erros típicos.</b> Q2: tentar filtrar a quantidade com <span class="mono">WHERE SUM(…)</span>. Q5: <span class="mono">COUNT(*)</span> em vez de <span class="mono">COUNT(DISTINCT …)</span>; esquecer que o valor vem de <b>duas tabelas</b> (Quantidade em LINHA_ENCOMENDA, Preco em PRODUTO); pôr <span class="mono">HAVING</span> antes do <span class="mono">GROUP BY</span>.</div>
+<p><b>Bónus de treino</b> — produtos com preço acima da média:</p><pre><span class="k">SELECT</span> Nome, Preco
+<span class="k">FROM</span> PRODUTO
+<span class="k">WHERE</span> Preco &gt; (<span class="k">SELECT</span> <span class="k">AVG</span>(Preco) <span class="k">FROM</span> PRODUTO);</pre><div class="reslabel">Resultado nos dados de exemplo:</div><table class='res'><tr><th>Nome</th><th>Preco</th></tr><tr><td class=''>Portátil</td><td class='n'>800</td></tr></table>
+
+<h2>Grupo III — solução</h2>
+<h3>1. Verdadeiro ou falso</h3>
+<table>
+<tr><th style="width:55%">Afirmação</th><th style="width:10%">V/F</th><th>Justificação</th></tr>
+<tr><td>a) OLAP para registar a venda no balcão</td><td><b>F</b></td><td>Registar transações curtas é papel do <b>OLTP</b>; o OLAP é para análise multidimensional.</td></tr>
+<tr><td>b) Transformação do ETL limpa e uniformiza</td><td><b>V</b></td><td>E-T-L: extrair, transformar (validar, limpar, uniformizar) e carregar.</td></tr>
+<tr><td>c) % de ocupação somável entre cinemas</td><td><b>F</b></td><td>Medida <b>não aditiva</b>: recalcula-se (lugares ocupados ÷ lugares disponíveis) no nível pretendido.</td></tr>
+<tr><td>d) Estrela: dimensões ligadas diretamente aos factos</td><td><b>V</b></td><td>Uma tabela de factos central ligada diretamente a cada dimensão.</td></tr>
+</table>
+<h3>2. Modelo dimensional</h3>
+<ul>
+<li><b>Grão:</b> um bilhete vendido (uma linha por bilhete).</li>
+<li><b>Medidas:</b> <b>NumBilhetes</b> (=1), <b>Receita</b> (preço pago), <b>Desconto</b> — todas aditivas ao nível do bilhete. A % de ocupação seria <b>não aditiva</b>.</li>
+<li><b>FACT_BILHETE</b>: TempoKey, CinemaKey, FilmeKey, SessaoKey, TipoBilheteKey (FK) + medidas.</li>
+<li><b>DIM_TEMPO</b>: data, dia, mês, trimestre, ano · <b>DIM_CINEMA</b>: nome, cidade, distrito · <b>DIM_FILME</b>: título, género, duração, classificação etária · <b>DIM_SESSAO</b>: horário, tipo de sala (2D/3D) · <b>DIM_TIPO_BILHETE</b>: normal / estudante / sénior (preço base).</li>
+<li><b>Hierarquias:</b> dia → mês → trimestre → ano; cinema → cidade → distrito.</li>
+</ul>
+<h3>3. Operações OLAP</h3>
+<table>
+<tr><th style="width:60%">Situação</th><th>Operação</th></tr>
+<tr><td>a) trimestre → mês</td><td><b>Drill-down</b> (mais detalhe)</td></tr>
+<tr><td>b) só o filme “Duna”</td><td><b>Slice</b> (um valor numa dimensão)</td></tr>
+<tr><td>c) Lisboa e Porto, só animação</td><td><b>Dice</b> (vários valores e duas dimensões)</td></tr>
+<tr><td>d) trocar meses (linhas) e tipos de bilhete (colunas)</td><td><b>Pivot</b></td></tr>
+<tr><td>e) cinema → cidade</td><td><b>Roll-up</b> (menos detalhe)</td></tr>
+</table>
+
+<h1 class="part">5 · Reta final<small>Folha A4, erros típicos, glossário e dados de exemplo</small></h1>
+
+<h2>5.1 O que pôr na folha A4 (frente e verso, manuscrita)</h2>
+<p>A folha tem de ser <b>escrita à mão e feita por ti</b> — não podes imprimir nem fotocopiar. Usa-a para o que é difícil de memorizar de forma exata e para esquemas que poupam tempo. Sugestão de conteúdo, por ordem de utilidade:</p>
+<div class="two">
+<div>
+<h4>Frente — Módulo 1 + relacional</h4>
+<ul>
+<li>Notação ER: entidade, atributo, identificador (sublinhado), multivalor (oval dupla), composto, derivado (tracejado), relacionamento, (min,max).</li>
+<li>Como ler (min,max): “uma instância de A tem quantas de B?” → escreve junto de A.</li>
+<li>Tabela ER → relacional: 1:1, 1:N (FK no lado N), N:M (nova tabela, PK composta), recursivo, multivalor (tabela), composto (colunas), derivado (não se guarda), ternário.</li>
+<li>Definições: chave candidata (única + mínima), PK, FK; integridade de domínio / entidade / referencial com 1 exemplo cada.</li>
+<li>Método em 8 passos (secção 1.4).</li>
+<li>Exemplo mínimo EMPRESTIMO_LIVRO(<u>EmprestimoID, ISBN</u>, Estado).</li>
+</ul>
+</div>
+<div>
+<h4>Verso — SQL + Módulo 3</h4>
+<ul>
+<li>Molde do SELECT com a ordem das cláusulas; ordem lógica (FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT).</li>
+<li>INSERT / UPDATE (SET…WHERE) / DELETE; <b>WHERE sempre</b>.</li>
+<li>JOIN … ON; LEFT JOIN … IS NULL; NOT EXISTS (modelo); IN (subconsulta); NOT IN + NULL.</li>
+<li>WHERE vs HAVING; COUNT(*) vs COUNT(col); regra do GROUP BY.</li>
+<li>BETWEEN (inclusivo), IN, LIKE (% e _), IS NULL.</li>
+<li>OLTP vs OLAP (tabela), DW, ETL (E-T-L), 3 V, ROLAP/MOLAP/HOLAP.</li>
+<li>Grão → dimensões → medidas; aditiva / semi / não aditiva; star / snowflake / galaxy.</li>
+<li>Roll-up / drill-down / slice / dice / pivot (com 1 exemplo cada).</li>
+</ul>
+</div>
+</div>
+<div class="box tip"><b>Dica.</b> Põe na folha <b>coisas que costumas confundir</b> (WHERE vs HAVING; slice vs dice; FK no lado N) em vez de copiar definições que já sabes. E treina o exame de treino <b>com a folha que vais levar</b>, para ver o que falta.</div>
+
+<h2>5.2 Erros típicos, por grupo</h2>
+<table>
+<tr><th style="width:15%">Grupo</th><th>Os erros que mais custam pontos</th></tr>
+<tr><td><b>I · ER / relacional</b></td><td>
+FK dentro do ER · N:M sem tabela de associação · atributo do relacionamento posto numa das entidades · FK no lado errado do 1:N · PK sem composição na tabela N:M · falta de (min,max) · esquecer de dizer que criaste um identificador · não assinalar PK/FK · confundir “candidata” (única+mínima) com “super-chave”.</td></tr>
+<tr><td><b>II · SQL</b></td><td>
+Sem aspas em texto · UPDATE/DELETE sem WHERE · JOIN sem ON · coluna ambígua sem alias · WHERE com agregação (usar HAVING) · GROUP BY incompleto · “nenhum/nunca” resolvido com INNER JOIN · NOT IN com NULL · <b>&gt;</b> vs <b>&gt;=</b> · ORDER BY sem DESC quando pedem decrescente.</td></tr>
+<tr><td><b>III · BI / OLAP</b></td><td>
+Trocar OLTP e OLAP · esquecer a granularidade (ou dizê-la como dimensão) · menos de 4 dimensões / sem atributos · somar médias e percentagens · confundir slice (um valor) com dice (combinação) e roll-up com drill-down.</td></tr>
+</table>
+
+<h2>5.3 Plano de estudo sugerido</h2>
+<table>
+<tr><th style="width:18%">Fase</th><th>O quê</th></tr>
+<tr><td><b>1. Rever</b></td><td>Ler os resumos das Partes 1–3 e fazer a folha A4.</td></tr>
+<tr><td><b>2. Refazer o modelo</b></td><td>Resolver à mão o exame modelo (sem ler a resolução); só depois comparar.</td></tr>
+<tr><td><b>3. Variações</b></td><td>Casos A–C e exercícios I–VI (Módulo 1); as variações de SQL (escreve antes de ver); V1–V6 (Módulo 3).</td></tr>
+<tr><td><b>4. Simulacro</b></td><td>Exame de treino em 90 min com a folha A4. Anota onde perdes tempo.</td></tr>
+<tr><td><b>5. Véspera</b></td><td>Reler a checklist (5.2) e só a tua folha. Dormir.</td></tr>
+</table>
+
+<h2>5.4 Glossário PT–EN</h2>
+<p class="small">Os slides do Módulo 1 e 2 estão em inglês; o exame modelo está em português. Convém reconhecer os dois.</p>
+<table>
+<tr><th>Português</th><th>English</th><th>Português</th><th>English</th></tr>
+<tr><td>Entidade</td><td>Entity</td><td>Chave primária / estrangeira</td><td>Primary / foreign key</td></tr>
+<tr><td>Atributo (composto, multivalor, derivado)</td><td>Attribute (composite, multivalued, derived)</td><td>Chave candidata</td><td>Candidate key</td></tr>
+<tr><td>Relacionamento</td><td>Relationship</td><td>Integridade de entidade / referencial / de domínio</td><td>Entity / referential / domain integrity</td></tr>
+<tr><td>Identificador</td><td>Identifier</td><td>Participação total / parcial</td><td>Total / partial participation</td></tr>
+<tr><td>Cardinalidade</td><td>Cardinality</td><td>Relacionamento recursivo</td><td>Recursive relationship</td></tr>
+<tr><td>Tuplo / linha</td><td>Tuple / row</td><td>Relação / tabela</td><td>Relation / table</td></tr>
+<tr><td>Tabela de factos</td><td>Fact table</td><td>Tabela de dimensão</td><td>Dimension table</td></tr>
+<tr><td>Medida</td><td>Measure</td><td>Granularidade</td><td>Granularity (grain)</td></tr>
+<tr><td>Esquema em estrela / floco de neve / galáxia</td><td>Star / snowflake / galaxy schema</td><td>Armazém de dados</td><td>Data Warehouse</td></tr>
+<tr><td>Extração, transformação, carregamento</td><td>Extract, Transform, Load</td><td>Cubo</td><td>Cube</td></tr>
+<tr><td>Detalhar / resumir</td><td>Drill-down / roll-up</td><td>Fatiar / cortar em dados / rodar</td><td>Slice / dice / pivot</td></tr>
+</table>
+
+<h2>Anexo A — Fontes e limitações</h2>
+<ul>
+<li><b>Fontes:</b> “01 Aula” (Módulo 1, 57 slides), “02 Aula” (Módulo 2, 41 slides), “03 Aula” (Módulo 3, 38 slides), Exame modelo, Resolução do exame modelo, email da professora.</li>
+<li><b>Verificação:</b> todo o SQL e todos os resultados foram executados em SQLite 3.45 sobre dados inventados (Anexo B). Soluções de ER/relacional/dimensional são <b>soluções possíveis</b>, como a própria resolução oficial diz.</li>
+<li><b>Fora dos slides:</b> o que está marcado <span class="pill p">extra</span>/<span class="pill p">extensão</span> (IS NULL, MIN/MAX, LEFT JOIN em detalhe, ternário, ponte para N:M no dimensional) foi acrescentado porque as soluções oficiais ou variações naturais o exigem; confirma com a professora se entram na matéria.</li>
+<li><b>Fora do âmbito destes ficheiros:</b> normalização, generalização/especialização, índices em detalhe, ALTER TABLE.</li>
+<li>As “variações” e o exame de treino são <b>invenção minha</b> para praticar — o email diz que o exame real pode ter outros contextos e distribuição.</li>
+</ul>
+
+<h2>Anexo B — Dados de exemplo (manutenção de bicicletas)</h2>
+<p class="small">Cola isto numa ferramenta SQLite (DB Browser for SQLite, <span class="mono">sqlite3</span> na linha de comandos ou um editor online) para testar as consultas da Parte 2. Os restantes dados (biblioteca, estrela de entregas, loja online) estão no ficheiro <span class="mono">dados_de_exemplo.sql</span> que acompanha este guia, e a loja online também no Anexo C.</p>
+<pre><span class="k">CREATE TABLE</span> TECNICO (
+  TecnicoID <span class="k">TEXT</span> <span class="k">PRIMARY KEY</span>,
+  Nome <span class="k">TEXT</span> <span class="k">NOT</span> <span class="k">NULL</span>,
+  Certificacao <span class="k">TEXT</span>,
+  AnosExperiencia <span class="k">INTEGER</span>,
+  Especialidade <span class="k">TEXT</span>
+);
+<span class="k">CREATE TABLE</span> MANUTENCAO (
+  ManutencaoID <span class="k">INTEGER</span> <span class="k">PRIMARY KEY</span>,
+  Descricao <span class="k">TEXT</span>,
+  TecnicoID <span class="k">TEXT</span>,
+  Ano <span class="k">INTEGER</span>,
+  Tipo <span class="k">TEXT</span>,
+  Custo <span class="k">REAL</span>,
+  <span class="k">FOREIGN KEY</span> (TecnicoID) <span class="k">REFERENCES</span> TECNICO(TecnicoID)
+);
+<span class="k">CREATE TABLE</span> CATEGORIA (
+  CategoriaID <span class="k">INTEGER</span> <span class="k">PRIMARY KEY</span>,
+  NomeCategoria <span class="k">TEXT</span> <span class="k">NOT</span> <span class="k">NULL</span>
+);
+<span class="k">CREATE TABLE</span> MANUTENCAO_CATEGORIA (
+  ManutencaoID <span class="k">INTEGER</span>,
+  CategoriaID <span class="k">INTEGER</span>,
+  <span class="k">PRIMARY KEY</span> (ManutencaoID, CategoriaID),
+  <span class="k">FOREIGN KEY</span> (ManutencaoID) <span class="k">REFERENCES</span> MANUTENCAO(ManutencaoID),
+  <span class="k">FOREIGN KEY</span> (CategoriaID) <span class="k">REFERENCES</span> CATEGORIA(CategoriaID)
+);
+<span class="k">INSERT INTO</span> TECNICO <span class="k">VALUES</span>
+ (<span class="s">'T01'</span>,<span class="s">'Ana Sousa'</span>,<span class="s">'Shimano'</span>,<span class="n">8</span>,<span class="s">'Transmissão'</span>),
+ (<span class="s">'T02'</span>,<span class="s">'Bruno Reis'</span>,<span class="s">'SRAM'</span>,<span class="n">3</span>,<span class="s">'Transmissão'</span>),
+ (<span class="s">'T03'</span>,<span class="s">'Carla Dias'</span>,<span class="s">'Shimano'</span>,<span class="n">12</span>,<span class="s">'Travões'</span>),
+ (<span class="s">'T04'</span>,<span class="s">'Diogo Faria'</span>,<span class="k">NULL</span>,<span class="n">1</span>,<span class="s">'Rodas'</span>),
+ (<span class="s">'T05'</span>,<span class="s">'Eva Matos'</span>,<span class="s">'SRAM'</span>,<span class="n">5</span>,<span class="s">'Travões'</span>),
+ (<span class="s">'T06'</span>,<span class="s">'Filipe Cruz'</span>,<span class="s">'Shimano'</span>,<span class="n">2</span>,<span class="s">'Suspensão'</span>);
+<span class="k">INSERT INTO</span> CATEGORIA <span class="k">VALUES</span> (<span class="n">1</span>,<span class="s">'Mecânica'</span>),(<span class="n">2</span>,<span class="s">'Segurança'</span>),(<span class="n">3</span>,<span class="s">'Estética'</span>),(<span class="n">4</span>,<span class="s">'Elétrica'</span>);
+<span class="k">INSERT INTO</span> MANUTENCAO <span class="k">VALUES</span>
+ (<span class="n">1</span>,<span class="s">'Troca de corrente'</span>,<span class="s">'T01'</span>,<span class="n">2025</span>,<span class="s">'Corretiva'</span>,<span class="n">120.00</span>),
+ (<span class="n">2</span>,<span class="s">'Afinação de mudanças'</span>,<span class="s">'T02'</span>,<span class="n">2025</span>,<span class="s">'Preventiva'</span>,<span class="n">45.00</span>),
+ (<span class="n">3</span>,<span class="s">'Substituição de pastilhas'</span>,<span class="s">'T03'</span>,<span class="n">2026</span>,<span class="s">'Corretiva'</span>,<span class="n">150.00</span>),
+ (<span class="n">4</span>,<span class="s">'Revisão de travões'</span>,<span class="s">'T05'</span>,<span class="n">2026</span>,<span class="s">'Preventiva'</span>,<span class="n">80.00</span>),
+ (<span class="n">5</span>,<span class="s">'Troca de cassete'</span>,<span class="s">'T01'</span>,<span class="n">2026</span>,<span class="s">'Corretiva'</span>,<span class="n">210.00</span>),
+ (<span class="n">6</span>,<span class="s">'Centragem de roda'</span>,<span class="s">'T04'</span>,<span class="n">2025</span>,<span class="s">'Corretiva'</span>,<span class="n">30.00</span>),
+ (<span class="n">7</span>,<span class="s">'Troca de desviador'</span>,<span class="s">'T02'</span>,<span class="n">2026</span>,<span class="s">'Corretiva'</span>,<span class="n">95.00</span>),
+ (<span class="n">8</span>,<span class="s">'Revisão geral'</span>,<span class="s">'T03'</span>,<span class="n">2026</span>,<span class="s">'Preventiva'</span>,<span class="n">100.00</span>);
+<span class="k">INSERT INTO</span> MANUTENCAO_CATEGORIA <span class="k">VALUES</span> (<span class="n">1</span>,<span class="n">1</span>),(<span class="n">2</span>,<span class="n">1</span>),(<span class="n">3</span>,<span class="n">2</span>),(<span class="n">3</span>,<span class="n">1</span>),(<span class="n">4</span>,<span class="n">2</span>),(<span class="n">5</span>,<span class="n">1</span>),(<span class="n">6</span>,<span class="n">1</span>),(<span class="n">7</span>,<span class="n">1</span>),(<span class="n">8</span>,<span class="n">1</span>),(<span class="n">8</span>,<span class="n">2</span>);</pre>
+
+<h2>Anexo C — Dados de exemplo (loja online, exame de treino)</h2>
+<pre><span class="k">CREATE TABLE</span> CLIENTE (ClienteID <span class="k">INTEGER</span> <span class="k">PRIMARY KEY</span>, Nome <span class="k">TEXT</span> <span class="k">NOT</span> <span class="k">NULL</span>, Cidade <span class="k">TEXT</span>, DataRegisto <span class="k">TEXT</span>);
+<span class="k">CREATE TABLE</span> PRODUTO (ProdutoID <span class="k">INTEGER</span> <span class="k">PRIMARY KEY</span>, Nome <span class="k">TEXT</span> <span class="k">NOT</span> <span class="k">NULL</span>, Categoria <span class="k">TEXT</span>, Preco <span class="k">REAL</span>);
+<span class="k">CREATE TABLE</span> ENCOMENDA (EncomendaID <span class="k">INTEGER</span> <span class="k">PRIMARY KEY</span>, ClienteID <span class="k">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span>, Data <span class="k">TEXT</span>, Estado <span class="k">TEXT</span>,
+  <span class="k">FOREIGN KEY</span> (ClienteID) <span class="k">REFERENCES</span> CLIENTE(ClienteID));
+<span class="k">CREATE TABLE</span> LINHA_ENCOMENDA (EncomendaID <span class="k">INTEGER</span>, ProdutoID <span class="k">INTEGER</span>, Quantidade <span class="k">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span>,
+  <span class="k">PRIMARY KEY</span> (EncomendaID, ProdutoID),
+  <span class="k">FOREIGN KEY</span> (EncomendaID) <span class="k">REFERENCES</span> ENCOMENDA(EncomendaID),
+  <span class="k">FOREIGN KEY</span> (ProdutoID) <span class="k">REFERENCES</span> PRODUTO(ProdutoID));
+<span class="k">INSERT INTO</span> CLIENTE <span class="k">VALUES</span> (<span class="n">1</span>,<span class="s">'Inês Castro'</span>,<span class="s">'Porto'</span>,<span class="s">'2025-06-01'</span>),(<span class="n">2</span>,<span class="s">'João Pires'</span>,<span class="s">'Lisboa'</span>,<span class="s">'2025-09-12'</span>),(<span class="n">3</span>,<span class="s">'Lara Moura'</span>,<span class="s">'Porto'</span>,<span class="s">'2026-01-20'</span>),(<span class="n">4</span>,<span class="s">'Nuno Vaz'</span>,<span class="s">'Faro'</span>,<span class="s">'2026-02-02'</span>);
+<span class="k">INSERT INTO</span> PRODUTO <span class="k">VALUES</span> (<span class="n">1</span>,<span class="s">'Capa de telemóvel'</span>,<span class="s">'Acessórios'</span>,<span class="n">12.50</span>),(<span class="n">2</span>,<span class="s">'Carregador USB'</span>,<span class="s">'Acessórios'</span>,<span class="n">20.00</span>),(<span class="n">3</span>,<span class="s">'Auscultadores'</span>,<span class="s">'Áudio'</span>,<span class="n">60.00</span>),(<span class="n">4</span>,<span class="s">'Coluna Bluetooth'</span>,<span class="s">'Áudio'</span>,<span class="n">90.00</span>),(<span class="n">5</span>,<span class="s">'Cabo HDMI'</span>,<span class="s">'Acessórios'</span>,<span class="n">8.00</span>),(<span class="n">6</span>,<span class="s">'Portátil'</span>,<span class="s">'Computadores'</span>,<span class="n">800.00</span>);
+<span class="k">INSERT INTO</span> ENCOMENDA <span class="k">VALUES</span> (<span class="n">1</span>,<span class="n">1</span>,<span class="s">'2026-02-10'</span>,<span class="s">'Entregue'</span>),(<span class="n">2</span>,<span class="n">1</span>,<span class="s">'2026-03-01'</span>,<span class="s">'Enviada'</span>),(<span class="n">3</span>,<span class="n">2</span>,<span class="s">'2026-03-05'</span>,<span class="s">'Entregue'</span>),(<span class="n">4</span>,<span class="n">3</span>,<span class="s">'2026-03-08'</span>,<span class="s">'Pendente'</span>);
+<span class="k">INSERT INTO</span> LINHA_ENCOMENDA <span class="k">VALUES</span> (<span class="n">1</span>,<span class="n">1</span>,<span class="n">3</span>),(<span class="n">1</span>,<span class="n">3</span>,<span class="n">1</span>),(<span class="n">2</span>,<span class="n">2</span>,<span class="n">2</span>),(<span class="n">2</span>,<span class="n">1</span>,<span class="n">2</span>),(<span class="n">3</span>,<span class="n">4</span>,<span class="n">1</span>),(<span class="n">3</span>,<span class="n">2</span>,<span class="n">1</span>),(<span class="n">4</span>,<span class="n">6</span>,<span class="n">1</span>);</pre>
+</body></html>
