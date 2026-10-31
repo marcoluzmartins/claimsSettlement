@@ -3,21 +3,21 @@
 <style>
 @page { size: A4; margin: 8mm; }
 *{box-sizing:border-box}
-body{font-family:"DejaVu Sans","Liberation Sans",Arial,sans-serif;font-size:8.9pt;line-height:1.28;color:#111;margin:0}
+body{font-family:"DejaVu Sans","Liberation Sans",Arial,sans-serif;font-size:8.2pt;line-height:1.28;color:#111;margin:0}
 .page{width:194mm;height:281mm;page-break-after:always;overflow:hidden;position:relative}
 .page:last-child{page-break-after:auto}
-h1{font-size:11.5pt;margin:0 0 3mm 0;border-bottom:1.2px solid #111;padding-bottom:1mm;display:flex;justify-content:space-between}
+h1{font-size:10.5pt;margin:0 0 3mm 0;border-bottom:1.2px solid #111;padding-bottom:1mm;display:flex;justify-content:space-between}
 h1 span{font-weight:normal;font-size:7pt}
 .cols{column-count:2;column-gap:5mm}
 .box{break-inside:avoid;border:1px solid #444;border-radius:2px;margin:0 0 2.6mm 0;padding:1.4mm 2mm}
-.box h2{font-size:9.4pt;margin:0 0 .8mm 0;background:#e6e6e6;padding:.3mm 1mm;margin:-1.4mm -2mm 1mm -2mm;border-bottom:1px solid #444}
+.box h2{font-size:8.6pt;margin:0 0 .8mm 0;background:#e6e6e6;padding:.3mm 1mm;margin:-1.4mm -2mm 1mm -2mm;border-bottom:1px solid #444}
 ul{margin:0;padding-left:3.2mm}li{margin:0 0 .5mm 0}
 .t{width:100%;border-collapse:collapse;margin:.6mm 0}
 .t td,.t th{border:.6px solid #666;padding:.4mm 1mm;text-align:left;vertical-align:top}
 .t th{background:#f0f0f0}
 b.k{border-bottom:1px dotted #000}
 .no{color:#900;font-weight:bold}
-.f{font-family:"DejaVu Sans Mono",monospace;font-size:8.4pt}
+.f{font-family:"DejaVu Sans Mono",monospace;font-size:7.6pt}
 .note{font-size:6.6pt;font-style:italic;margin-top:1mm}
 </style></head><body>
 
@@ -75,6 +75,20 @@ Os números NÃO definem o tipo (código 10234 = nominal). Quantitativas permite
 <li>Loadings altos e + em todas → fator <i>global</i> (ex.: “qualidade global”); sinais opostos → contraste (qualidade/durab./satisf. + vs preço −)</li>
 <li class="no">Nome = interpretação; scores próximos ⇏ semelhantes em tudo; sem causalidade; há perda de informação</li></ul></div>
 
+
+<div class="box"><h2>12. Notas dos modelos de exame (frente)</h2>
+<ul>
+<li><b>Tipos [Modelo]:</b> nº compras = discreta · satisfação baixo/médio/alto = ordinal · montante em € = contínua · Norte/Centro/Sul = nominal</li>
+<li><b>Sexo × compra online [Modelo]:</b> tabela de contingência + χ² de Pearson (H0: independentes; H1: associadas), <i>desde que as frequências esperadas sejam adequadas</i></li>
+<li><b>r=0,78 publicidade×vendas [Modelo]:</b> associação linear <u>positiva e relativamente forte</u>. Causa? NÃO: outros fatores (preço, sazonalidade, concorrência, mercado)</li>
+<li><b>PCA, C1 com cargas altas e + [Modelo]:</b> dimensão <u>global</u> de desempenho. Limitação: depende do significado das variáveis e das cargas; não prova fator causal comum. V/F: combinações lineares V · explica sempre toda a variância F · reduz dimensionalidade V</li>
+<li><b>χ² [Modelo]:</b> compara frequências <u>observadas</u> com <u>esperadas sob independência</u>. V/F: significativo ⇒ forte F · ACS representa as categorias V · proximidade ⇒ causalidade F. Significativo = dados pouco compatíveis com independência, ≠ causa (confundimento, outros mecanismos)</li>
+<li><b>Mediana vs média [Modelo 2]:</b> a mediana depende da posição ordenada, é robusta; melhor se assimétrica ou com outliers</li>
+<li><b>Satisfação 1–5 × recompra 1–5 [Modelo 2]:</b> <b>Spearman</b> (duas ordinais, associação monótona)</li>
+<li><b>χ² 2×3 canal×satisf. [Modelo 2]:</b> p=0,002 → rejeita H0 (há associação); V=0,21 → fraca a moderada, relevância prática no contexto</li>
+<li><b>r=−0,64 espera×satisf., p&lt;0,001 [Modelo 2]:</b> negativa moderada a forte (+ espera, − satisfação); p dá evidência contra correlação linear nula; sem causalidade nem excluir confundimento</li>
+<li><b>PCA 4 var., KMO=0,76, λ=2,60/0,82/0,38/0,20 [Modelo 2]:</b> KMO razoável/boa; Bartlett p&lt;0,001 rejeita R=I; Kaiser → só C1 (2,60&gt;1); var C1=2,60/4=<b>65%</b>; C1 opõe qualidade/durabilidade/satisfação a preço percebido → “valor/qualidade global percebida” (dimensão sintética)</li>
+</ul></div>
 </div></div>
 
 <div class="page">
@@ -121,6 +135,19 @@ Maximizam: PCA→variância · Discriminante→separação entre grupos · Clust
 <li>Escolha múltipla: eliminar “causalidade”, “sempre”, “necessariamente”</li>
 <li>Justificar sempre (V/F: ler a palavra “sempre/toda/implica”)</li></ul></div>
 
+
+<div class="box"><h2>13. Notas dos modelos de exame (verso)</h2>
+<ul>
+<li><b>Mapa ACS: “Premium” e “Muito satisfeito” próximos, longe da origem, cos² alto, Dim.1=62% [Modelo 2]:</b> sugere associação e boa representação. <u>Cautelas:</u> proximidade visual não basta sem contribuições · o plano omite 38% da inércia · depende do contexto, sem causalidade</li>
+<li><b>K-means, silhouette K=2/3/4 = 0,43/0,57/0,49, menor cluster 38%/18%/4% [Modelo 2]:</b> <b>K=3</b> (maior silhouette e menor cluster ainda 18%); K=4 pior e cluster de 4% pede cautela. Limitações: k prévio · inicialização dos centroides · escala/outliers · clusters compactos de forma semelhante</li>
+<li><b>Silhouette K=2/3/4 = 0,44/0,61/0,52 [Modelo]:</b> <b>K=3</b> (maior silhouette = melhor coesão e separação). Limitação K-means: definir k à partida, inicialização, extremos, formas/densidades diferentes</li>
+<li><b>Silhouette ≈1 / negativo [Modelo 2]:</b> bem integrada e afastada dos outros / pode estar mal atribuída (mais perto de outro cluster)</li>
+<li><b>Clustering vs discriminante [Modelo 2]:</b> não supervisionado (grupos desconhecidos) vs supervisionado (grupos conhecidos; separar/classificar)</li>
+<li><b>Matriz 30/20/10/40, positiva=Com doença [Modelo]:</b> TP30 FN20 FP10 TN40 · acc=70/100=<b>0,70</b> · recall=30/50=<b>0,60</b> · precision=30/40=<b>0,75</b></li>
+<li><b>Matriz 36/14/9/41, positiva=Em risco [Modelo 2]:</b> TP36 FN14 FP9 TN41 · N=100 · acc=<b>77%</b> · recall=36/50=<b>72%</b> · precision=36/45=<b>80%</b> · F1≈0,758</li>
+<li><b>Avaliar no treino é otimista [Modelo 2]:</b> o modelo foi ajustado aos mesmos dados → usar teste independente ou validação cruzada</li>
+<li><b>Instrução dos modelos:</b> mostrar cálculos, justificar a escolha do método, interpretar no contexto; associação ≠ causalidade</li>
+</ul></div>
 </div>
 <div class="note">Folha-guia para COPIAR À MÃO (o exame só permite A4 manuscrita). Fontes: slides da UC, exercícios e modelos de exame.</div>
 </div>
