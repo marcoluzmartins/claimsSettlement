@@ -3,140 +3,164 @@
 <style>
 @page { size: A4; margin: 8mm; }
 *{box-sizing:border-box}
-body{font-family:"DejaVu Sans","Liberation Sans",Arial,sans-serif;font-size:8.4pt;line-height:1.26;color:#111;margin:0}
+body{font-family:"DejaVu Sans","Liberation Sans",Arial,sans-serif;font-size:8.3pt;line-height:1.25;color:#111;margin:0}
 .page{width:194mm;height:281mm;page-break-after:always;overflow:hidden;position:relative}
 .page:last-child{page-break-after:auto}
-h1{font-size:10.5pt;margin:0 0 2.4mm 0;border-bottom:1.2px solid #111;padding-bottom:1mm;display:flex;justify-content:space-between;align-items:baseline}
-h1 span{font-weight:normal;font-size:6.8pt}
+h1{font-size:10.5pt;margin:0 0 2.2mm 0;border-bottom:1.2px solid #111;padding-bottom:1mm;display:flex;justify-content:space-between;align-items:baseline}
+h1 span{font-weight:normal;font-size:6.6pt}
 .cols{column-count:2;column-gap:4.5mm}
-.box{break-inside:avoid;border:1px solid #444;border-radius:2px;margin:0 0 2.2mm 0;padding:1.2mm 1.8mm}
-.box h2{font-size:8.4pt;margin:-1.2mm -1.8mm 1mm -1.8mm;background:#e4e4e4;padding:.3mm 1.2mm;border-bottom:1px solid #444}
-ul{margin:0;padding-left:3mm}li{margin:0 0 .4mm 0}
-.t{width:100%;border-collapse:collapse;margin:.5mm 0}
-.t td,.t th{border:.6px solid #666;padding:.3mm .9mm;text-align:left;vertical-align:top}
-.t th{background:#f0f0f0}
+.box{break-inside:avoid;border:1px solid #444;border-radius:2px;margin:0 0 2mm 0;padding:1.1mm 1.7mm}
+.box h2{font-size:8.3pt;margin:-1.1mm -1.7mm .9mm -1.7mm;background:#e4e4e4;padding:.3mm 1.2mm;border-bottom:1px solid #444}
+.sub{font-weight:bold;font-size:.92em;margin:.6mm 0 .2mm 0;padding:0 .8mm;display:inline-block;color:#fff;background:#333;border-radius:1px}
+.sub.l{background:#555}
+ul{margin:0 0 .3mm 0;padding-left:2.9mm}li{margin:0 0 .35mm 0}
 .no{color:#9a0000;font-weight:bold}
-.f{font-family:"DejaVu Sans Mono",monospace;font-size:7.9pt}
-.tag{font-size:6.2pt;font-weight:bold;background:#333;color:#fff;border-radius:1px;padding:0 .8mm;margin-right:.6mm;white-space:nowrap}
-.note{font-size:6.2pt;font-style:italic;margin-top:.8mm}
+.f{font-family:"DejaVu Sans Mono",monospace;font-size:7.8pt}
+.res{border-left:2px solid #2a6;padding-left:1.2mm;margin:.3mm 0;background:#f3faf5}
+.note{font-size:6.2pt;font-style:italic;margin-top:.6mm}
 </style></head><body>
 
 <div class="page">
-<h1>Análise de Dados — FOLHA DE APOIO — frente <span><b>T</b>=teste-modelo · <b>M2</b>=Modelo 2 · *=fora dos slides</span></h1>
+<h1>Análise de Dados — FOLHA DE APOIO — frente: notas <span><b>Curta</b>=definir/indicar · <b>Longa</b>=interpretar · *=fora dos slides</span></h1>
 <div class="cols">
 
-<div class="box"><h2>1. Tipos de variável <span class="tag">T6</span><span class="tag">M2-1</span></h2>
-<table class="t"><tr><th>Qualitativa</th><th>Quantitativa</th></tr>
-<tr><td><b>Nominal</b> (sem ordem): sexo, região, contrato, <i>código</i><br><b>Ordinal</b> (com ordem): satisfação baixa/média/alta, escala 1–5, nível de risco, faixa etária</td>
-<td><b>Discreta</b> (contagem, inteiros): nº compras, filhos, reclamações<br><b>Contínua</b> (medição): € gasto, rendimento, idade, tempo</td></tr></table>
-<b>Número ≠ quantitativa</b> (código = nominal). T6: nº compras = discreta · satisfação b/m/a = ordinal · € gasto = contínua · Norte/Centro/Sul = nominal.</div>
-
-<div class="box"><h2>2. Descritiva e qualidade dos dados <span class="tag">T1</span><span class="tag">M2-2</span></h2>
+<div class="box"><h2>1. Análise preliminar de dados</h2>
+<span class="sub">Curta</span>
 <ul>
-<li><b>Média</b> sensível a extremos · <b>mediana</b> (posição ordenada) <b>robusta</b> → melhor com assimetria ou outliers · moda = mais frequente. Ex.: 4,5,6,7,8,40 → média 11,7; mediana 6,5</li>
-<li>Amplitude=máx−mín · <b>s²=Σ(x−x̄)²/(n−1)</b> · s=√s² · <b>AIQ=Q3−Q1</b> · CV=s/x̄</li>
-<li>Q1/Q2/Q3 = 25/50/75% · <b>50% central entre Q1 e Q3</b> · cauda à direita: média&gt;mediana&gt;moda</li>
-<li><b>Outlier</b> [T1] = observação que se distingue significativamente das restantes. <span class="no">Não se elimina sempre</span>: ver origem (erro de registo/medição ou caso real) e impacto</li>
-<li>Omissos: quantos, onde, porquê (não substituir sempre pela média) · inconsistências: valores impossíveis (idade −3), duplicados, unidades</li>
-<li>Gráficos: histograma = quantitativa em classes (barras contíguas) · barras/circular = qualitativa · boxplot = mediana, quartis, extremos</li></ul></div>
-
-<div class="box"><h2>3. Que medida de associação? <span class="tag">M2-3</span><span class="tag">T2</span></h2>
-<table class="t"><tr><th>X</th><th>Y</th><th>Medida</th></tr>
-<tr><td>quant.</td><td>quant.</td><td><b>Pearson</b> (linear; assume Normal)</td></tr>
-<tr><td>ordinal</td><td>ordinal</td><td><b>Spearman</b> (ranks, monótona; robusta a outliers). M2-3: satisfação 1–5 × recompra 1–5 → Spearman</td></tr>
-<tr><td>quant.</td><td>binária</td><td><b>Ponto-bisserial</b> (Pearson com 0/1)</td></tr>
-<tr><td>categ.</td><td>categ.</td><td><b>χ² + V de Cramér</b></td></tr></table>
-Pearson: só <b>linear</b>, só quantitativas, <span class="no">≠ causalidade</span>. Ponto-bisserial: inverter 0/1 muda o <b>sinal</b>, não |r|.</div>
-
-<div class="box"><h2>4. Interpretar um r <span class="tag">T8</span><span class="tag">M2-8</span></h2>
+<li><b>Tipos:</b> qualitativa <b>nominal</b> (sem ordem: sexo, região, código) · <b>ordinal</b> (ordem: satisfação b/m/a, escala 1–5, faixa etária) · quantitativa <b>discreta</b> (contagem) · <b>contínua</b> (medição). <b>Número ≠ quantitativa.</b></li>
+<li><b>Média</b> sensível a extremos · <b>mediana</b> robusta (posição ordenada) · moda. s²=Σ(x−x̄)²/(n−1) · AIQ=Q3−Q1 · CV=s/x̄ · 50% central entre Q1 e Q3 · cauda à direita: média&gt;mediana&gt;moda</li>
+<li>Histograma = quantitativa em classes (barras contíguas) · barras/circular = qualitativa · <b>outlier</b> = observação que se distingue muito das restantes</li></ul>
+<span class="sub l">Longa</span>
 <ul>
-<li><b>Receita:</b> direção (sinal) + força (|r|) + significância (p) + <b>limite causal</b></li>
-<li>T8: r=0,78 → associação linear <b>positiva e relativamente forte</b>: + publicidade tende a ir com + vendas</li>
-<li>M2-8: r=−0,64, p&lt;0,001 → negativa moderada a forte (+ espera, − satisfação); p dá evidência contra correlação linear nula</li>
-<li><b>Causa? NÃO.</b> Outros fatores (preço, sazonalidade, concorrência, mercado), causalidade inversa, 3.º fator (gelados×afogamentos: temperatura), acaso. Não exclui confundimento</li>
-<li><span class="no">r≈0 ⇏ sem relação</span>: só sem relação <b>linear</b> (pode ser U). r<sub>pb</sub>=−0,58 (churn=1): + satisfação ⇒ − churn</li></ul></div>
+<li><b>Outliers/omissos/inconsistências:</b> 1) detetar 2) perceber a origem (erro de registo/medição ou caso real) 3) avaliar o impacto 4) decidir e justificar. <span class="no">Nunca eliminar automaticamente</span> nem substituir sempre pela média</li>
+<li>Checklist: unidade estatística · variáveis e tipos · distribuição · centro · dispersão · forma · omissos · extremos</li></ul></div>
 
-<div class="box"><h2>5. χ² de independência e V de Cramér <span class="tag">T7</span><span class="tag">T10</span><span class="tag">M2-7</span></h2>
+<div class="box"><h2>2. Análise bivariada (associação)</h2>
+<span class="sub">Curta</span>
 <ul>
-<li>Tabela de contingência · H0: independentes · H1: associadas · <span class="f">χ²=Σ(O−E)²/E</span> compara <b>observadas</b> com <b>esperadas sob independência</b></li>
-<li><span class="f">E=tot.linha×tot.col/n</span>* · <span class="f">gl=(l−1)(c−1)</span>* · p&lt;0,05 → rejeita H0 (<b>há associação</b>) · válido se E adequadas (≥5*; senão Fisher*)</li>
-<li><b>χ²: HÁ associação? · V: QUÃO forte?</b> V∈[0,1], <span class="f">V=√(χ²/(n·min(l−1,c−1)))</span>*</li>
-<li>M2-7: p=0,002 e V=0,21 → rejeita H0, há associação, <b>fraca a moderada</b>; relevância prática no contexto</li>
-<li>T10: significativo <span class="no">⇏ forte</span> (p&lt;0,001, V=0,08 → significativa mas fraca) · significativo = dados pouco compatíveis com independência, <span class="no">≠ causa</span> (confundimento, outros mecanismos)</li>
-<li>χ² não diz <i>onde</i> está a associação (ACS / resíduos ajustados)</li>
-<li>Cálculo* M2-7 [18 32 50 / 30 40 30]: E=24,36,40 (2 linhas) → χ²≈8,89, gl=2, V≈0,21</li></ul></div>
+<li><b>Medida:</b> quant×quant <b>Pearson</b> (linear) · ordinal×ordinal <b>Spearman</b> (ranks, monótona, robusta a outliers) · quant×binária <b>ponto-bisserial</b> (Pearson com 0/1; inverter 0/1 muda só o <b>sinal</b>) · categ×categ <b>χ² + V de Cramér</b></li>
+<li>−1≤r≤1: sinal = direção; |r| = força. <span class="no">r≈0 ⇏ sem relação</span> (só sem relação linear)</li>
+<li><b>χ²:</b> H0 independentes · <span class="f">E=lin×col/n*</span> · <span class="f">gl=(l−1)(c−1)*</span> · p&lt;0,05 rejeita H0 · E adequadas (≥5*). <b>V∈[0,1]</b> = força. <b>χ² diz SE há; V diz QUANTO</b></li></ul>
+<span class="sub l">Longa</span>
+<ul>
+<li><b>Interpretar r:</b> direção + força + significância (p) + limite causal. <b>χ²+V:</b> “há evidência de associação (p=…), de intensidade (V=…)”; p&lt;0,001 e V=0,08 = significativa mas <b>fraca</b></li>
+<li><b>Causalidade:</b> X→Y? Y→X? <b>3.º fator</b> (confundimento) ou acaso. Gelados×afogamentos (temperatura); guarda-chuvas×chocolate quente. Ao “diretor”: associação ≠ causa; são precisos estudos adicionais</li></ul></div>
 
-<div class="box"><h2>6. PCA <span class="tag">T3</span><span class="tag">T9</span><span class="tag">M2-4</span><span class="tag">M2-9</span></h2>
+<div class="box"><h2>3. ACP / PCA</h2>
+<span class="sub">Curta</span>
 <ul>
-<li>Só <b>quantitativas</b>; <b>padronizar</b> Z=(X−x̄)/s · PCs = <b>combinações lineares</b>, ordenadas por variância; nº máx = p</li>
-<li>Objetivo: <b>reduzir dimensionalidade preservando a maior variância possível</b> (≠ classificar, ≠ causalidade, não prevê)</li>
-<li>Adequação: correlações · <b>KMO</b> (0,76 = razoável/boa) · <b>Bartlett</b> H0: R=I; p&lt;0,05 rejeita ⇒ há correlação (gl=p(p−1)/2*)</li>
-<li>Reter: <b>Kaiser λ&gt;1</b> · scree (cotovelo) · % acumulada · interpretabilidade</li>
-<li><b>%var=λ/p</b> (Σλ=p). M2-9: λ=2,60/0,82/0,38/0,20 → só C1 (2,60&gt;1); C1=2,60/4=<b>65%</b></li>
-<li><b>Loading</b> = variável↔componente (intensidade e sinal) · <b>Score</b> = observação↔componente (posição) [M2-4]</li>
-<li><b>T9a:</b> cargas altas e + nas 4 variáveis → <b>dimensão global</b> de desempenho (valores altos nas 4 ⇒ score alto). <b>Limitação:</b> depende do significado das variáveis e das cargas; não prova fator causal comum; o nome é interpretação</li>
-<li><b>M2-9d:</b> loadings +: qualidade, durabilidade, satisfação (0,91; 0,87; 0,89); −: preço percebido (−0,72) → “valor/qualidade global percebida” (dimensão sintética)</li>
-<li><b>V/F T9b:</b> combinações lineares <b>V</b> · 1.ª PC explica sempre toda a variância <b>F</b> · reduz dimensionalidade <b>V</b> · scores próximos ⇏ semelhantes em tudo</li></ul></div>
+<li>Reduz a dimensionalidade preservando variância · PCs = <b>combinações lineares</b> ordenadas por variância · só <b>quantitativas</b> · nº máx = p · <b>padronizar</b> Z=(X−x̄)/s (a escala não domina)</li>
+<li><b>KMO</b> (adequação) · <b>Bartlett</b> H0: R=I (p&lt;0,05 → há correlação) · <b>Kaiser λ&gt;1</b> · <b>%var=λ/p</b>* · <b>loading</b> = variável↔componente · <b>score</b> = observação↔componente</li></ul>
+<span class="sub l">Longa</span>
+<ul>
+<li><b>Roteiro:</b> dados (tipos, extremos, escalas) → adequação (correlações, KMO, Bartlett) → nº de componentes (Kaiser, scree, % acumulada, interpretabilidade) → loadings → nome → scores → limites</li>
+<li><b>Interpretar:</b> loadings altos e + em todas = fator <b>global</b>; sinais opostos = <b>contraste</b>. Nome = interpretação, não variável observada</li>
+<li><b>Limites:</b> sem causalidade · scores próximos ⇏ semelhantes em tudo · perde informação · 1 componente (simples) vs 2 (mais informação)</li></ul></div>
+
+<div class="box"><h2>4. ACS / ACM</h2>
+<span class="sub">Curta</span>
+<ul>
+<li><b>ACS:</b> 2 categóricas (tabela de contingência) → mapa · <b>ACM:</b> várias categóricas (quantitativas só categorizadas). <b>Não é clustering</b>, não segmenta, sem causalidade</li>
+<li><b>Inércia</b> = afastamento da independência · % dim = inércia dim/total · por representar = 100% − acumulada · <b>coordenada</b> = posição · <b>contribuição</b> = peso na construção da dimensão · <b>cos²</b> = qualidade de representação · <span class="no">longe da origem ⇏ contribui muito</span></li></ul>
+<span class="sub l">Longa</span>
+<ul>
+<li><b>Roteiro:</b> categóricas → (ACS: χ² dá a associação global) → inércia e nº de dimensões → coordenadas (contraste entre lados) → contribuições → cos² → conclusão proporcional</li>
+<li><b>Cautelas</b> com a proximidade no mapa: ver contribuições e cos² · % de inércia omitida · contexto · ≠ causa. ACM ≠ segmentos: para segmentar usar clustering</li></ul></div>
+
+<div class="box"><h2>5. Análise classificatória (clustering)</h2>
+<span class="sub">Curta</span>
+<ul>
+<li>Grupos <b>desconhecidos</b> (não supervisionado) · homogéneo dentro, distinto entre. Distâncias: euclidiana, Manhattan, Chebyshev (quant.) · matching (categ.) · Hamming (binárias). Padronizar: escala sim, <span class="no">outliers não</span></li>
+<li><b>Hierárquico aglomerativo:</b> n grupos → 1; dendrograma (altura = distância; corte → k). Ligação: simples=mín · completa=máx · Ward=menor aumento da variância interna. Divisivo = inverso</li>
+<li><b>K-means:</b> k prévio → centros → atribuir → recalcular → repetir (numérico) · <b>silhouette</b> s=(b−a)/max(a,b): ≈1 bem integrada · ≈0 fronteira · &lt;0 mal atribuída</li></ul>
+<span class="sub l">Longa</span>
+<ul>
+<li><b>Escolher k:</b> silhouette máxima <u>e</u> tamanho dos grupos (cluster de 3–4% = cautela) + estabilidade + interpretabilidade + contexto; cotovelo (WSS)</li>
+<li><b>Caracterizar:</b> médias + dispersão + tamanho. Variável externa (abandono) ≠ causa; taxa do cluster (21%) ≠ prob. individual; métodos concordantes = evidência complementar, não prova de robustez</li>
+<li><b>Limitações do K-means:</b> k prévio · inicialização · outliers/escala · clusters compactos de tamanho semelhante · só numéricas</li></ul></div>
+
+<div class="box"><h2>6. Análise discriminante</h2>
+<span class="sub">Curta</span>
+<ul>
+<li>Grupos <b>conhecidos</b> (supervisionada) · <span class="f">D=a₀+a₁X₁+…+a<sub>p</sub>X<sub>p</sub></span> · nº máx. funções <b>min(p,K−1)</b> · pressupostos: normalidade multivariada, covariâncias iguais (<b>Box</b>: p&lt;0,05 = evidência contra), sem multicolinearidade grave, sem influentes</li>
+<li><b>Matriz</b> (linhas=real, colunas=previsto): TP, FN, FP, TN · <span class="f">Acc=(TP+TN)/N · Rec=TP/(TP+FN) · Prec=TP/(TP+FP)</span> · F1=2PR/(P+R) · BalAcc=média dos recalls · FP=erro I · FN=erro II</li></ul>
+<span class="sub l">Longa</span>
+<ul>
+<li><b>Avaliar:</b> matriz → accuracy → <b>por grupo</b> (recall, precision, F1) → grupos desequilibrados (acc 84%, recall G1 2%) → <b>validação fora da amostra</b> (treino é otimista; validação cruzada/teste) → pressupostos → coeficientes ≠ causa</li>
+<li><b>Comparar:</b> PCA maximiza variância · discriminante maximiza separação · clustering descobre grupos</li></ul></div>
+
+<div class="box"><h2>7. Como responder (curta vs longa)</h2>
+<ul>
+<li><b>Curta:</b> definição + exemplo/fórmula + 1 limite</li>
+<li><b>Longa:</b> tipo de variáveis → método → <b>cálculo com fórmula</b> → interpretar <b>no contexto</b> → limite (causalidade, extremos, representação)</li>
+<li>Escolha múltipla / V-F: desconfiar de “sempre”, “necessariamente”, “causa”, “prova”</li></ul></div>
 
 </div></div>
 
 <div class="page">
-<h1>Análise de Dados — FOLHA DE APOIO — verso <span><b>T</b>=teste-modelo · <b>M2</b>=Modelo 2 · *=fora dos slides</span></h1>
+<h1>Análise de Dados — FOLHA DE APOIO — verso: exercícios <span>T=teste-modelo · M2=Modelo 2 · *=fora dos slides</span></h1>
 <div class="cols">
 
-<div class="box"><h2>7. ACS / ACM <span class="tag">T10</span><span class="tag">M2-10</span></h2>
+<div class="box"><h2>R1. Tipos de variável [T6] e escolha da medida [M2-3, ficha]</h2>
 <ul>
-<li>ACS: 2 categóricas (tabela de contingência) → mapa · ACM: várias categóricas (quantitativas só categorizadas) · <b>não é clustering</b>, não dá causalidade nem segmentos</li>
-<li><b>T10b V/F:</b> ACS representa graficamente as categorias <b>V</b> · proximidade no mapa ⇒ causalidade <b>F</b> · χ² significativo ⇒ associação forte <b>F</b></li>
-<li><b>Inércia</b> = afastamento da independência (=χ²/n*). % dim = inércia dim/total · por representar = 100% − acumulada</li>
-<li><b>Coordenada</b> = posição/sentido · <b>Contribuição</b> = peso na construção da dimensão · <b>cos²</b> = qualidade de representação. <span class="no">Longe da origem ⇏ contribui muito nem bem representada</span></li>
-<li>Dimensão = contraste entre categorias de sinais opostos</li>
-<li><b>M2-10</b> (Premium e Muito satisfeito próximos, longe da origem, cos² alto, Dim.1=62%): sugere associação, boa representação. <b>2 cautelas:</b> (1) proximidade não basta sem <b>contribuições</b>; (2) plano omite <b>38%</b> da inércia; contexto, sem causalidade</li></ul></div>
+<li>nº compras → <b>discreta</b> · satisfação b/m/a → <b>ordinal</b> · € gasto → <b>contínua</b> · Norte/Centro/Sul → <b>nominal</b> · código postal → nominal · escala 1–5 → ordinal</li>
+<li>salário×experiência → <b>Pearson</b> · ranking×ranking; satisfação 1–5×recompra 1–5 → <b>Spearman</b> · rendimento×incumprimento (S/N); satisfação×churn → <b>ponto-bisserial</b> · género×preferência; canal×churn → <b>χ²+V</b></li></ul></div>
 
-<div class="box"><h2>8. Classificatória (clustering) <span class="tag">T4</span><span class="tag">T11</span><span class="tag">M2-5</span><span class="tag">M2-6</span><span class="tag">M2-11</span></h2>
+<div class="box"><h2>R2. χ² e V de Cramér [M2-7]: [18 32 50 / 30 40 30], n=200</h2>
 <ul>
-<li>Grupos <b>desconhecidos</b> · não supervisionado · homogéneo dentro, distinto entre. Distância euclidiana √Σ(p−q)²; padronizar (resolve escala, <span class="no">não outliers</span>)</li>
-<li><b>T4 hierárquico aglomerativo:</b> cada observação começa num cluster e agregam-se sucessivamente os mais próximos até 1. Dendrograma: altura = distância, corte define k (escolhido <i>depois</i>). Ligação: simples=mín · completa=máx · Ward=menor aumento da variância interna</li>
-<li><b>K-means:</b> k prévio → centros iniciais → atribuir ao mais próximo → recalcular → repetir. Numérico</li>
-<li><b>Silhouette</b> s=(b−a)/max(a,b): <b>≈1</b> bem integrada e afastada dos outros · <b>≈0</b> fronteira · <b>negativo</b>: possivelmente mal atribuída (mais perto de outro cluster) [M2-6]</li>
-<li><b>T11c:</b> K=2/3/4 → 0,44/<b>0,61</b>/0,52 → <b>K=3</b> (maior silhouette = melhor coesão e separação)</li>
-<li><b>M2-11a:</b> 0,43/<b>0,57</b>/0,49, menor cluster 38%/18%/4% → <b>K=3</b>; K=4 pior e cluster de 4% pede cautela. Ver também tamanho, estabilidade, interpretabilidade</li>
-<li><b>Limitações do K-means [T11d, M2-11b]:</b> k definido à partida · sensível à inicialização dos centroides · sensível a outliers/escala · favorece clusters compactos de forma/densidade semelhante</li>
-<li>Caracterizar com médias <b>e</b> dispersão e tamanho · taxa do cluster (21%) ≠ prob. individual · silhouette alto ⇏ “grupos verdadeiros”</li></ul></div>
+<li>H0: canal e satisfação independentes · H1: associação</li>
+<li>Totais das colunas 48 · 72 · 80 → <b>E</b>=100×48/200=<b>24</b> · 100×72/200=<b>36</b> · 100×80/200=<b>40</b> (as duas linhas)</li>
+<li>χ²=2×(6²/24 + 4²/36 + 10²/40)=2×(1,5+0,44+2,5)=<b>8,89</b> · gl=(2−1)(3−1)=<b>2</b></li>
+<li>V=√(8,89/(200×1))=<b>0,21</b> (min(l−1,c−1)=1)</li>
+<li class="res">p=0,002&lt;0,05 (enunciado) → rejeita H0: <b>há associação</b>; V=0,21: <b>fraca a moderada</b>; relevância prática no contexto; sem causalidade. <i>(O cálculo dá p≈0,012 com gl=2: mesma conclusão.)</i></li></ul></div>
 
-<div class="box"><h2>9. Discriminante e classificação <span class="tag">T5</span><span class="tag">T12</span><span class="tag">M2-5</span><span class="tag">M2-12</span></h2>
+<div class="box"><h2>R3. Interpretar r [T8, M2-8, ficha 3 e 7]</h2>
 <ul>
-<li>Grupos <b>conhecidos</b> · supervisionada · <b>separa e classifica</b> em grupos previamente definidos · função D=a₀+a₁X₁+…; nº máx. funções min(p,K−1)</li>
-<li><b>M2-5:</b> clustering = grupos desconhecidos (não supervisionado) · discriminante = grupos conhecidos (supervisionado)</li>
-<li><b>Matriz de confusão</b> (linhas=real, colunas=previsto): TP, FN, FP, TN</li>
-<li><span class="f">Acc=(TP+TN)/N · Recall=TP/(TP+FN) · Prec=TP/(TP+FP)</span> · F1=2PR/(P+R) · BalAcc=média dos recalls</li>
-<li><b>T12</b> [30 20 / 10 40], positiva=Com doença: TP30 FN20 FP10 TN40 · acc=70/100=<b>0,70</b> · recall=30/50=<b>0,60</b> · prec=30/40=<b>0,75</b></li>
-<li><b>M2-12</b> [36 14 / 9 41], positiva=Em risco: TP36 FN14 FP9 TN41 · N=100 · acc=<b>77%</b> · recall=36/50=<b>72%</b> · prec=36/45=<b>80%</b> (F1≈0,758)</li>
-<li><b>Avaliar no treino é otimista:</b> o modelo foi ajustado aos mesmos dados → teste independente ou validação cruzada</li>
-<li>Accuracy alta pode enganar com grupos desequilibrados → ver por grupo · FP = erro tipo I · FN = erro tipo II · coeficientes ≠ causa</li>
-<li>Pressupostos: normalidade multivariada, covariâncias iguais (Box, p&lt;0,05 = evidência contra)</li></ul></div>
+<li><b>r=0,78</b> publicidade×vendas: positiva e forte; + publicidade ~ + vendas. <b>Não causal</b> (preço, sazonalidade, concorrência, mercado)</li>
+<li><b>r=−0,64, p&lt;0,001</b> espera×satisfação: negativa, moderada a forte (+ espera, − satisfação); p = evidência contra correlação linear nula; sem causalidade</li>
+<li><b>r=0,02:</b> sem associação <b>linear</b>; não implica “sem relação” (pode ser U) · <b>r<sub>pb</sub>=−0,58</b> (churn=1): + satisfação ⇒ − churn · inverter 0/1: |r| igual, sinal troca</li></ul></div>
 
-<div class="box"><h2>10. Escolha múltipla e V/F: respostas e armadilhas</h2>
+<div class="box"><h2>R4. PCA [M2-9; exerc. 7]: λ=2,60; 0,82; 0,38; 0,20 (p=4)</h2>
 <ul>
-<li><b>T Grupo I:</b> 1=B (outlier: distingue-se das restantes) · 2=A (Pearson: linear, quantitativas) · 3=B (PCA: reduz dimensão) · 4=C (aglomerativo: cada observação começa num cluster) · 5=D (discriminante: classifica em grupos definidos)</li>
-<li><span class="no">Desconfiar</span> de: “sempre”, “necessariamente”, “causa”, “qualquer tipo de variável”, “toda a variância”, “prova”</li>
-<li>F (exerc.): K-means escolhe k sozinho · padronizar elimina outliers · silhouette alto = grupos verdadeiros · ACM = clustering · accuracy alta = bom em todos os grupos</li>
-<li>V (exerc.): inicializações diferentes → soluções diferentes · discriminante é supervisionada</li></ul></div>
+<li><b>Adequação:</b> KMO=0,76 razoável/boa; Bartlett p&lt;0,001 → rejeita R=I → PCA adequada</li>
+<li><b>Kaiser (λ&gt;1):</b> só 2,60 → <b>1 componente</b></li>
+<li><b>%var:</b> C1=2,60/4=<b>65%</b> · C2=0,82/4=20,5% · acumulada C1+C2=<b>85,5%</b> (Σλ=p=4)</li>
+<li><b>C1:</b> loadings qualidade 0,91 · durabilidade 0,87 · satisfação 0,89 · preço −0,72 → contraste: <b>“valor/qualidade global percebida”</b> (dimensão sintética)</li>
+<li class="res">Exerc.: λ=3,18; 0,48; 0,25; 0,09 → C1=<b>79,5%</b>; C1+C2=<b>91,5%</b>; Kaiser → 1 componente (A: simples; B (2 comp.): mais informação)</li></ul></div>
 
-<div class="box"><h2>11. Como responder</h2>
+<div class="box"><h2>R5. ACS / ACM com números [exerc. ACS_ACM; M2-10]</h2>
 <ul>
-<li>1) tipo de variáveis → 2) método (pergunta→PCA/ACS-ACM/clustering/discriminante) → 3) <b>cálculo com fórmula</b> → 4) interpretar <b>no contexto</b> → 5) limite (causalidade, extremos, representação)</li>
-<li>Os modelos pedem: apresentar cálculos, justificar a escolha, interpretar no contexto; <b>associação ≠ causalidade</b></li></ul></div>
+<li>Inércia total 0,109; D1=0,081; D2=0,028 → D1=0,081/0,109=<b>74,3%</b>; D1+D2=<b>100%</b> (2 dimensões)</li>
+<li>ACM: inércia corrigida 38,6% + 24,7% = <b>63,3%</b> → por representar 100−63,3 = <b>36,7%</b></li>
+<li>Online: coord. 0,72 · contrib. 31,5% · cos² 0,82 → constrói a dimensão e está bem representada · Loja: −0,18 · 2,8% · 0,35 → pouco</li>
+<li>Dim.1: Tecnologia e 18–34 (+) vs Lazer e 50+ (−) → contraste mais jovens/Tecnologia vs mais velhos/Lazer</li>
+<li class="res">M2-10: Premium e Muito satisfeito próximos, cos² alto, Dim.1=62% → sugere associação e boa representação. <b>Cautelas:</b> contribuições · 38% omitida · contexto · sem causa</li></ul></div>
 
-
-<div class="box"><h2>12. Extras que podem sair (exercícios)</h2>
+<div class="box"><h2>R6. Clustering [T11, M2-11, exerc.]</h2>
 <ul>
-<li><b>% inércia</b> = inércia da dimensão/total: 0,081/0,109=74,3%; ACM 38,6+24,7=63,3% → por representar 36,7%</li>
-<li><b>Distâncias</b> p=(1,0,2), q=(6,0,3): Manhattan 6 · euclidiana √26 · Chebyshev 5. Ligação simples = menor distância entre duas observações</li>
-<li><b>Dendrograma</b> de 8 observações: 8 grupos no início; cada etapa junta os 2 mais próximos; corte em 2 → {A,B,C,D} e {E,F,G,H}</li>
-<li><b>PCA:</b> λ=3,18 → 79,5% (1 componente por Kaiser); 79,5+12,0=91,5% com 2; 1 PC = indicador único; 2 PC = mais informação</li>
-<li><b>Cluster pequeno</b> (3 obs.) com o melhor silhouette: não escolher automaticamente</li></ul></div>
+<li><b>T11:</b> silhouette 0,44 / <b>0,61</b> / 0,52 (K=2/3/4) → <b>K=3</b> (maior silhouette)</li>
+<li><b>M2-11:</b> 0,43 / <b>0,57</b> / 0,49; menor cluster 38% / 18% / 4% → <b>K=3</b>; K=4 pior e cluster de 4%. Grupos de 120, 110 e 3 obs. → não escolher automaticamente</li>
+<li>s(i)=(b−a)/max(a,b): a=3, b=6 → (6−3)/6=<b>0,5</b> · a=5, b=2 → <b>−0,6</b> (mal atribuída)</li>
+<li>p=(1,0,2), q=(6,0,3): Manhattan=5+0+1=<b>6</b> · euclidiana=√26≈<b>5,10</b> · Chebyshev=<b>5</b></li>
+<li>Matching (Verm.,Peq.,Gás)/(Azul,Peq.,Elétr.)=<b>2/3</b> · Hamming (1,0,1,1)/(1,1,0,1)=<b>2</b></li>
+<li>Dendrograma de 8 obs.: início <b>8 grupos</b>; corte em 2 → {A,B,C,D} e {E,F,G,H}</li></ul></div>
+
+<div class="box"><h2>R7. Matriz de confusão [T12, M2-12, slides]</h2>
+<ul>
+<li><b>T12</b> [30 20 / 10 40], positiva = Com doença: TP30 FN20 FP10 TN40 · N=100 · acc=70/100=<b>0,70</b> · recall=30/50=<b>0,60</b> · prec=30/40=<b>0,75</b> · F1=2·0,75·0,60/1,35=<b>0,667</b> · recall (sem doença)=40/50=0,80 · BalAcc=(0,60+0,80)/2=<b>0,70</b></li>
+<li><b>M2-12</b> [36 14 / 9 41], positiva = Em risco: TP36 FN14 FP9 TN41 · acc=77/100=<b>77%</b> · recall=36/50=<b>72%</b> · prec=36/45=<b>80%</b> · F1≈0,758</li>
+<li><b>Slides</b> [26 18 / 26 210]: acc=236/280=<b>84,3%</b> · recall=26/44=59,1% · prec=26/52=50% · F1≈0,542</li>
+<li class="res">Treino otimista: modelo ajustado aos mesmos dados → amostra de teste ou validação cruzada</li></ul></div>
+
+<div class="box"><h2>R8. Discriminante e avaliação de conclusões</h2>
+<ul>
+<li>nº funções = min(p,K−1): p=5,K=3 → <b>2</b> · p=4,K=5 → <b>4</b> · 2 grupos → <b>1</b> · D=2,1 e corte 0 → Grupo 1</li>
+<li><b>Falsas:</b> silhouette máxima ⇒ “grupos verdadeiros” · 21% no cluster ⇒ prob. individual de cada cliente · cluster×abandono associados ⇒ causa · a ACM identificou segmentos prontos a usar (usar clustering) · proximidade no mapa ⇒ “preferem” · score + ⇒ valores altos em tudo · K-means escolhe k · K-means com nominais + euclidiana · accuracy alta ⇒ bom em todos os grupos · significativo ⇒ forte</li></ul></div>
+
+<div class="box"><h2>R9. Modelo de resposta longa [M2-7]</h2>
+<ul><li>“H0: canal e satisfação são independentes; H1: há associação. Teste do <b>qui-quadrado</b> de independência. Como p=0,002&lt;0,05, <b>rejeita-se H0</b>: há evidência de associação. V=0,21 → intensidade <b>fraca a moderada</b>; a relevância prática depende do contexto. Associação ≠ causalidade.”</li></ul></div>
+
 </div>
-<div class="note">Guia para COPIAR À MÃO (o exame só permite uma folha A4 manuscrita). Fontes: teste-modelo e solução, Modelo de Exame 2 e resolução, slides e exercícios da UC. * = fora dos slides.</div>
+<div class="note">Guia para COPIAR À MÃO (o exame só permite uma folha A4 manuscrita). Fontes: slides, teste-modelo e solução, Modelo de Exame 2 e resolução, exercícios da UC. * = fora dos slides.</div>
 </div>
 </body></html>
