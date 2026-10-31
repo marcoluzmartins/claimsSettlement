@@ -1,0 +1,2 @@
+# Opcional: só para a análise de fotos e descrição com IA (--com-ia).
+anthropic

@@ -1,0 +1,13 @@
+{
+  "titulo": "Moradia V3 com piscina e poço (exemplo fictício)",
+  "concelho": "Exemplo-Interior",
+  "preco_pedido": 400000,
+  "area_util_m2": 180,
+  "area_terreno_m2": 1000,
+  "tipologia": "V3",
+  "ano_construcao": 1990,
+  "estado": "bom",
+  "extras": ["piscina", "poço"],
+  "descricao": "Moradia remodelada e luminosa, com vista desafogada, piscina e poço de água.",
+  "fotos": []
+}
