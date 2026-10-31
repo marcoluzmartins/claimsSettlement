@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="pt-PT"><head><meta charset="utf-8"><title>Folha de apoio</title>
+<style>
+@page { size: A4; margin: 8mm; }
+*{box-sizing:border-box}
+body{font-family:"DejaVu Sans","Liberation Sans",Arial,sans-serif;font-size:8.9pt;line-height:1.28;color:#111;margin:0}
+.page{width:194mm;height:281mm;page-break-after:always;overflow:hidden;position:relative}
+.page:last-child{page-break-after:auto}
+h1{font-size:11.5pt;margin:0 0 3mm 0;border-bottom:1.2px solid #111;padding-bottom:1mm;display:flex;justify-content:space-between}
+h1 span{font-weight:normal;font-size:7pt}
+.cols{column-count:2;column-gap:5mm}
+.box{break-inside:avoid;border:1px solid #444;border-radius:2px;margin:0 0 2.6mm 0;padding:1.4mm 2mm}
+.box h2{font-size:9.4pt;margin:0 0 .8mm 0;background:#e6e6e6;padding:.3mm 1mm;margin:-1.4mm -2mm 1mm -2mm;border-bottom:1px solid #444}
+ul{margin:0;padding-left:3.2mm}li{margin:0 0 .5mm 0}
+.t{width:100%;border-collapse:collapse;margin:.6mm 0}
+.t td,.t th{border:.6px solid #666;padding:.4mm 1mm;text-align:left;vertical-align:top}
+.t th{background:#f0f0f0}
+b.k{border-bottom:1px dotted #000}
+.no{color:#900;font-weight:bold}
+.f{font-family:"DejaVu Sans Mono",monospace;font-size:8.4pt}
+.note{font-size:6.6pt;font-style:italic;margin-top:1mm}
+</style></head><body>
+
+<div class="page">
+<h1>Análise de Dados — FOLHA DE APOIO (frente) <span>Descritiva · Associação · PCA</span></h1>
+<div class="cols">
+
+<div class="box"><h2>1. Tipos de variável</h2>
+<table class="t"><tr><th>Qualitativa</th><th>Quantitativa</th></tr>
+<tr><td><b>Nominal</b> (sem ordem): sexo, região, tipo contrato, <i>código</i> cliente/postal<br><b>Ordinal</b> (com ordem): satisfação baixa/média/alta, escala 1–5, nível risco 1–3, faixa etária, escolaridade</td>
+<td><b>Discreta</b> (contagem): nº compras, filhos, reclamações<br><b>Contínua</b> (medição): rendimento, € gasto, idade, tempo (anos/min)</td></tr></table>
+Os números NÃO definem o tipo (código 10234 = nominal). Quantitativas permitem operações aritméticas.</div>
+
+<div class="box"><h2>2. Estatística descritiva</h2>
+<ul>
+<li>Média x̄=Σx/n (sensível a extremos) · Mediana (valor central, robusta) · Moda (mais frequente)</li>
+<li>Amplitude = máx−mín · <b>s²=Σ(x−x̄)²/(n−1)</b> · s=√s² · <b>AIQ=Q3−Q1</b> · CV=s/x̄ (×100%)</li>
+<li>Quartis: 25% abaixo de Q1, 50% abaixo da mediana, 75% abaixo de Q3; 50% central entre Q1 e Q3</li>
+<li>Cauda à direita: média&gt;mediana&gt;moda · à esquerda: média&lt;mediana&lt;moda · simétrica: ≈</li>
+<li>Histograma = quantitativa em classes (barras contíguas) · barras/circular = qualitativa · boxplot = mediana, quartis, extremos</li>
+<li><b>Outlier: NÃO eliminar automaticamente</b> → ver origem (erro registo/medição/caso real) e impacto. Omissos: quantos? onde? aleatórios? (não substituir sempre pela média). Inconsistências: valores impossíveis (idade −3), duplicados, unidades</li>
+<li>Ex.: 4,5,6,7,8,40 → média 11,7 ≫ mediana 6,5</li></ul></div>
+
+<div class="box"><h2>3. Medida de associação (X × Y)</h2>
+<table class="t"><tr><th>X</th><th>Y</th><th>Medida</th></tr>
+<tr><td>quant.</td><td>quant.</td><td><b>Pearson</b> r (linear)</td></tr>
+<tr><td>ordinal</td><td>ordinal</td><td><b>Spearman</b> ρ (ranks, monótona; robusta a outliers)</td></tr>
+<tr><td>quant.</td><td>binária</td><td><b>Ponto-bisserial</b> (= Pearson c/ 0/1)</td></tr>
+<tr><td>categ.</td><td>categ.</td><td><b>χ² + V de Cramér</b></td></tr></table>
+<ul>
+<li>−1≤r≤1: sinal = direção, |r| = força. <span class="no">r≈0 ⇏ sem relação</span>: só sem relação <b>linear</b> (pode ser U). Pearson assume Normal.</li>
+<li>Ponto-bisserial: inverter a codificação 0/1 muda o <b>sinal</b>, não o |r|. r<sub>pb</sub>=−0,58 (churn=1): + satisfação ⇒ − churn</li></ul></div>
+
+<div class="box"><h2>4. Qui-quadrado e V de Cramér</h2>
+<ul>
+<li>H0: independentes · H1: associadas · <span class="f">χ²=Σ(O−E)²/E</span> · <span class="f">E=tot.linha×tot.col/n</span> · <span class="f">gl=(l−1)(c−1)</span></li>
+<li>p&lt;0,05 → rejeita H0 (há evidência de associação). Condição: E não muito pequenas (≥5), senão Fisher</li>
+<li><b>χ² responde: HÁ associação? · V responde: QUÃO forte?</b> V∈[0,1]; <span class="f">V=√(χ²/(n·min(l−1,c−1)))</span></li>
+<li><b>p&lt;0,001 e V=0,08 → significativa mas FRACA</b> (significância ≠ relevância)</li>
+<li>χ² não diz <i>onde</i> está a associação (ACS / resíduos ajustados)</li>
+<li>Ex. 2×2 [80 20 / 60 40]: E=70,30,70,30 → χ²=9,52 (gl=1), V=0,22</li></ul></div>
+
+<div class="box"><h2>5. Associação ≠ causalidade</h2>
+<ul><li>X causa Y? · Y causa X? · <b>3.º fator (confundimento)</b>: gelados×afogamentos (temperatura); guarda-chuvas×chocolate quente (frio/chuva) · ou acaso</li>
+<li>Resposta-tipo: “X e Y estão associadas (r=…, direção, força); não se pode concluir causalidade porque …”</li></ul></div>
+
+<div class="box"><h2>6. PCA / ACP</h2>
+<ul>
+<li>Só <b>quantitativas</b>; <b>padronizar</b> Z=(X−x̄)/s (escalas diferentes dominam) · PCs = <b>combinações lineares</b>, ordenadas por variância; nº máx = p</li>
+<li>Objetivo: <b>reduzir dimensionalidade preservando variância</b> (≠ classificar, ≠ causalidade)</li>
+<li>Adequação: correlações · <b>KMO</b> (0,76–0,84 = razoável/boa) · <b>Bartlett</b> H0: R=I; p&lt;0,05 rejeita ⇒ há correlação (não diz quais; gl=p(p−1)/2)</li>
+<li>Reter: <b>Kaiser λ&gt;1</b> · scree (cotovelo) · % acumulada · interpretabilidade (decisão conjunta)</li>
+<li><b>%var da PC = λ/p</b> (Σλ=p). Ex.: λ=2,60; 0,82; 0,38; 0,20 → C1=65%, Kaiser: 1 PC</li>
+<li><b>Loading</b> = variável↔componente (intensidade e sinal) · <b>Score</b> = observação↔componente (posição)</li>
+<li>Loadings altos e + em todas → fator <i>global</i> (ex.: “qualidade global”); sinais opostos → contraste (qualidade/durab./satisf. + vs preço −)</li>
+<li class="no">Nome = interpretação; scores próximos ⇏ semelhantes em tudo; sem causalidade; há perda de informação</li></ul></div>
+
+</div></div>
+
+<div class="page">
+<h1>Análise de Dados — FOLHA DE APOIO (verso) <span>ACS/ACM · Clustering · Discriminante</span></h1>
+<div class="cols">
+
+<div class="box"><h2>7. Escolher o método (começar pela pergunta)</h2>
+<table class="t"><tr><td>Resumir muitas var. quantitativas</td><td><b>PCA</b></td></tr>
+<tr><td>Associação entre categorias</td><td><b>ACS</b> (2 var.) · <b>ACM</b> (várias)</td></tr>
+<tr><td>Descobrir grupos (desconhecidos)</td><td><b>Classificatória</b> (não superv.)</td></tr>
+<tr><td>Classificar em grupos conhecidos</td><td><b>Discriminante</b> (superv.)</td></tr></table>
+Maximizam: PCA→variância · Discriminante→separação entre grupos · Clustering→homogeneidade interna.</div>
+
+<div class="box"><h2>8. ACS / ACM</h2>
+<ul>
+<li>ACS: tabela de contingência de 2 categóricas → mapa · ACM: várias categóricas (quantitativas só se categorizadas e justificado) · <b>não são clustering</b>, não dão causalidade nem segmentos (p/ segmentos: clustering)</li>
+<li><b>Inércia</b> = afastamento da independência (= χ²/n). %dim = inércia dim/inércia total. Ex.: 0,081/0,109 = 74,3%; não representada = 100% − acumulada (63,3% → 36,7% por representar)</li>
+<li><b>Coordenada</b> = posição/sentido na dimensão · <b>Contribuição</b> (%) = peso na construção da dimensão · <b>cos²</b> = qualidade de representação</li>
+<li><span class="no">Longe da origem ⇏ contribui muito / bem representada.</span> Ler a dimensão como contraste entre categorias de sinais opostos (ex.: 18–34, Básico, Online vs 50+, Premium, Loja)</li>
+<li><b>Proximidade ≠ associação direta/causal</b>: ver contribuições, cos², % de inércia (62% → 38% omitidos), contexto</li></ul></div>
+
+<div class="box"><h2>9. Análise Classificatória</h2>
+<ul>
+<li>Distâncias: Euclidiana √Σ(p−q)² · Manhattan Σ|p−q| · Chebyshev max|p−q| · categóricas: matching (nº discordâncias/n) · binárias: Hamming. Ex. p=(1,0,2), q=(6,0,3): L1=6, L2=√26, L∞=5</li>
+<li>Padronizar (z / min-max): resolve a <b>escala</b>, <span class="no">NÃO os outliers</span></li>
+<li><b>Hierárquico aglomerativo</b>: n grupos → junta os mais próximos → 1. <b>Dendrograma</b>: altura = distância; <b>corte</b> define k (k escolhido depois). Ligação: <b>simples</b>=distância mínima · <b>completa</b>=máxima · <b>Ward</b>=menor aumento da variabilidade interna. Divisivo = ao contrário</li>
+<li><b>K-means</b> (não hierárquico, numérico): k prévio → centros iniciais → atribuir ao mais próximo → recalcular centros → repetir. Limitações: k prévio · inicialização/mínimo local · outliers · escala · clusters esféricos de tamanho semelhante · só numéricas</li>
+<li><b>Silhouette</b> s=(b−a)/max(a,b): ≈1 bem integrada · ≈0 fronteira · &lt;0 mal atribuída. Escolher k com silhouette média máxima <u>mas</u> ver tamanho (cluster de 3 obs / 4%), estabilidade, interpretabilidade. Cotovelo (WSS)</li>
+<li>Caracterizar: médias <b>e</b> dispersão e tamanho. Var. externa (abandono) ≠ causa; taxa do cluster (21%) ≠ prob. individual. Métodos concordantes = evidência complementar, não prova de robustez. Silhouette alto ⇏ “grupos verdadeiros”</li></ul></div>
+
+<div class="box"><h2>10. Análise Discriminante</h2>
+<ul>
+<li>Grupos <b>conhecidos</b> · <span class="f">D=a₀+a₁X₁+…+a<sub>p</sub>X<sub>p</sub></span> · D&gt;corte→G1 · nº máx. funções <b>min(p,K−1)</b> (p=5,K=3 → 2)</li>
+<li>Pressupostos: normalidade multivariada nos grupos · covariâncias iguais (<b>Box</b> H0: Σ₁=…=Σ<sub>K</sub>; p&lt;0,05 = evidência contra) · sem multicolinearidade grave · sem influentes</li>
+<li><b>Matriz de confusão</b> (linhas=real, colunas=previsto): TP, FN, FP, TN</li>
+<li><span class="f">Acc=(TP+TN)/N · Recall=TP/(TP+FN) · Prec=TP/(TP+FP)</span><br><span class="f">F1=2·P·R/(P+R) · BalAcc=média dos recalls</span></li>
+<li>FP = erro tipo I (falso alarme) · FN = erro tipo II (omissão)</li>
+<li><b>Accuracy alta pode enganar</b> com grupos desequilibrados (acc 84%, recall G1 2%) → ver por grupo</li>
+<li><b>Validar fora da amostra</b> (treino é otimista: validação cruzada / amostra de teste) · coeficientes ≠ causalidade</li>
+<li>Ex.: TP30 FN20 FP10 TN40 → acc 70%, rec 60%, prec 75%, F1 0,667 · TP36 FN14 FP9 TN41 → 77%, 72%, 80%</li></ul></div>
+
+<div class="box"><h2>11. Como responder</h2>
+<ul><li>1) tipo de variáveis → 2) método → 3) cálculo (mostrar a fórmula) → 4) interpretar <b>no contexto</b> → 5) limitação/causalidade</li>
+<li>Escolha múltipla: eliminar “causalidade”, “sempre”, “necessariamente”</li>
+<li>Justificar sempre (V/F: ler a palavra “sempre/toda/implica”)</li></ul></div>
+
+</div>
+<div class="note">Folha-guia para COPIAR À MÃO (o exame só permite A4 manuscrita). Fontes: slides da UC, exercícios e modelos de exame.</div>
+</div>
+</body></html>
