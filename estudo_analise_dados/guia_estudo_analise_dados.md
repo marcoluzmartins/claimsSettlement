@@ -1,37 +1,56 @@
 ---
 title: "Análise de Dados — Guia de estudo para o exame de 2 de novembro"
-subtitle: "Teste-modelo resolvido e explicado, com exemplos e variações possíveis"
+subtitle: "Teste-modelo e Modelo de Exame 2 resolvidos e explicados, exercícios resolvidos, exemplos e variações possíveis"
 lang: pt-PT
 ---
 
 # 0. Como usar este guia
 
-**Formato do exame (email da professora):** 60 minutos, cotado para 20 valores, uma folha A4 manuscrita (frente e verso). Pode ter escolha múltipla, resposta aberta, cálculos, interpretação de resultados e justificação. Depois do exame há uma discussão oral individual do trabalho (5 a 10 minutos).
+**Formato do exame (email da professora):** 60 minutos, cotado para 20 valores, uma folha A4 manuscrita (frente e verso). Pode ter escolha múltipla, resposta aberta, cálculos, interpretação de resultados e justificação. Avalia-se **escolher e aplicar o método certo** e **interpretar criticamente**. Depois do exame há uma discussão oral individual do trabalho (5 a 10 minutos).
 
-**Estrutura de cada questão**
+**Como o guia está organizado**
 
-1. O **enunciado do teste-modelo** aparece em citação no início.
+| Parte | Conteúdo |
+|---|---|
+| 1 e 2 | **Teste-modelo** (12 questões): enunciado, resposta, razão e variações. Confirmado pela solução oficial. |
+| 3 | **Modelo de Exame 2** (12 questões, 90 min sugeridos): enunciado, resposta, razão e variações. |
+| 4 | **Exercícios resolvidos** das aulas: associação, Wooclap, PCA, ACS/ACM e Análise Classificatória. |
+| 5 | **Outros pontos do programa** (análise preliminar, dispersão, distâncias e ligações, ACM). |
+| 6 | **Banco de treino** com respostas. |
+| 7 | **Erros mais comuns** e **frases-chave**. |
+
+**Formato de cada questão**
+
+1. O **enunciado** aparece em citação no início.
 2. A **resposta** e, indentada por baixo, a **razão** (com o documento e a página onde a matéria está).
 3. As **variações possíveis**: cada pergunta tem por baixo, indentadas, a **resposta** e a **justificação**.
 
 **Como estão indicadas as fontes**
 
-- Entre parênteses retos aparece o **nome do documento e a página**, por exemplo [Análise Preliminar, p. 29]. As páginas são as do PDF (nos PDFs com rodapé "n / N" coincidem com o número do slide).
+- Entre parênteses retos aparece o **nome do documento e a página** (ou o número do exercício), por exemplo [Análise Preliminar, p. 29]. As páginas são as do PDF; nos PDFs com rodapé "n / N" coincidem com o número do slide.
 - **[complemento]** = conhecimento geral útil que **não** está nos documentos da professora. Na prova, usa de preferência o vocabulário dos documentos.
+- Os cálculos marcados "meu cálculo" são meus, não vêm dos documentos.
 
 | Nome usado no guia | Ficheiro |
 |---|---|
-| Apresentação da UC | 0_Apresentação_da_UC.pdf |
-| Análise Preliminar | 1_Analise_Preliminar_de_Dados.pdf |
-| Slides 18/09 | Slides_Aula_20260918.pdf (medidas de associação, em inglês) |
-| PCA | PCA.pdf |
-| ACS_ACM | ACS_ACM.pdf |
-| Análise Classificatória | Análise_Classificatória.pdf |
-| Análise Discriminante | Análise_Discriminante.pdf |
-| Overview | overview.pdf |
-| Teste-modelo | Modelo.pdf |
+| Apresentação da UC | Apresentação da UC |
+| Análise Preliminar | 1_Analise_Preliminar_de_Dados |
+| Slides 18/09 | Slides_Aula_20260918 (medidas de associação, em inglês) |
+| PCA | PCA |
+| ACS_ACM | ACS_ACM |
+| Análise Classificatória | Análise_Classificatória |
+| Clustering | Clustering (Cluster Analysis, em inglês, 26 pp.) |
+| Análise Discriminante | Análise_Discriminante |
+| Overview | overview |
+| Teste-modelo / Modelo_solucao | Modelo / Modelo_solucao |
+| Modelo de Exame 2 / Resolução | Modelo_Exame_2_Analise_de_Dados / Modelo_Exame_2_Resolucao |
+| Ficha de exercícios | Exercícios (medidas de associação, com soluções) |
+| Exercícios PCA / ACS_ACM / Classificatória | PCA_exercicios / ACS_ACM_exercicios / Analise_Classificatoria_exercicios (e respetivas soluções) |
+| Wooclap | Wooclap_pdf (quiz de Análise Preliminar) |
+| Artigo de dispersão | artigo_medidas_de_dispersao (Bastos e Duquia, 2007; páginas da revista: 40 a 44) |
 
 **Ideia que atravessa a UC inteira:** *não começamos pelo método, começamos pela pergunta.* Antes de escolher uma técnica, pergunta-te: que tipo de variáveis tenho? Qual é a pergunta de investigação? Tenho grupos previamente definidos? [Overview, p. 15]
+
 
 ## 0.1 Mapa de decisão: pergunta → método [Overview, p. 13]
 
@@ -53,7 +72,20 @@ lang: pt-PT
 
 Regras de bolso [Slides 18/09, p. 23]: quantitativas → Pearson; rankings → Spearman; outliers extremos → Spearman pode ser mais robusto.
 
-# 1. Grupo I — Escolha múltipla
+
+# 1. Parte I — Teste-modelo: Grupo I (escolha múltipla)
+
+> **O que a solução oficial do teste-modelo (Modelo_solucao) confirma e acrescenta**
+>
+> - Grupo I: **1 = B, 2 = A, 3 = B, 4 = C, 5 = D** (igual às respostas abaixo).
+> - Q7: o qui-quadrado de Pearson aplica-se "desde que os pressupostos relativos às frequências esperadas sejam satisfeitos"; H₀ = independência, H₁ = associação.
+> - Q8b: as vendas podem ser influenciadas por outros fatores, como preço, sazonalidade, concorrência ou condições de mercado.
+> - Q9a: a C1 "poderá representar uma dimensão global de desempenho"; a limitação é que a interpretação depende do significado das variáveis e das cargas, e a componente não demonstra um fator causal comum.
+> - Q10c: identificar causalidade exige um desenho de investigação e pressupostos adicionais.
+> - Q11d: o K-means exige definir previamente o número de clusters, é sensível à inicialização dos centroides e a valores extremos, e pode dar resultados menos adequados quando os grupos têm formas ou densidades muito diferentes.
+> - Q12: TP = 30, FN = 20, FP = 10, TN = 40; accuracy 70%, recall 60%, precision 75%.
+
+
 
 ## Questão 1 — Outlier
 
@@ -225,7 +257,7 @@ Regras de bolso [Slides 18/09, p. 23]: quantitativas → Pearson; rankings → S
     - **Resposta:** Análise Classificatória (clustering).
     - **Justificação:** sem definir previamente os grupos, procuram-se perfis semelhantes [Overview, p. 8 e 16].
 
-# 2. Grupo II — Respostas abertas
+# 2. Parte I — Teste-modelo: Grupo II (respostas abertas)
 
 ## Questão 6 — Classificar variáveis
 
@@ -309,7 +341,7 @@ V de Cramér [complemento: fórmula] = √(χ² / (n · min(linhas−1, colunas�
     - **Justificação:** variáveis categóricas [Slides 18/09, p. 38].
 - **Pergunta:** "Que condição se deve verificar para aplicar o qui-quadrado?"
     - **Resposta:** frequências esperadas não demasiado pequenas (regra habitual ≥ 5 por célula); com valores muito baixos pode usar-se o teste exato de Fisher.
-    - **Justificação:** [complemento]; não está nos documentos da professora.
+    - **Justificação:** a solução oficial exige que os pressupostos relativos às frequências esperadas sejam satisfeitos [Modelo_solucao, Q7]. A regra habitual (≥ 5 por célula) e o teste exato de Fisher são [complemento].
 
 ## Questão 8 — Pearson r = 0,78 (publicidade e vendas)
 
@@ -474,7 +506,7 @@ Esperado (Loja/Alimentação) = 150 × 150 / 450 = 50; observado = 80, muito aci
 - **c) Resposta:** K = 3.
     - **Razão:** tem o silhouette médio mais alto (0,61), o que indica, em geral, melhor coesão e separação dos grupos [Análise Classificatória, p. 13 e 14]. Como nos documentos, o k com a silhouette mais elevada é o escolhido no exemplo [Análise Classificatória, p. 13]; ainda assim a escolha de k não deve depender de um único indicador [Análise Classificatória, p. 15].
 - **d) Resposta:** é preciso definir k à partida (o K-means não determina o número correto de grupos); o resultado depende da inicialização; e, como usa distâncias, é sensível à escala das variáveis e a valores extremos. Aqui, rendimento (€) e idade (anos) têm escalas muito diferentes, por isso há que padronizar.
-    - **Razão:** [Análise Classificatória, p. 11 e 12] (k definido antes e dependência da inicialização); [Análise Classificatória, p. 5] (escala e padronização); [Análise Classificatória, p. 21] (os métodos baseados em distâncias podem ser sensíveis a valores extremos). Outras limitações habituais, como assumir clusters esféricos e só funcionar com variáveis quantitativas, são conhecimento geral [complemento].
+    - **Razão:** [Análise Classificatória, p. 11 e 12] (k definido antes e dependência da inicialização); [Análise Classificatória, p. 5] (escala e padronização); [Análise Classificatória, p. 21] (os métodos baseados em distâncias podem ser sensíveis a valores extremos). Os slides de Clustering acrescentam: só dados numéricos (variáveis padronizadas), assume clusters de tamanho e variância semelhantes e funciona bem com clusters esféricos [Clustering, p. 18 e 20]. Solução oficial: [Modelo_solucao, Q11].
 
 **Como se calcula a silhouette:** s(i) = (b(i) − a(i)) / max{a(i), b(i)}, onde a(i) é a distância média da observação ao seu próprio grupo e b(i) a distância média ao grupo alternativo mais próximo [Análise Classificatória, p. 14]. Exemplo (meu): a = 2 e b = 5 → s = 3/5 = 0,6 (bem integrada); a = 5 e b = 2 → s = −0,6 (provavelmente mal classificada); a = b → s = 0 (fronteira).
 
@@ -554,9 +586,423 @@ Esperado (Loja/Alimentação) = 150 × 150 / 450 = 50; observado = 80, muito aci
     - **Resposta:** variáveis quantitativas adequadas; sem multicolinearidade grave; normalidade multivariada dentro dos grupos; matrizes de covariância aproximadamente iguais; sem observações excessivamente influentes. O teste de Box testa H₀: Σ₁ = … = Σ_K; p < 0,05 → evidência contra a igualdade; p ≥ 0,05 → não se rejeita H₀ (o que não "prova" a igualdade).
     - **Justificação:** [Análise Discriminante, p. 20 e 21].
 
-# 3. Outros pontos do programa que podem aparecer
 
-## 3.1 Análise preliminar
+# 3. Parte II — Modelo de Exame 2
+
+*(Duração sugerida: 90 minutos; 20 valores. Parte A: 6 valores; Parte B: 14 valores. O exame real tem 60 minutos, por isso usa este modelo como treino com margem. Instrução do enunciado: apresentar os cálculos, justificar as escolhas metodológicas e interpretar no contexto; associação não deve ser apresentada como causalidade [Modelo de Exame 2, p. 1].)*
+
+## Parte A — Conceitos e escolha de métodos
+
+### M2-1 — Ordinal vs discreta (1,0 valor)
+
+> **Enunciado.** Distinga uma variável qualitativa ordinal de uma variável quantitativa discreta e apresente um exemplo de cada.
+
+- **Resposta:** **ordinal** = categorias com ordem natural (exemplo: satisfação baixa/média/alta). **Quantitativa discreta** = contagem com valores inteiros (exemplo: número de compras).
+    - **Razão:** ordinais têm ordem natural; discretas resultam de contagens e assumem valores isolados [Análise Preliminar, p. 8 e 10]. Os números não definem o tipo: "grau de satisfação 1 a 5" é ordinal, "número de compras" é discreta [Análise Preliminar, p. 9]. Solução oficial: [Modelo de Exame 2, Resolução, Q1].
+
+**Variações possíveis**
+
+- **Pergunta:** "Distinga variável quantitativa contínua de discreta e dê exemplos."
+    - **Resposta:** contínua resulta de uma medição e pode tomar qualquer valor num intervalo (rendimento, idade, tempo); discreta resulta de contagem (número de reclamações).
+    - **Justificação:** [Análise Preliminar, p. 10].
+- **Pergunta:** "Distinga nominal de ordinal e explique porque a distinção é relevante."
+    - **Resposta:** nominal não tem ordem (sexo, região); ordinal tem ordem natural. É relevante porque a ordem permite usar medidas diferentes (por exemplo Spearman para duas ordinais).
+    - **Justificação:** [Análise Preliminar, p. 8]; [Exercícios ACS_ACM, Ex. 1.3]; [Slides 18/09, p. 45].
+
+### M2-2 — Mediana vs média (1,0 valor)
+
+> **Enunciado.** Explique por que motivo a mediana pode ser preferível à média quando existem valores extremos.
+
+- **Resposta:** a média é influenciada por valores extremos; a mediana depende da posição ordenada, é mais robusta e representa melhor o centro quando a distribuição é assimétrica ou contém outliers.
+    - **Razão:** [Análise Preliminar, p. 16] (rendimentos 1200, 1300, 1400, 1500, 10000: média 3080 e mediana 1400). Solução oficial: [Modelo de Exame 2, Resolução, Q2].
+
+**Variações possíveis**
+
+- **Pergunta:** "Tempos de espera 4, 5, 6, 7, 8 e 40. Qual afirmação é correta: a média é pouco afetada pelo 40; a mediana é mais sensível que a média; a média é mais influenciada que a mediana; o 40 deve ser eliminado?"
+    - **Resposta:** "a média é mais influenciada pelo valor 40 do que a mediana" (média ≈ 11,7; mediana = 6,5, cálculo meu).
+    - **Justificação:** [Wooclap, pergunta 7]; [Análise Preliminar, p. 16 e 29].
+
+### M2-3 — Medida de associação (1,0 valor)
+
+> **Enunciado.** Para estudar a relação entre satisfação numa escala de 1 a 5 e intenção de recompra numa escala de 1 a 5, indique uma medida de associação adequada e justifique.
+
+- **Resposta:** **Spearman**.
+    - **Razão:** as duas variáveis são ordinais; o Spearman usa ordens (ranks), mede associação monótona e é adequado a variáveis ordinais [Slides 18/09, p. 20 e 45]. Solução oficial: [Modelo de Exame 2, Resolução, Q3].
+
+**Variações possíveis**
+
+- **Pergunta:** "Que medida usar para satisfação (0–10) e churn (Sim/Não)? E para género e churn?"
+    - **Resposta:** ponto-bisserial; qui-quadrado + V de Cramér.
+    - **Justificação:** [Slides 18/09, p. 30, 45 e 57 a 61].
+
+### M2-4 — PCA (1,0 valor)
+
+> **Enunciado.** Indique o principal objetivo da PCA e explique a diferença entre loading e score.
+
+- **Resposta:** reduzir a dimensionalidade, resumindo variáveis correlacionadas em componentes que preservam variância. **Loading:** relação entre uma variável e uma componente. **Score:** posição de uma observação nessa componente.
+    - **Razão:** [PCA, p. 3, 18, 20 e 21]. Solução oficial: [Modelo de Exame 2, Resolução, Q4].
+
+**Variações possíveis**
+
+- **Pergunta:** "Dois municípios têm scores próximos na C1. São semelhantes em todas as variáveis?"
+    - **Resposta:** não; a proximidade numa dimensão não garante proximidade no espaço multivariado completo.
+    - **Justificação:** [PCA, p. 21]; [Exercícios PCA, Ex. 11c].
+
+### M2-5 — Classificatória vs discriminante (1,0 valor)
+
+> **Enunciado.** Diferencie análise classificatória de análise discriminante quanto ao conhecimento prévio dos grupos.
+
+- **Resposta:** na classificatória (clustering, não supervisionada) os grupos **não** são conhecidos e procuram-se; na discriminante (supervisionada) os grupos **são** conhecidos e pretende-se separar e classificar observações.
+    - **Razão:** [Análise Discriminante, p. 3 e 25]; [Overview, p. 12]. Solução oficial: [Modelo de Exame 2, Resolução, Q5].
+
+### M2-6 — Silhouette (1,0 valor)
+
+> **Enunciado.** Explique o significado de um valor de silhouette próximo de 1 e de um valor negativo.
+
+- **Resposta:** **próximo de 1:** observação bem integrada no seu cluster e afastada dos restantes. **Negativo:** pode estar mal atribuída, mais próxima de outro cluster.
+    - **Razão:** s(i) = (b(i) − a(i))/max{a(i), b(i)}, com a(i) distância média ao próprio grupo e b(i) distância média ao grupo alternativo mais próximo [Análise Classificatória, p. 14]. Leitura: s ≈ 1 bem agrupada, s ≈ 0 clusters sobrepostos, s ≈ −1 mal classificada [Clustering, p. 25]. Solução oficial: [Modelo de Exame 2, Resolução, Q6].
+
+## Parte B — Aplicação e interpretação
+
+### M2-7 — Variáveis categóricas (2,0 valores)
+
+> **Enunciado.** Uma empresa pretende avaliar se o canal de compra está associado ao nível de satisfação. Obteve a tabela seguinte:
+>
+> | Canal | Baixa | Média | Alta | Total |
+> |---|---|---|---|---|
+> | Loja física | 18 | 32 | 50 | 100 |
+> | Online | 30 | 40 | 30 | 100 |
+> | Total | 48 | 72 | 80 | 200 |
+>
+> **a)** Formule H₀ e H₁ e indique o teste adequado.\
+> **b)** Se p = 0,002 e V de Cramér = 0,21, interprete os resultados.
+
+- **a) Resposta:** H₀: canal e satisfação são independentes; H₁: existe associação. Teste: **qui-quadrado de independência** sobre a tabela de contingência.
+    - **Razão:** duas variáveis categóricas → qui-quadrado + V de Cramér [Slides 18/09, p. 45]; H₀ independência e H₁ associação [Slides 18/09, p. 40; ACS_ACM, p. 6]. A satisfação é ordinal, mas na tabela de contingência as suas categorias são analisadas como categorias [complemento].
+- **b) Resposta:** como p = 0,002 < 0,05, rejeita-se H₀: há evidência de associação entre canal e satisfação. V = 0,21 indica intensidade **fraca a moderada**; a relevância prática deve ser avaliada no contexto. Não se conclui causalidade.
+    - **Razão:** o qui-quadrado diz *se* há associação; o V diz *quão forte* (0 ≤ V ≤ 1) [Slides 18/09, p. 40 a 44; Ficha de exercícios, Ex. 10]. Solução oficial: [Modelo de Exame 2, Resolução, Q7].
+
+**Verificação com os dados do enunciado (meu cálculo):** frequências esperadas = 24, 36 e 40 em cada linha; χ² = 2 × (6²/24 + 4²/36 + 10²/40) ≈ 8,89 com gl = (2−1)(3−1) = 2; V = √(8,89/200) ≈ 0,21, o que coincide com o V dado.
+
+**Variações possíveis**
+
+- **Pergunta:** "Se p = 0,40 e V = 0,05, o que concluir?"
+    - **Resposta:** não se rejeita H₀: não há evidência de associação; V muito baixo.
+    - **Justificação:** p ≥ 0,05 não rejeita H₀ [ACS_ACM, p. 7]; V próximo de 0 → associação fraca [Slides 18/09, p. 43].
+- **Pergunta:** "Qual é a frequência esperada de Loja física/Alta?"
+    - **Resposta:** 100 × 80/200 = 40.
+    - **Justificação:** esperada = situação sob independência [ACS_ACM, p. 8]; fórmula (total da linha × total da coluna)/n [complemento].
+
+### M2-8 — Correlação (2,0 valores)
+
+> **Enunciado.** Entre tempo de espera e satisfação obteve-se r = −0,64, com p < 0,001. Interprete direção, intensidade, significância e limite causal.
+
+- **Resposta:** **direção** negativa (maiores tempos de espera acompanham menor satisfação); **intensidade** moderada a relativamente forte; **significância:** p < 0,001 dá evidência estatística contra a ausência de correlação linear; **limite causal:** não demonstra causalidade nem exclui confundimento.
+    - **Razão:** sinal = direção, módulo = força [Slides 18/09, p. 8 a 10]; associação ≠ causalidade [Slides 18/09, p. 47 a 54]. Solução oficial: [Modelo de Exame 2, Resolução, Q8].
+
+**Variações possíveis**
+
+- **Pergunta:** "r = 0,82 (marketing e vendas), r = −0,75 (preço e quantidade) e r = 0,03 (antiguidade e satisfação). Direção, intensidade, uma conclusão correta e uma incorreta."
+    - **Resposta:** A: positiva, forte; correta: mais marketing tende a estar associado a mais vendas; incorreta: aumentar o marketing causará necessariamente mais vendas. B: negativa, forte; correta: preços mais altos tendem a estar associados a menores quantidades vendidas; incorreta: a relação é necessariamente causal. C: praticamente inexistente, muito fraca; correta: pouca evidência de associação linear; incorreta: não existe qualquer relação.
+    - **Justificação:** [Ficha de exercícios, Ex. 3].
+
+### M2-9 — PCA (3,0 valores)
+
+> **Enunciado.** Foi aplicada PCA a quatro variáveis padronizadas. KMO = 0,76 e Bartlett p < 0,001. Os valores próprios são 2,60; 0,82; 0,38; 0,20. Os loadings da Componente 1 são:
+>
+> | Variável | Loading C1 |
+> |---|---|
+> | Qualidade | 0,91 |
+> | Durabilidade | 0,87 |
+> | Satisfação | 0,89 |
+> | Preço percebido | −0,72 |
+>
+> **a)** Avalie a adequação da PCA.\
+> **b)** Pelo critério de Kaiser, quantas componentes reteria?\
+> **c)** Calcule a variância explicada por C1.\
+> **d)** Proponha uma interpretação para C1.
+
+- **a) Resposta:** KMO = 0,76 sugere adequação razoável/boa; Bartlett p < 0,001 rejeita H₀: R = I, logo há correlação suficiente entre as variáveis. Os dois indicam que a PCA é adequada.
+    - **Razão:** [PCA, p. 7 e 8]. O Bartlett não indica quais variáveis estão associadas, nem que todas as correlações sejam fortes [PCA, p. 7].
+- **b) Resposta:** **1 componente**, porque só 2,60 > 1.
+    - **Razão:** critério de Kaiser: reter componentes com λ > 1 [PCA, p. 11].
+- **c) Resposta:** variância de C1 = 2,60/4 × 100 = **65%**.
+    - **Razão:** o valor próprio representa a variância explicada pela componente [PCA, p. 10]; com variáveis padronizadas o total é p = 4 (a soma dos valores próprios é 4,00). A divisão por p é [complemento]; no exemplo dos slides, 3,62/8 = 45,3% [PCA, p. 10].
+- **d) Resposta:** C1 opõe qualidade, durabilidade e satisfação elevadas a preço percebido elevado; um nome possível é "valor/qualidade global percebida", sendo uma dimensão sintética.
+    - **Razão:** loadings com sinais opostos descrevem um contraste; o nome é uma interpretação substantiva baseada nos loadings mais elevados [PCA, p. 18 e 19]. Solução oficial: [Modelo de Exame 2, Resolução, Q9].
+
+**Variações possíveis**
+
+- **Pergunta:** "Que % de variância explica C2 e qual a acumulada com C1 e C2?"
+    - **Resposta:** C2 = 0,82/4 = 20,5%; acumulada = 65% + 20,5% = 85,5% (meu cálculo).
+    - **Justificação:** variância acumulada = soma das % das componentes [PCA, p. 14].
+- **Pergunta:** "Reteria 2 componentes? Quando poderia fazê-lo?"
+    - **Resposta:** o Kaiser aponta 1; poderia justificar-se 2 se o objetivo exigisse mais informação (85,5% acumulada) e a C2 fosse interpretável, mas a decisão deve combinar vários critérios.
+    - **Justificação:** [PCA, p. 9]; comparação de soluções com 1 e 2 componentes [Exercícios PCA, Ex. 10].
+
+### M2-10 — ACS/ACM (2,0 valores)
+
+> **Enunciado.** Num mapa de correspondências, as categorias "Premium" e "Muito satisfeito" surgem próximas, afastadas da origem, ambas com cos² elevado. A Dimensão 1 explica 62% da inércia. Interprete estes resultados e indique duas cautelas necessárias antes de concluir que existe uma associação forte.
+
+- **Resposta:** a proximidade sugere associação entre "Premium" e "Muito satisfeito" e o cos² elevado indica boa representação no mapa. **Duas cautelas:** (1) a proximidade visual não basta sem analisar as **contribuições** das categorias; (2) o plano representa 62% da inércia, **omitindo 38%**. Além disso, depende do contexto e não prova causalidade.
+    - **Razão:** a proximidade não se interpreta como medida direta de associação sem coordenadas, contribuições e qualidade de representação [ACS_ACM, p. 12 e 13]; cos² mede a qualidade de representação [ACS_ACM, p. 13]; as dimensões explicam partes da inércia [ACS_ACM, p. 10]. Solução oficial: [Modelo de Exame 2, Resolução, Q10].
+
+**Variações possíveis**
+
+- **Pergunta:** "Estar longe da origem significa que a categoria contribui muito?"
+    - **Resposta:** não; uma coordenada de grande magnitude não implica grande contribuição nem boa representação.
+    - **Justificação:** [ACS_ACM, p. 13 e 14]; [Exercícios ACS_ACM, Ex. 4.3, 4.4 e 5.3g].
+
+### M2-11 — Clustering (2,0 valores)
+
+> **Enunciado.** Foram comparadas soluções de K-means:
+>
+> | K | Silhouette média | Menor cluster |
+> |---|---|---|
+> | 2 | 0,43 | 38% |
+> | 3 | 0,57 | 18% |
+> | 4 | 0,49 | 4% |
+>
+> **a)** Qual solução escolheria? Justifique.\
+> **b)** Indique duas limitações do K-means.
+
+- **a) Resposta:** **K = 3**: tem a maior silhouette (0,57) e o menor cluster ainda tem 18%. K = 4 tem pior silhouette e um cluster de apenas 4%, que exige cautela.
+    - **Razão:** escolhe-se o k com silhouette mais alta, mas a decisão deve considerar também o tamanho dos grupos, a estabilidade e a interpretabilidade [Análise Classificatória, p. 13 a 15; Exercícios Classificatória, Ex. 5d].
+- **b) Resposta:** (1) requer k definido previamente; (2) depende da inicialização dos centroides. Também: sensível a escala e a outliers; favorece clusters aproximadamente compactos e de forma semelhante.
+    - **Razão:** [Análise Classificatória, p. 11, 12 e 21]; [Clustering, p. 18 a 20]. Solução oficial: [Modelo de Exame 2, Resolução, Q11].
+
+**Variações possíveis**
+
+- **Pergunta:** "Com os mesmos dados, a maior silhouette fosse K = 4 (0,60) mas com um cluster de 4%. Escolheria K = 4 automaticamente?"
+    - **Resposta:** não; um cluster muito pequeno pode indicar uma solução pouco útil ou instável; devem ponderar-se tamanho, estabilidade e interpretação.
+    - **Justificação:** [Exercícios Classificatória, Ex. 5d].
+
+### M2-12 — Discriminante e classificação (3,0 valores)
+
+> **Enunciado.** Considere "Cliente em risco" como classe positiva. O modelo produziu:
+>
+> | | Previsto: risco | Previsto: sem risco |
+> |---|---|---|
+> | **Real: risco** | 36 | 14 |
+> | **Real: sem risco** | 9 | 41 |
+>
+> **a)** Identifique TP, FN, FP e TN.\
+> **b)** Calcule accuracy, recall e precision.\
+> **c)** Explique por que razão a avaliação apenas nos dados de treino pode ser otimista.
+
+- **a) Resposta:** TP = 36; FN = 14; FP = 9; TN = 41; N = 100.
+    - **Razão:** linhas = real, colunas = previsto; TP e TN são os acertos [Análise Discriminante, p. 11 e 13].
+- **b) Resposta:** accuracy = (36 + 41)/100 = **77%**; recall = 36/(36 + 14) = **72%**; precision = 36/(36 + 9) = **80%**.
+    - **Razão:** [Análise Discriminante, p. 12 e 14].
+- **c) Resposta:** porque o modelo foi ajustado aos mesmos dados; deve usar-se uma amostra de teste independente ou validação cruzada para estimar a capacidade de generalização.
+    - **Razão:** [Análise Discriminante, p. 19]. Solução oficial: [Modelo de Exame 2, Resolução, Q12].
+
+**Variações possíveis**
+
+- **Pergunta:** "Calcule o F1-score e a balanced accuracy."
+    - **Resposta:** F1 = 2 · 0,80 · 0,72/(0,80 + 0,72) ≈ 0,758. Recall do grupo "sem risco" = 41/50 = 82%; balanced accuracy = (72% + 82%)/2 = 77% (meu cálculo).
+    - **Justificação:** [Análise Discriminante, p. 15 e 18].
+- **Pergunta:** "Que tipo de erro é um FN neste contexto e porque é relevante?"
+    - **Resposta:** erro do tipo II (omissão): um cliente em risco não é identificado; é relevante porque a empresa não atua sobre ele, e traduz-se num recall mais baixo.
+    - **Justificação:** [Análise Discriminante, p. 13]; a leitura de negócio é [complemento].
+
+# 4. Exercícios resolvidos das aulas
+
+*(As respostas seguem as soluções fornecidas pela professora. Quando uma resposta foi deduzida por mim, está indicado.)*
+
+## 4.1 Ficha de exercícios — Medidas de associação
+
+- **Pergunta (Ex. 1):** Medida mais apropriada em: a) salário anual e anos de experiência; b) ranking de satisfação e ranking de qualidade; c) rendimento mensal e incumprimento (Sim/Não); d) género e preferência por produto (A, B ou C); e) visitas ao website e valor gasto.
+    - **Resposta:** a) Pearson; b) Spearman; c) ponto-bisserial; d) qui-quadrado + V de Cramér; e) Pearson.
+    - **Justificação:** quantitativa × quantitativa → Pearson; ordinais/rankings → Spearman; quantitativa × binária → ponto-bisserial; categórica × categórica → qui-quadrado + V [Slides 18/09, p. 45].
+- **Pergunta (Ex. 2):** Idade, rendimento, satisfação (0–10), canal de aquisição, género e churn (Sim/Não). Medida para: 1) idade e rendimento; 2) satisfação e churn; 3) género e churn; 4) canal de aquisição e churn.
+    - **Resposta:** 1) Pearson; 2) ponto-bisserial; 3) qui-quadrado + V; 4) qui-quadrado + V.
+    - **Justificação:** [Slides 18/09, p. 56 a 61].
+- **Pergunta (Ex. 3):** Caso A: r = 0,82 (marketing e vendas); Caso B: r = −0,75 (preço e quantidade); Caso C: r = 0,03 (antiguidade e satisfação). Direção, intensidade, uma conclusão correta e uma incorreta.
+    - **Resposta:** A: positiva, forte; correta: mais investimento tende a estar associado a mais vendas; incorreta: aumentar o marketing causará necessariamente mais vendas. B: negativa, forte; correta: preços mais altos tendem a estar associados a menores quantidades; incorreta: a relação é necessariamente causal. C: praticamente inexistente, muito fraca; correta: pouca evidência de associação linear; incorreta: não existe qualquer relação.
+    - **Justificação:** [Slides 18/09, p. 9 a 13 e 47 a 54].
+- **Pergunta (Ex. 4):** r = 0,01 entre duas variáveis. Pode concluir-se que não existe qualquer relação?
+    - **Resposta:** não; r ≈ 0 só indica ausência de associação **linear**; pode existir uma relação não linear forte, por exemplo em U.
+    - **Justificação:** [Slides 18/09, p. 12 e 13].
+- **Pergunta (Ex. 5):** Seis lojas ordenadas por limpeza (1 a 6) e satisfação (A: 1 e 2; B: 2 e 1; C: 3 e 4; D: 4 e 3; E: 5 e 5; F: 6 e 6). Sem calcular: a associação é positiva ou negativa? O Spearman seria elevado ou reduzido?
+    - **Resposta:** positiva; Spearman elevado.
+    - **Justificação:** os rankings são muito semelhantes: lojas bem posicionadas numa variável tendem a estar bem posicionadas na outra [Slides 18/09, p. 17 a 21]. (Meu cálculo: ρ ≈ 0,89.)
+- **Pergunta (Ex. 6):** Medida para: a) ranking de desempenho × ranking de satisfação dos clientes; b) despesa em publicidade × vendas; c) horas de estudo × classificação, com alguns valores extremos.
+    - **Resposta:** a) Spearman; b) Pearson; c) Spearman.
+    - **Justificação:** em c) o Spearman é mais robusto à presença de outliers [Slides 18/09, p. 22 e 23].
+- **Pergunta (Ex. 7):** r_pb = −0,58, com churn = 1 e não churn = 0, e a variável quantitativa é a satisfação. Interprete.
+    - **Resposta:** clientes com maior satisfação tendem a ter menor probabilidade de churn; associação moderada a forte.
+    - **Justificação:** [Slides 18/09, p. 33, 35 e 36].
+- **Pergunta (Ex. 8):** Se a codificação for invertida (churn = 0, não churn = 1), o valor absoluto da correlação altera-se? E o sinal?
+    - **Resposta:** o valor absoluto **não** se altera; o **sinal muda** (negativa passa a positiva e vice-versa).
+    - **Justificação:** o sinal depende da codificação da variável binária [Slides 18/09, p. 33].
+- **Pergunta (Ex. 9):** p < 0,001 e V = 0,08 (género e compra). Interpretação mais adequada: A) associação forte; B) evidência estatística de associação, mas fraca; C) o género causa o comportamento; D) não existe associação.
+    - **Resposta:** **B**.
+    - **Justificação:** p < 0,001 indica evidência de associação; V = 0,08 indica intensidade fraca [Slides 18/09, p. 42 a 44].
+- **Pergunta (Ex. 10):** Complete: o qui-quadrado responde à pergunta ___; o V de Cramér responde à pergunta ___.
+    - **Resposta:** qui-quadrado: existe evidência estatística de associação entre as variáveis? V de Cramér: qual é a intensidade da associação?
+    - **Justificação:** [Slides 18/09, p. 40 a 43].
+- **Pergunta (Ex. 11):** r = 0,70 entre satisfação dos colaboradores e retenção. Quais afirmações são corretas?
+    - **Resposta:** corretas: colaboradores mais satisfeitos tendem a permanecer mais tempo; as variáveis estão associadas; pode existir uma terceira variável a influenciar ambas. Incorreta: aumentar a satisfação aumentará necessariamente a retenção.
+    - **Justificação:** [Slides 18/09, p. 49, 50 e 62].
+- **Pergunta (Ex. 12):** Forte associação entre vendas de guarda-chuvas e de chocolate quente. Explicação plausível sem relação causal direta?
+    - **Resposta:** a temperatura ou a estação do ano: em períodos frios aumenta simultaneamente a procura de ambos; a variável meteorológica é uma variável de confusão.
+    - **Justificação:** mesma lógica de gelados × afogamentos e temperatura [Slides 18/09, p. 51 a 53].
+- **Pergunta (Ex. 13):** Caso integrador (telecomunicações): medida para idade × rendimento; satisfação × churn; género × churn; canal de aquisição × tipo de plano; rendimento × satisfação.
+    - **Resposta:** Pearson; ponto-bisserial; qui-quadrado + V; qui-quadrado + V; Pearson.
+    - **Justificação:** [Slides 18/09, p. 45 e 61]. O Pearson mede direção e intensidade da associação linear; o Spearman a associação monótona entre rankings; o ponto-bisserial a associação entre quantitativa e binária; o qui-quadrado avalia se existe evidência de associação e o V a sua força.
+- **Pergunta (Ex. 14):** O diretor diz: "Como a satisfação está fortemente correlacionada com a retenção, devemos aumentar a satisfação para reduzir o churn". Como responde, enquanto analista?
+    - **Resposta:** os resultados indicam que satisfação e retenção estão associadas, mas correlação elevada não demonstra causalidade; os clientes mais satisfeitos podem permanecer mais tempo, mas uma terceira variável pode influenciar ambas; antes de decidir são necessários estudos adicionais sobre a causalidade.
+    - **Justificação:** [Slides 18/09, p. 49, 50 e 54].
+
+## 4.2 Wooclap — Quiz de Análise Preliminar
+
+*(O PDF só traz as perguntas, todas com 0 votos e sem chave de respostas; as respostas abaixo foram deduzidas por mim a partir dos slides.)*
+
+- **Pergunta 1:** Base com informação sobre 500 clientes. Cada linha representa: uma variável, uma observação/unidade estatística, uma categoria ou uma população?
+    - **Resposta:** uma observação/unidade estatística.
+    - **Justificação:** linhas = unidades estatísticas; colunas = variáveis [Análise Preliminar, p. 4 e 5].
+- **Pergunta 2:** "Sexo" (masculino/feminino) é: discreta, contínua, nominal ou ordinal?
+    - **Resposta:** qualitativa nominal.
+    - **Justificação:** categorias sem ordem natural [Análise Preliminar, p. 8].
+- **Pergunta 3:** "Grau de concordância" (escala 1 a 5) é: discreta, contínua, nominal ou ordinal?
+    - **Resposta:** qualitativa ordinal.
+    - **Justificação:** a escala tem ordem; "Grau de satisfação 1 a 5 → qualitativa ordinal" [Análise Preliminar, p. 9].
+- **Pergunta 4:** "Número de compras realizadas por um cliente" é: nominal, ordinal, discreta ou contínua?
+    - **Resposta:** quantitativa discreta.
+    - **Justificação:** [Análise Preliminar, p. 9 e 10].
+- **Pergunta 5:** A idade de uma pessoa é, conceptualmente: ordinal, discreta, contínua ou nominal?
+    - **Resposta:** quantitativa contínua.
+    - **Justificação:** a idade surge como exemplo de contínua [Análise Preliminar, p. 10].
+- **Pergunta 6:** Código numérico para tipo de cliente (1 = Particular, 2 = Empresarial, 3 = Institucional). A variável é: discreta, contínua, nominal ou ordinal?
+    - **Resposta:** qualitativa nominal.
+    - **Justificação:** números não significam necessariamente variável quantitativa [Análise Preliminar, p. 9].
+- **Pergunta 7:** Tempos de espera 4, 5, 6, 7, 8 e 40. Qual afirmação é correta?
+    - **Resposta:** a média é mais influenciada pelo valor 40 do que a mediana.
+    - **Justificação:** [Análise Preliminar, p. 16]; o 40 não deve ser eliminado automaticamente [Análise Preliminar, p. 29].
+- **Pergunta 8:** Qual é uma medida de dispersão: média, mediana, moda ou amplitude interquartil?
+    - **Resposta:** amplitude interquartil.
+    - **Justificação:** [Análise Preliminar, p. 18 e 19].
+- **Pergunta 9:** Boxplot com Q1 = 1400, mediana = 1600 e Q3 = 1800. Qual afirmação é correta?
+    - **Resposta:** 50% dos clientes têm rendimento entre 1400 € e 1800 €.
+    - **Justificação:** 50% central entre Q1 e Q3; AIQ = 400 [Análise Preliminar, p. 19 e 21].
+- **Pergunta 10:** Tempos de atendimento agrupados em intervalos de 5 minutos. Representação mais adequada?
+    - **Resposta:** histograma, porque os intervalos correspondem a valores consecutivos de uma variável quantitativa.
+    - **Justificação:** [Análise Preliminar, p. 22 e 23].
+- **Pergunta 11:** Um cliente com rendimento muito superior ao dos restantes. Atitude mais adequada?
+    - **Resposta:** verificar a origem e o impacto do valor antes de decidir como proceder.
+    - **Justificação:** [Análise Preliminar, p. 29].
+- **Pergunta 12:** Rendimento mensal sem valor registado para alguns clientes. Afirmação correta?
+    - **Resposta:** os valores em falta devem ser identificados e a sua origem e impacto avaliados antes de decidir como tratá-los.
+    - **Justificação:** [Análise Preliminar, p. 27].
+
+## 4.3 Exercícios de PCA
+
+*(Contexto: quatro medidas quantitativas — preço, qualidade percebida, durabilidade e satisfação — de oito produtos; pretende-se verificar se se resumem a menos dimensões.)*
+
+- **Pergunta (Ex. 1):** Qual afirmação é mais adequada para uma PCA: todas qualitativas; quantitativas com estrutura de correlação que justifique a PCA; apenas uma variável; variáveis independentes entre si?
+    - **Resposta:** as variáveis devem ser quantitativas e ter uma estrutura de correlação que justifique a PCA.
+    - **Justificação:** [PCA, p. 5 e 6].
+- **Pergunta (Ex. 2):** V ou F: variáveis qualitativas (região, tipo de produto) podem entrar diretamente numa PCA convencional como as quantitativas.
+    - **Resposta:** **Falso**.
+    - **Justificação:** [PCA, p. 5] (os indicadores do exemplo são quantitativos).
+- **Pergunta (Ex. 3 e 4):** Porque padronizar antes da PCA? V ou F: se o Preço varia entre 20 e 1000 e as restantes entre 1 e 10, a PCA sem padronizar pode dar ao Preço influência desproporcional.
+    - **Resposta:** para colocar as variáveis numa escala comparável e evitar que a escala de uma variável domine as componentes; a segunda afirmação é **Verdadeira**.
+    - **Justificação:** [PCA, p. 5].
+- **Pergunta (Ex. 5):** Principal objetivo da PCA?
+    - **Resposta:** reduzir o número de dimensões preservando tanto quanto possível a informação da variabilidade.
+    - **Justificação:** [PCA, p. 3].
+- **Pergunta (Ex. 6):** KMO = 0,78; Bartlett χ² = 31,42, gl = 6, p < 0,001. Interprete o KMO, o Bartlett e o conjunto.
+    - **Resposta:** KMO indica adequação razoável/boa; Bartlett rejeita H₀ (matriz de correlações não é a identidade), logo há associações entre algumas variáveis; em conjunto, há estrutura de correlações suficiente para a PCA.
+    - **Justificação:** [PCA, p. 7 e 8]. (gl = p(p − 1)/2 = 6 com p = 4 [complemento].)
+- **Pergunta (Ex. 7):** Valores próprios 3,18; 0,48; 0,25; 0,09 (variâncias 79,5%, 12,0%, 6,3%, 2,2%). Que representa um valor próprio? % da 1.ª? Acumulada das duas primeiras? Kaiser? Quantas reter?
+    - **Resposta:** valor próprio = variância explicada pela componente; 1.ª = 79,5%; acumulada = 79,5 + 12,0 = 91,5%; Kaiser retém 1 componente; reter 1 é razoável porque só a 1.ª tem λ > 1 e explica 79,5% da variância total.
+    - **Justificação:** [PCA, p. 10, 11 e 14].
+- **Pergunta (Ex. 8):** Loadings da C1: preço 0,91; qualidade 0,94; durabilidade 0,93; satisfação 0,90. O que representa um loading? Variáveis mais associadas? Interpretação? Seria adequado chamar-lhe "qualidade global do produto"?
+    - **Resposta:** loading = relação entre uma variável original e uma componente, indicando intensidade e direção; as quatro variáveis, sobretudo qualidade (0,94) e durabilidade (0,93); C1 = dimensão de qualidade global do produto; o nome é adequado se se deixar claro que é uma interpretação sintética e não uma variável observada.
+    - **Justificação:** [PCA, p. 16 a 19].
+- **Pergunta (Ex. 9):** Scores na C1: A = −2,10; B = −1,45; C = −0,80; D = −0,20; E = 0,55; F = 0,95; G = 1,35; H = 1,70. Maior e menor score? Comparar A e H? Um score positivo implica valores altos em todas as variáveis? Loading vs score?
+    - **Resposta:** maior = H (1,70); menor = A (−2,10); H tem perfil muito mais associado à dimensão (qualidade global) do que A; **não**, o score resulta da combinação das variáveis e depende dos loadings; loading = variável ↔ componente; score = observação ↔ componente.
+    - **Justificação:** [PCA, p. 20 e 21].
+- **Pergunta (Ex. 10):** Solução A: 1 componente, 79,5%, complexidade muito baixa; Solução B: 2 componentes, 91,5%, complexidade baixa. Qual preserva mais informação? Qual é mais simples? Qual para um único indicador? Qual para compreender dimensões?
+    - **Resposta:** B preserva mais informação; A é mais simples; A serve melhor para um indicador sintético que ordene os produtos; B é mais informativa para compreender várias dimensões.
+    - **Justificação:** [PCA, p. 9 e 14].
+- **Pergunta (Ex. 11):** Avalie: (a) a PCA permite concluir que a qualidade causa maior satisfação; (b) a C1 pode ser um indicador sintético das características globais; (c) dois produtos com scores próximos na C1 são necessariamente semelhantes em tudo; (d) a redução de dimensionalidade facilita a análise mas implica perda de informação.
+    - **Resposta:** (a) inadequada: a PCA identifica uma dimensão comum associada a qualidade, durabilidade e satisfação; (b) adequada, com cautela; (c) inadequada: scores próximos numa componente não garantem proximidade no espaço multivariado completo; (d) adequada.
+    - **Justificação:** [PCA, p. 21 e 22].
+
+## 4.4 Exercícios de ACS e ACM
+
+*(Contexto do Ex. 1 a 4: tabela de contingência produto preferido (Tecnologia, Casa, Lazer) × faixa etária (18–34, 35–49, 50+), n = 263.)*
+
+- **Pergunta (Ex. 1.1 a 1.3):** "Faixa etária" é: quantitativa discreta, nominal, ordinal ou contínua? E "tipo de produto"? V ou F: por serem ambas qualitativas, a distinção nominal/ordinal não é relevante.
+    - **Resposta:** faixa etária = **qualitativa ordinal**; tipo de produto = **qualitativa nominal**; **Falso**: a distinção é relevante porque as ordinais têm uma ordem natural e as nominais não.
+    - **Justificação:** [Análise Preliminar, p. 8].
+- **Pergunta (Ex. 1.4 e 1.5):** Que afirmação descreve a relação (existem diferenças nas preferências por faixa etária, sugerindo associação)? V ou F: a associação permite concluir que a idade determina a preferência.
+    - **Resposta:** opção B (existem diferenças, sugerindo possível associação); **Falso**: associação não permite concluir que uma variável determine ou cause a outra.
+    - **Justificação:** [Slides 18/09, p. 47 a 54].
+- **Pergunta (Ex. 2.1 a 2.5):** Qui-quadrado de independência com χ² = 28,64, gl = 4, p < 0,001. Hipóteses? Decisão? Significado? O teste identifica as categorias responsáveis? Permite concluir causalidade?
+    - **Resposta:** H₀: faixa etária e tipo de produto são independentes; H₁: existe associação. Como p < 0,001, rejeita-se H₀ (5%): há evidência de associação. **Não** identifica as categorias responsáveis (só a associação global; para isso, por exemplo, resíduos ajustados). **Não** permite concluir causalidade.
+    - **Justificação:** [ACS_ACM, p. 6 e 7].
+    - **Nota (meu cálculo):** aplicando a fórmula à tabela do enunciado obtém-se χ² ≈ 17,0, e não 28,64; os valores do exercício são ilustrativos.
+- **Pergunta (Ex. 3.1 a 3.5):** Inércia total 0,109; Dimensão 1 = 0,081; Dimensão 2 = 0,028. O que representa a inércia? Quantas dimensões para toda a inércia? % da 1.ª? Acumulada das duas? Quantas dimensões num mapa 2D?
+    - **Resposta:** inércia = medida da associação, relacionada com o afastamento em relação à independência (opção B); são necessárias 2 dimensões; 1.ª = 0,081/0,109 ≈ 74,3%; as duas somam 100%; o mapa representa 2 dimensões.
+    - **Justificação:** [ACS_ACM, p. 10]. (Observação minha: 28,64/263 ≈ 0,109, ou seja, inércia total = χ²/n [complemento].)
+- **Pergunta (Ex. 4.1 e 4.2):** Coordenadas (Dim. 1, Dim. 2): Tecnologia (0,72; 0,08), Casa (−0,18; −0,61), Lazer (−0,51; 0,48), 18–34 (0,65; 0,14), 35–49 (−0,10; −0,55), 50+ (−0,72; 0,43). Quais as mais positivas e negativas na dimensão 1 e como interpretá-la? Que categorias no lado positivo da dimensão 2?
+    - **Resposta:** mais positivas: Tecnologia (0,72) e 18–34 (0,65); mais negativas: 50+ (−0,72) e Lazer (−0,51). A dimensão 1 opõe um perfil de clientes mais jovens com Tecnologia a um perfil de clientes mais velhos com Lazer. No lado positivo da dimensão 2: Lazer (0,48) e 50+ (0,43), sugerindo associação entre 50+ e Lazer (com cautela quanto às contribuições e à qualidade da representação).
+    - **Justificação:** [ACS_ACM, p. 12 e 13].
+- **Pergunta (Ex. 4.3 e 4.4):** Contribuições: Tecnologia 31,5% e 1,2%; Casa 2,8% e 35,4%; Lazer 18,6% e 24,7%; 18–34 27,1% e 4,8%; 35–49 1,4% e 29,6%; 50+ 18,6% e 4,3%. Que categoria mais contribui para cada dimensão? A contribuição interpreta-se como a coordenada? Diferença?
+    - **Resposta:** dimensão 1: Tecnologia (31,5%); dimensão 2: Casa (35,4%). Não: a coordenada indica a posição e a direção da categoria na dimensão; a contribuição indica a importância da categoria na construção da dimensão. Uma coordenada elevada em valor absoluto não implica elevada contribuição.
+    - **Justificação:** [ACS_ACM, p. 13 e 14].
+- **Pergunta (Ex. 4.5):** Conclusão de um analista: "Categorias próximas no mapa estão diretamente associadas; logo os clientes 18–34 preferem Tecnologia e os 50+ preferem Casa". Concorda?
+    - **Resposta:** não integralmente: a proximidade pode sugerir padrões de associação, mas a posição visual não basta para estabelecer associação direta ou causal; deve analisar-se também a contribuição e o cos², as restantes categorias e a informação estatística subjacente. Aqui as coordenadas sugerem proximidade entre 18–34 e Tecnologia e entre 50+ e Lazer (não Casa).
+    - **Justificação:** [ACS_ACM, p. 12 e 13].
+- **Pergunta (Ex. 5.1):** Variáveis: faixa etária, canal de compra, rendimento mensal, tipo de plano, método de pagamento, idade, região, frequência de utilização, nº de produtos. Quais são adequadas para uma ACM?
+    - **Resposta:** faixa etária, canal de compra, tipo de plano, método de pagamento e região (qualitativas). Rendimento, idade, frequência de utilização e nº de produtos são quantitativas e, em geral, não entram diretamente numa ACM convencional.
+    - **Justificação:** [ACS_ACM, p. 18].
+- **Pergunta (Ex. 5.2):** Inércia corrigida: dim. 1 = 38,6%, 2 = 24,7%, 3 = 15,2%, 4 = 9,1%, 5 = 6,4% (acumuladas 38,6; 63,3; 78,5; 87,6; 94,0). Quanto explica a 1.ª e as duas primeiras? Quantas dimensões no mapa 2D? Que informação fica por representar?
+    - **Resposta:** 38,6% e 63,3%; 2 dimensões; 100% − 63,3% = **36,7%** fica por representar.
+    - **Justificação:** [ACS_ACM, p. 20].
+- **Pergunta (Ex. 5.3):** Coordenadas, contribuições e cos² da dimensão 1 de várias categorias (50+: 0,91; Plano Premium: 0,88; Compra Loja: 0,71 do lado positivo; 18–34: −0,82; Plano Básico: −0,74; Compra Online: −0,65 do lado negativo). Que categorias se destacam? Interpretação da dimensão 1? Que categorias mais contribuem? Diferença entre contribuição e cos²? Qual a melhor representada? Porque é enganador olhar só para a distância à origem?
+    - **Resposta:** lado positivo: 50+, Plano Premium, Compra Loja; lado negativo: 18–34, Plano Básico, Compra Online. Dimensão 1 = contraste entre clientes mais velhos com Premium e compras em loja e clientes mais jovens com Básico e compras online (síntese minha dos padrões, não uma característica fornecida pela ACM). Maior contribuição: 50+ (22,7%), Plano Premium (20,5%), 18–34 (18,4%), Plano Básico (15,3%). **Contribuição** = importância na construção da dimensão; **cos²** = qualidade da representação da categoria nessa dimensão. Melhor representada: Plano Premium (cos² = 0,91). Uma categoria afastada da origem tem coordenada grande, mas isso não implica contribuição elevada nem boa representação.
+    - **Justificação:** [ACS_ACM, p. 13, 14 e 19].
+- **Pergunta (Ex. 5.4):** Um analista conclui que "a ACM identificou três segmentos (jovens digitais, tradicionais e premium) que podem ser usados diretamente em campanhas". Concorda?
+    - **Resposta:** não integralmente: a ACM analisa a estrutura de associação entre categorias de várias variáveis qualitativas e identifica padrões ou perfis nas categorias, mas não identifica diretamente segmentos de clientes; para criar segmentos usa-se análise classificatória (hierárquico ou K-means). A ACM pode ser etapa exploratória ou de redução da informação antes do agrupamento.
+    - **Justificação:** [ACS_ACM, p. 22 e 23].
+
+## 4.5 Exercícios de Análise Classificatória
+
+- **Pergunta (Ex. 1a a 1c):** Clientes A (25 anos; 1200 €; 45; 6,2), B (28; 1350; 50; 6,8), C (52; 3200; 120; 8,4), D (55; 3400; 125; 8,7). Entre A e B e entre A e C, qual terá menor distância? Porque padronizar? A padronização elimina a influência de valores extremos?
+    - **Resposta:** A e B (valores mais semelhantes em todas as variáveis); padroniza-se para pôr as variáveis numa escala comparável e evitar que uma de valores numericamente elevados domine a distância; **não** elimina a influência de extremos (resolve a escala; K-means e outros métodos baseados em distâncias continuam sensíveis).
+    - **Justificação:** [Análise Classificatória, p. 4, 5 e 21].
+- **Pergunta (Ex. 2a a 2d):** Dendrograma de oito clientes (A a H). Quantos grupos no início? Que acontece em cada etapa? Cortando em dois grupos, quais? A escolha do corte deve ser só visual?
+    - **Resposta:** 8 grupos; em cada etapa agregam-se dois grupos suficientemente próximos segundo a distância e o critério de ligação, e o número de grupos diminui; com dois grupos: {A, B, C, D} e {E, F, G, H}; **não**: a inspeção visual deve ser complementada com critérios de validação (silhouette), estabilidade, dimensão dos grupos e interpretabilidade.
+    - **Justificação:** [Análise Classificatória, p. 7 a 9].
+- **Pergunta (Ex. 3a a 3d):** Silhouette por número de grupos: ligação simples 0,21; 0,18; 0,15; 0,12 (2 a 5 grupos); Ward 0,35; 0,41; 0,37; 0,29. Melhor solução de Ward? O maior silhouette prova que é a única solução correta? Distância entre grupos na ligação simples? Porque comparar métodos?
+    - **Resposta:** Ward com 3 grupos (0,41); **não**: o silhouette é um critério importante, mas não determina uma única solução verdadeira (ver estabilidade, dimensão, interpretabilidade, contexto); na ligação simples a distância entre dois grupos é a **menor distância entre duas observações, uma de cada grupo** (opção C); comparar métodos permite ver se a estrutura é semelhante com procedimentos diferentes, o que dá evidência complementar, não prova de robustez.
+    - **Justificação:** [Análise Classificatória, p. 10, 13 a 15 e 20; Clustering, p. 16].
+- **Pergunta (Ex. 4a a 4e):** K-means: hierárquico ou não? Informação a definir antes? Etapas? V ou F: inicializações diferentes podem dar soluções diferentes; V ou F: o K-means pode ser aplicado diretamente a nominais com distância euclidiana.
+    - **Resposta:** não hierárquico; o número de clusters k; (1) definir k, (2) inicializar centros, (3) atribuir cada observação ao centro mais próximo, (4) recalcular centros, (5) repetir até convergir; **Verdadeiro**; **Falso** (a distância euclidiana não é diretamente adequada a nominais; é preciso uma medida de proximidade adequada).
+    - **Justificação:** [Análise Classificatória, p. 11 e 12; Clustering, p. 18 a 20].
+- **Pergunta (Ex. 5a a 5d):** Silhouette K-means: 2 → 0,36; 3 → 0,42; 4 → 0,35; 5 → 0,29. Melhor solução? Que significa silhouette mais alto? Duas outras questões antes de escolher k? Com k = 3 e grupos de 120, 110 e 3 observações, escolhe-se automaticamente?
+    - **Resposta:** 3 clusters (0,42); em geral, observações mais próximas das do seu próprio cluster do que das dos outros (melhor separação e coesão); outras questões: estabilidade, dimensão dos clusters, interpretabilidade, comparação com outras soluções ou métodos, sensibilidade a extremos; **não**: um cluster com 3 observações pode indicar uma solução pouco útil ou instável.
+    - **Justificação:** [Análise Classificatória, p. 13 a 15].
+- **Pergunta (Ex. 6a a 6c):** Médias por cluster (idade, rendimento, despesa, satisfação): C1 (52; 3500; 145; 8,7); C2 (31; 1800; 65; 7,8); C3 (46; 1500; 48; 6,2). Caracterize. Basta analisar médias? Que outras informações?
+    - **Resposta:** C1: clientes mais velhos, rendimento e despesa elevados, satisfação alta; C2: mais jovens, rendimento e despesa intermédios, satisfação relativamente elevada; C3: idade intermédia, rendimento e despesa mais baixos, menor satisfação. **Não** basta: as médias podem esconder grande variabilidade dentro de cada cluster; analisar dispersão, tamanho, distribuições, variáveis qualitativas e externas e estabilidade.
+    - **Justificação:** [Análise Classificatória, p. 16 e 17].
+- **Pergunta (Ex. 7a a 7c):** Três clusters (80, 120 e 100 clientes) com taxas de abandono 7,5%, 10,0% e 21,0%; a variável abandono não foi usada no clustering; teste de associação com p = 0,012. O abandono é variável interna ou externa? O teste sugere associação? Pode afirmar-se que o Cluster 3 representa necessariamente os clientes com maior risco individual?
+    - **Resposta:** **externa** (não foi usada para construir os clusters); **sim**, p = 0,012 < 0,05 rejeita a independência; **não necessariamente**: 21% é a taxa observada no conjunto do cluster, não o risco individual de cada cliente nem um modelo preditivo.
+    - **Justificação:** [Análise Classificatória, p. 18].
+- **Pergunta (Ex. 8a a 8c):** Hierárquico (silhouette 0,39; grupos 62, 84, 134) e K-means (0,42; 60, 87, 133). O que sugere a semelhança? Prova a robustez? Outras formas de avaliar a estabilidade?
+    - **Resposta:** sugere estrutura de agrupamento semelhante nos dois métodos (evidência complementar); **não** prova robustez; avaliar estabilidade com diferentes inicializações do K-means, reamostragem, comparação de métodos, estabilidade das atribuições, sensibilidade a extremos e outros critérios de validação.
+    - **Justificação:** [Análise Classificatória, p. 19, 20 e 24; Clustering, p. 26].
+- **Pergunta (Ex. 9a a 9d):** Analista: "K-means identificou três grupos; como a silhouette foi mais alta para k = 3, são os três grupos verdadeiros; o Cluster 3 tem maior taxa de abandono, logo cada cliente tem maior probabilidade individual; a empresa deve direcionar já as campanhas para todos". V ou F: (a) silhouette mais alta para k = 3 prova três grupos verdadeiros; (b) o número de clusters deve considerar também estabilidade, dimensão e interpretabilidade; (c) 21% de abandono é a probabilidade individual; (d) associação entre cluster e abandono implica que o cluster é a causa.
+    - **Resposta:** (a) **Falso**; (b) **Verdadeiro**; (c) **Falso**; (d) **Falso**.
+    - **Justificação:** [Análise Classificatória, p. 15, 18 e 22].
+
+# 5. Outros pontos do programa que podem aparecer
+
+## 5.1 Análise preliminar
 
 - **Pergunta:** "O que é a matriz de dados?"
     - **Resposta:** linhas = unidades estatísticas; colunas = variáveis.
@@ -583,7 +1029,7 @@ Esperado (Loja/Alimentação) = 150 × 150 / 450 = 50; observado = 80, muito aci
     - **Resposta:** valores omissos (quantos, em que variáveis, ocorrem aleatoriamente?), valores impossíveis, categorias escritas de formas diferentes, unidades inconsistentes, duplicados e valores fora dos limites esperados.
     - **Justificação:** [Análise Preliminar, p. 27 e 28].
 
-## 3.2 Bivariada
+## 5.2 Bivariada
 
 - **Pergunta:** "Uma correlação forte e significativa basta para concluir?"
     - **Resposta:** não; significância estatística não implica relevância prática nem causalidade, e a interpretação é mais importante do que o cálculo.
@@ -592,7 +1038,7 @@ Esperado (Loja/Alimentação) = 150 × 150 / 450 = 50; observado = 80, muito aci
     - **Resposta:** codifica-se a binária numericamente (por exemplo Churn = Sim → 1, Não → 0) e calcula-se o Pearson entre a quantitativa e a binária codificada; o sinal depende da codificação.
     - **Justificação:** [Slides 18/09, p. 31, 32 e 33].
 
-## 3.3 ACM
+## 5.3 ACM
 
 - **Pergunta:** "Que variáveis podem entrar numa ACM?"
     - **Resposta:** categóricas; as quantitativas só se forem categorizadas, com decisão justificada.
@@ -601,7 +1047,44 @@ Esperado (Loja/Alimentação) = 150 × 150 / 450 = 50; observado = 80, muito aci
     - **Resposta:** pela inércia corrigida por dimensão e acumulada (exemplo: 57,3%, 15,6%, 13,8% e 8,3%; acumulada 72,9% nas duas primeiras).
     - **Justificação:** [ACS_ACM, p. 20].
 
-# 4. Banco de treino — variações para resolveres sozinho
+
+## 5.4 Medidas de dispersão (artigo e slides)
+
+- **Pergunta:** "Duas distribuições com a mesma média podem ser diferentes?"
+    - **Resposta:** sim; podem ter dispersões muito diferentes (por exemplo, notas médias de 5 em Biologia e em Matemática, mas muito mais variáveis em Matemática).
+    - **Justificação:** [Artigo de dispersão, p. 40 e 41]; [Análise Preliminar, p. 18].
+- **Pergunta:** "Como se calculam a amplitude, a variância, o desvio-padrão e o coeficiente de variação?"
+    - **Resposta:** amplitude = máximo − mínimo; variância amostral s² = Σ(x − x̄)²/(n − 1); desvio-padrão s = √s² (mantém a unidade original); coeficiente de variação = s/x̄ (habitualmente em %).
+    - **Justificação:** [Artigo de dispersão, p. 41 a 43 (numeração da revista)]. A amplitude não considera os valores intermédios; a variância usa todas as observações [Artigo de dispersão, p. 41].
+- **Pergunta:** "Notas de Biologia e Matemática: amplitudes 4 e 8, variâncias 1,09 e 8,54. O que concluir?"
+    - **Resposta:** Matemática tem maior dispersão (maior amplitude e variância).
+    - **Justificação:** [Artigo de dispersão, p. 41 e 42].
+
+## 5.5 Distâncias, ligações e K-means (slides de Clustering)
+
+- **Pergunta:** "Calcule as distâncias de Manhattan, euclidiana e de Chebyshev entre p = (1, 0, 2) e q = (6, 0, 3)."
+    - **Resposta:** Manhattan = |1−6| + |0−0| + |2−3| = 6; euclidiana = √(25 + 0 + 1) = √26 ≈ 5,10; Chebyshev = máx(5, 0, 1) = 5.
+    - **Justificação:** Minkowski com r = 1, 2 e r → ∞ [Clustering, p. 7 a 9].
+- **Pergunta:** "Que distância usar para variáveis categóricas e binárias? Calcule: p = (Vermelho, Pequeno, Gasolina) e q = (Azul, Pequeno, Elétrico); p = (1, 0, 1, 1) e q = (1, 1, 0, 1)."
+    - **Resposta:** categóricas: distância de *matching* (nº de discordâncias/n) → 2/3; binárias: Hamming (nº de posições diferentes) → 2.
+    - **Justificação:** [Clustering, p. 5, 10 e 11].
+- **Pergunta:** "Defina ligação simples, completa e método de Ward."
+    - **Resposta:** simples: distância entre os pontos mais próximos dos dois grupos; completa: distância entre os pontos mais afastados; Ward: minimiza a variância dentro dos grupos (menor aumento da variabilidade interna).
+    - **Justificação:** [Clustering, p. 16]; [Análise Classificatória, p. 10]; [Exercícios Classificatória, Ex. 3c].
+- **Pergunta:** "Agregativo vs divisivo?"
+    - **Resposta:** aglomerativo (bottom-up): cada observação começa num grupo e juntam-se os mais próximos até restar um; divisivo (top-down): começa-se com tudo num grupo e dividem-se; o aglomerativo é o mais usado e ambos dão um dendrograma.
+    - **Justificação:** [Clustering, p. 15].
+- **Pergunta:** "Que requisitos tem o K-means e como se pode escolher k?"
+    - **Resposta:** dados numéricos e variáveis padronizadas (z-score ou min-max); k pelo método do cotovelo (WSS em função de k, escolher o "cotovelo") ou pela silhouette média mais alta.
+    - **Justificação:** [Clustering, p. 18, 22, 24 e 25].
+- **Pergunta:** "Como preparar variáveis nominais ou ordinais para o clustering?"
+    - **Resposta:** nominais: codificação *one-hot*; ordinais: codificação ordinal (ex.: Baixo = 1, Médio = 2, Alto = 3).
+    - **Justificação:** [Clustering, p. 22].
+- **Pergunta:** "Passos de um projeto de clustering?"
+    - **Resposta:** preparação dos dados; seleção e transformação de variáveis; escolha do algoritmo; escolha do número de clusters; avaliação e interpretação.
+    - **Justificação:** [Clustering, p. 21].
+
+# 6. Banco de treino — variações para resolveres sozinho
 
 *(Cada pergunta traz por baixo a resposta e a justificação.)*
 
@@ -659,7 +1142,27 @@ Esperado (Loja/Alimentação) = 150 × 150 / 450 = 50; observado = 80, muito aci
     - **Resposta:** 4.
     - **Justificação:** min(p, K − 1) = min(4, 4) = 4 [Análise Discriminante, p. 10].
 
-# 5. Frases-chave para memorizar
+
+# 7. Erros mais comuns e frases-chave
+
+## 7.1 Erros mais comuns
+
+1. Dizer que correlação ou associação **causa** algo.
+2. Dizer que r ≈ 0 significa "não há relação" (só não há relação **linear**).
+3. Escolher Pearson para rankings/ordinais (é Spearman) ou ponto-bisserial para duas categóricas (é qui-quadrado + V).
+4. Dizer que p < 0,05 implica associação *forte* (a intensidade mede-se com o V de Cramér).
+5. Dizer que padronizar resolve outliers.
+6. Dizer que o K-means escolhe o k sozinho ou que a silhouette mais alta prova o número "verdadeiro" de grupos.
+7. Confundir recall com precision (recall: dividir pelos **reais** positivos; precision: dividir pelos **previstos** positivos).
+8. Dizer que accuracy alta significa bom desempenho em todos os grupos.
+9. Dizer que ACS/ACM são clustering, ou que proximidade no mapa prova associação.
+10. Dizer que a PCA prova que uma variável causa outra, ou que scores próximos implicam observações iguais.
+11. Eliminar outliers ou substituir omissos pela média sem ver a origem.
+12. Chamar contínua a uma contagem, ou quantitativa a um código.
+13. Esquecer a justificação e a interpretação **no contexto**, que os modelos pedem sempre.
+14. Aceitar o cluster com 3 observações só porque tem a silhouette mais alta.
+
+## 7.2 Frases-chave para memorizar
 
 - "Não começamos pelo método. Começamos pela pergunta." [Overview, p. 15]
 - Os dados, por si só, não são informação; uma análise termina quando conseguimos interpretar o que o resultado significa [Apresentação da UC, p. 2 e 4].
