@@ -20,7 +20,7 @@ def _crescimento_anual(ano, g_historico, config, deslocamento):
 
 def _cenario(nome, deslocamento, valor_atual, custo_total, g_historico, config):
     horizonte_max = max(config.horizontes_anos)
-    valor, taxas, trajetoria = valor_atual, [], {}
+    valor, taxas, trajetoria = valor_atual, [], {0: valor_atual}
     for ano in range(1, horizonte_max + 1):
         g = _crescimento_anual(ano, g_historico, config, deslocamento)
         taxas.append(g)
@@ -41,6 +41,7 @@ def _cenario(nome, deslocamento, valor_atual, custo_total, g_historico, config):
         retorno_liquido_total=total,
         retorno_liquido_anual=anual,
         retorno_real_anual=real,
+        trajetoria=trajetoria,
     )
 
 
@@ -65,6 +66,8 @@ def projetar(estimativa, preco_efetivo, serie, config):
         "Cenários, não previsões: o passado não garante o futuro. O retorno não inclui "
         "rendas, IMI, condomínio, obras nem impostos sobre a mais-valia."
     )
+    if max(config.horizontes_anos) >= 20:
+        avisos.append("A 20 anos a incerteza é muito elevada (política, juros, demografia, obras na zona): use-o só como ordem de grandeza.")
     if estimativa.confianca == "baixa":
         avisos.append("A estimativa de partida tem confiança baixa; os valores projetados herdam essa incerteza.")
     retorno_valido = not estimativa.extras_nao_valorizados

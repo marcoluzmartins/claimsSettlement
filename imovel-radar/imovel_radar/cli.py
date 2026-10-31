@@ -52,6 +52,16 @@ def formatar(anuncio, a, config, data):
     ]
     if v.mensagem:
         linhas.append(f"  {v.mensagem}")
+    pd = a.padrao
+    linhas += ["", "PADRÃO DA ZONA",
+               f"  Pedido: {eur(pd.preco_m2_pedido)}/m2 | mediana da zona: {eur(pd.mediana_zona)}/m2",
+               f"  {pd.leitura}"]
+    if pd.semelhantes:
+        linhas.append("  Zonas semelhantes: " + "; ".join(f"{s['concelho']} {eur(s['preco_m2'])}/m2" for s in pd.semelhantes))
+    contrib = e.componentes.get("contribuicoes", [])
+    if contrib:
+        linhas += ["", "FATORES CONSIDERADOS (face a mediana × área)"]
+        linhas += [f"  {c['fator']:<34}{c['valor']:>+12,.0f} €".replace(",", " ") for c in contrib]
     linhas += ["", f"VALORIZAÇÃO PROJETADA (histórico: {pct(p.cagr_historico)}/ano em {p.anos_historico:.0f} anos, volatilidade {pct(p.volatilidade)})"]
     cab = "  Horizonte   " + "".join(f"{c.nome:>26}" for c in p.cenarios)
     linhas.append(cab)

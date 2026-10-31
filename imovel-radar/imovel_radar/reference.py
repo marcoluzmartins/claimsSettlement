@@ -94,6 +94,46 @@ class Referencia:
                 f"Concelho sem dados: {concelho!r}. Disponíveis: {', '.join(self.concelhos())}"
             ) from None
 
+    def nome(self, concelho):
+        self.serie(concelho)
+        return self._series[normalizar_nome(concelho)][0]
+
+    def zonas_semelhantes(self, concelho, k=3):
+        """Zonas com nível de preço, crescimento e profundidade de mercado parecidos.
+
+        Devolve [(nome, distância)] por ordem crescente. A distância é euclidiana
+        sobre variáveis normalizadas (log do preço/m2, crescimento a 5 anos e
+        log do nº de transações; esta com metade do peso).
+        """
+        alvo = self.nome(concelho)
+        caracteristicas = {}
+        for nome, serie in self._series.values():
+            try:
+                crescimento, _ = cagr_anual(serie, 5)
+            except DadosInsuficientes:
+                continue
+            ultimo = serie[-1]
+            caracteristicas[nome] = (
+                math.log(ultimo.preco_m2), crescimento, math.log(max(ultimo.n_transacoes, 1)),
+            )
+        if alvo not in caracteristicas:
+            return []
+        pesos = (1.0, 1.0, 0.5)
+        colunas = list(zip(*caracteristicas.values()))
+        medias = [statistics.fmean(c) for c in colunas]
+        desvios = [statistics.pstdev(c) or 1.0 for c in colunas]
+
+        def normalizar(v):
+            return [(x - m) / d for x, m, d in zip(v, medias, desvios)]
+
+        ref = normalizar(caracteristicas[alvo])
+        distancias = [
+            (nome, math.sqrt(sum(p * (a - b) ** 2 for p, a, b in zip(pesos, ref, normalizar(v)))))
+            for nome, v in caracteristicas.items()
+            if nome != alvo
+        ]
+        return sorted(distancias, key=lambda x: x[1])[:k]
+
 
 def cagr_anual(serie, anos=10):
     """Crescimento anual composto do preço mediano nos últimos `anos` anos.

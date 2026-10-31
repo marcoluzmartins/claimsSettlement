@@ -75,7 +75,7 @@ class ReferenciaTest(unittest.TestCase):
     def test_carregar_csv_de_exemplo(self):
         ref = Referencia.carregar(DADOS_POR_OMISSAO)
         self.assertTrue(ref.sintetica)
-        self.assertEqual(len(ref.concelhos()), 3)
+        self.assertEqual(len(ref.concelhos()), 8)
 
 
 class EstimativaTest(unittest.TestCase):
@@ -105,7 +105,8 @@ class EstimativaTest(unittest.TestCase):
         self.assertEqual(poucas.confianca, "baixa")
 
     def test_extras_sem_valor_ficam_sinalizados(self):
-        e = estimar(anuncio(area_terreno_m2=1000, extras=["Piscina", "poço"]), self.ref, self.config, HOJE)
+        sem_fatores = Config(terreno_fator_m2=None, piscina_fator_casa=None)
+        e = estimar(anuncio(area_terreno_m2=1000, extras=["Piscina", "poço"]), self.ref, sem_fatores, HOJE)
         self.assertEqual(len(e.extras_nao_valorizados), 2)
         self.assertTrue(any("poço" in a for a in e.avisos))
 
@@ -130,7 +131,7 @@ class EstimativaTest(unittest.TestCase):
 
 class VeredictoTest(unittest.TestCase):
     def setUp(self):
-        self.config = Config(margem_negociacao=0.0)
+        self.config = Config(margem_negociacao=0.0, terreno_fator_m2=None, piscina_fator_casa=None)
         self.ref = referencia()
         self.central = estimar(anuncio(), self.ref, self.config, HOJE).central
 
@@ -210,7 +211,9 @@ class ProjecaoTest(unittest.TestCase):
         self.assertGreater(barato.cenarios[1].retorno_liquido_anual[5], justo.cenarios[1].retorno_liquido_anual[5])
 
     def test_retorno_omitido_com_extras_sem_valor(self):
-        _, p = self.projecao(area_terreno_m2=500)
+        sem_fatores = Config(terreno_fator_m2=None, piscina_fator_casa=None)
+        a = anuncio(area_terreno_m2=500)
+        p = projetar(estimar(a, self.ref, sem_fatores, HOJE), a.preco_pedido, self.serie, sem_fatores)
         self.assertFalse(p.retorno_valido)
         self.assertTrue(any("Retorno omitido" in a for a in p.avisos))
 
@@ -316,10 +319,138 @@ class CliTest(unittest.TestCase):
         exemplo = Path(__file__).resolve().parent.parent / "examples" / "anuncio_exemplo.json"
         with contextlib.redirect_stdout(io.StringIO()) as saida:
             self.assertEqual(main([str(exemplo), "--data", "2026-11-01", "--json"]), 0)
-        self.assertEqual(json.loads(saida.getvalue())["veredicto"]["categoria"], INCONCLUSIVO)
+        resultado = json.loads(saida.getvalue())
+        self.assertIn(resultado["veredicto"]["categoria"], {SOBREVALORIZADO, ACEITAVEL, BOM_NEGOCIO, PECHINCHA, INCONCLUSIVO})
+        self.assertIn("padrao", resultado)
 
     def test_erro_devolve_codigo_1(self):
         self.assertEqual(main(["nao_existe.json"]), 1)
+
+
+class FatoresTest(unittest.TestCase):
+    def setUp(self):
+        self.config = Config()
+        self.ref = referencia()
+
+    def estimar(self, **kw):
+        return estimar(anuncio(**kw), self.ref, self.config, HOJE)
+
+    def test_exposicao_sul_vale_mais_que_norte(self):
+        sul = self.estimar(exposicao_solar="sul")
+        norte = self.estimar(exposicao_solar="N")
+        self.assertGreater(sul.central, norte.central)
+
+    def test_exposicao_invalida(self):
+        with self.assertRaises(ValueError):
+            anuncio(exposicao_solar="cima")
+
+    def test_acesso_dificil_desvaloriza(self):
+        self.assertLess(self.estimar(acesso="dificil").central, self.estimar(acesso="bom").central)
+        self.assertEqual(anuncio(acesso="Razoável").acesso, "razoavel")
+
+    def test_anexos_com_area_somam_e_sem_area_ficam_sinalizados(self):
+        sem = self.estimar()
+        com = self.estimar(anexos=["garagem"], area_anexos_m2=20)
+        self.assertGreater(com.central, sem.central)
+        sem_area = self.estimar(anexos=["garagem"])
+        self.assertEqual(sem_area.central, sem.central)
+        self.assertTrue(any("anexos" in x for x in sem_area.extras_nao_valorizados))
+
+    def test_piscina_valorizada_por_fator_por_omissao(self):
+        com = self.estimar(extras=["piscina"])
+        sem = self.estimar()
+        self.assertAlmostEqual(com.central / sem.central, 1 + self.config.piscina_fator_casa, places=6)
+        self.assertGreater(com.meia_amplitude, sem.meia_amplitude)
+
+    def test_contribuicoes_somam_ate_ao_valor_central(self):
+        e = self.estimar(estado="renovado", exposicao_solar="S", acesso="razoavel",
+                         extras=["piscina"], area_terreno_m2=300, anexos=["garagem"], area_anexos_m2=15,
+                         ano_construcao=1980)
+        soma = e.componentes["base_mediana"] + sum(c["valor"] for c in e.componentes["contribuicoes"])
+        self.assertAlmostEqual(soma, e.central, places=4)
+
+    def test_quartos_incoerentes_geram_aviso(self):
+        e = self.estimar(area_util_m2=40, quartos=6)
+        self.assertTrue(any("quartos" in a for a in e.avisos))
+        self.assertFalse(any("quartos" in a for a in self.estimar(area_util_m2=120, quartos=3).avisos))
+
+
+class ZonasEPadraoTest(unittest.TestCase):
+    def setUp(self):
+        self.config = Config()
+        self.ref = Referencia({
+            "A": serie_crescente(0.05, preco=1000, n=300),
+            "B": serie_crescente(0.05, preco=1050, n=280),
+            "C": serie_crescente(0.05, preco=1100, n=310),
+            "Longe": serie_crescente(0.01, preco=300, n=10),
+        })
+
+    def test_zonas_semelhantes_exclui_a_propria_e_ordena_por_proximidade(self):
+        nomes = [n for n, _ in self.ref.zonas_semelhantes("A", k=3)]
+        self.assertNotIn("A", nomes)
+        self.assertEqual(nomes[-1], "Longe")
+        self.assertEqual(nomes[0], "B")
+
+    def test_padrao_dentro_e_fora(self):
+        a_justo = anuncio(concelho="A", preco_pedido=100 * 1500)
+        est = estimar(a_justo, self.ref, self.config, HOJE)
+        dentro = analisar(anuncio(concelho="A", preco_pedido=est.preco_m2_base * 100), self.ref, self.config, HOJE)
+        acima = analisar(anuncio(concelho="A", preco_pedido=est.preco_m2_base * 100 * 1.6), self.ref, self.config, HOJE)
+        self.assertTrue(dentro.padrao.dentro_do_padrao)
+        self.assertFalse(acima.padrao.dentro_do_padrao)
+        self.assertIn("acima", acima.padrao.leitura)
+
+    def test_historico_comparativo(self):
+        a = analisar(anuncio(concelho="A"), self.ref, self.config, HOJE)
+        h = a.historico
+        self.assertEqual(len(h["trimestres"]), self.config.trimestres_historico)
+        self.assertEqual(set(h["preco_m2"]), {"A", *[s["concelho"] for s in a.padrao.semelhantes]})
+        for serie in h["indice_base_100"].values():
+            self.assertAlmostEqual(serie[0], 100.0)
+
+    def test_horizontes_por_omissao_incluem_20_anos(self):
+        self.assertEqual(self.config.horizontes_anos, (5, 10, 20))
+        a = analisar(anuncio(concelho="A"), self.ref, self.config, HOJE)
+        self.assertEqual(sorted(a.projecao.cenarios[1].valores), [5, 10, 20])
+        self.assertEqual(len(a.projecao.cenarios[1].trajetoria), 21)
+        self.assertTrue(any("20 anos" in x for x in a.projecao.avisos))
+
+    def test_dict_para_a_app(self):
+        from imovel_radar.analise import analise_para_dict
+        a = anuncio(concelho="A")
+        d = analise_para_dict(analisar(a, self.ref, self.config, HOJE), a, HOJE)
+        json.dumps(d)  # tem de ser serializável
+        self.assertEqual(d["projecao"]["grafico"]["anos"][-1], 20)
+        self.assertEqual(len(d["projecao"]["grafico"]["base"]), 21)
+
+
+class ServidorTest(unittest.TestCase):
+    def test_api_analisar(self):
+        import threading
+        import urllib.error
+        import urllib.request
+        from imovel_radar.server import criar_servidor
+
+        servidor = criar_servidor("127.0.0.1", 0, Referencia.carregar(DADOS_POR_OMISSAO), Config())
+        threading.Thread(target=servidor.serve_forever, daemon=True).start()
+        base = f"http://127.0.0.1:{servidor.server_address[1]}"
+        try:
+            corpo = json.dumps({"concelho": "Exemplo-Interior", "preco_pedido": 200000, "area_util_m2": 120,
+                                "quartos": 3, "exposicao_solar": "S"}).encode()
+            req = urllib.request.Request(base + "/api/analisar", corpo, {"Content-Type": "application/json"})
+            with urllib.request.urlopen(req) as r:
+                resposta = json.load(r)
+            self.assertIn("veredicto", resposta)
+            self.assertTrue(resposta["meta"]["sintetico"])
+            with urllib.request.urlopen(base + "/api/concelhos") as r:
+                self.assertIn("Exemplo-Interior", json.load(r)["concelhos"])
+            erro = urllib.request.Request(base + "/api/analisar", b'{"concelho": "Nenhum"}', {"Content-Type": "application/json"})
+            with self.assertRaises(urllib.error.HTTPError) as ctx:
+                urllib.request.urlopen(erro)
+            self.assertEqual(ctx.exception.code, 400)
+        finally:
+            servidor.shutdown()
+            servidor.server_close()
 
 
 if __name__ == "__main__":

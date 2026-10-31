@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#256abf">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Imóvel Radar</title>
+<style>
+:root {
+  color-scheme: light;
+  --bg: #f9f9f7; --surface: #fcfcfb; --ink: #0b0b0b; --ink2: #52514e; --muted: #7a7871;
+  --grid: #e1e0d9; --axis: #c3c2b7; --hair: rgba(11,11,11,.10);
+  --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --s4: #eda100;
+  --accent: #256abf; --on-accent: #fff; --wash: rgba(42,120,214,.12);
+  --good: #0ca30c; --warn: #fab219; --crit: #d03b3b; --neutral: #52514e;
+  --pos: #2a78d6; --neg: #e34948; --good-text: #006300;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --bg: #0d0d0d; --surface: #1a1a19; --ink: #f0efec; --ink2: #c3c2b7; --muted: #8f8d86;
+    --grid: #2c2c2a; --axis: #383835; --hair: rgba(255,255,255,.10);
+    --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500;
+    --accent: #3987e5; --on-accent: #0b0b0b; --wash: rgba(57,135,229,.18);
+    --neg: #e66767; --good-text: #0ca30c; --neutral: #c3c2b7;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0d0d0d; --surface: #1a1a19; --ink: #f0efec; --ink2: #c3c2b7; --muted: #8f8d86;
+  --grid: #2c2c2a; --axis: #383835; --hair: rgba(255,255,255,.10);
+  --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500;
+  --accent: #3987e5; --on-accent: #0b0b0b; --wash: rgba(57,135,229,.18);
+  --neg: #e66767; --good-text: #0ca30c; --neutral: #c3c2b7;
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; background: var(--bg); color: var(--ink);
+  font: 16px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif; }
+body { max-width: 480px; margin: 0 auto; min-height: 100dvh; padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
+header { position: sticky; top: 0; z-index: 5; background: var(--bg); padding: 14px 16px 10px;
+  display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--hair); }
+h1 { font-size: 18px; margin: 0; letter-spacing: -.01em; }
+h2 { font-size: 15px; margin: 0 0 8px; }
+.sub { color: var(--ink2); font-size: 13px; margin: 0; }
+.demo { background: var(--wash); color: var(--ink); font-size: 12px; padding: 6px 10px; border-radius: 8px; margin: 12px 16px 0; }
+main { padding: 0 16px; }
+section.card { background: var(--surface); border: 1px solid var(--hair); border-radius: 14px; padding: 16px; margin: 12px 0; }
+.hidden { display: none !important; }
+
+/* formulário */
+label.f { display: block; font-size: 13px; color: var(--ink2); margin: 14px 0 6px; }
+.in { width: 100%; min-height: 48px; border: 1px solid var(--axis); border-radius: 10px; padding: 10px 12px;
+  font: inherit; background: var(--bg); color: var(--ink); }
+.in:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { min-height: 44px; min-width: 52px; padding: 0 14px; border: 1px solid var(--axis); border-radius: 22px;
+  background: var(--bg); color: var(--ink); font: inherit; cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); font-weight: 600; }
+.compass { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.seg { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--axis); border-radius: 10px; overflow: hidden; }
+.seg button { min-height: 48px; border: 0; background: var(--bg); color: var(--ink); font: inherit; cursor: pointer; }
+.seg button + button { border-left: 1px solid var(--axis); }
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); font-weight: 600; }
+.stepper { display: flex; align-items: center; border: 1px solid var(--axis); border-radius: 10px; overflow: hidden; }
+.stepper button { width: 52px; min-height: 48px; border: 0; background: var(--bg); color: var(--ink); font-size: 22px; cursor: pointer; }
+.stepper output { flex: 1; text-align: center; font-weight: 600; }
+.switch { display: flex; align-items: center; justify-content: space-between; min-height: 48px; }
+.switch button { width: 52px; height: 30px; border-radius: 15px; border: 0; background: var(--axis); position: relative; cursor: pointer; }
+.switch button::after { content: ""; position: absolute; top: 3px; left: 3px; width: 24px; height: 24px; border-radius: 50%; background: #fff; transition: transform .15s; }
+.switch button[aria-pressed="true"] { background: var(--accent); }
+.switch button[aria-pressed="true"]::after { transform: translateX(22px); }
+.hint { font-size: 12px; color: var(--muted); margin: 6px 0 0; }
+.primary { width: 100%; min-height: 52px; margin-top: 18px; border: 0; border-radius: 12px; background: var(--accent);
+  color: var(--on-accent); font: inherit; font-weight: 700; font-size: 17px; cursor: pointer; }
+.link { background: none; border: 0; color: var(--accent); font: inherit; font-size: 14px; padding: 8px 0; cursor: pointer; }
+.erro { color: var(--crit); font-size: 14px; margin-top: 10px; }
+
+/* veredicto */
+.badge { display: flex; align-items: center; gap: 12px; padding: 14px; border-radius: 12px; color: #fff; }
+.badge .ic { font-size: 26px; line-height: 1; width: 34px; text-align: center; }
+.badge b { display: block; font-size: 22px; letter-spacing: -.01em; }
+.badge span { font-size: 13px; opacity: .95; }
+.v-crit { background: var(--crit); } .v-good { background: #0a7f0a; } .v-neutral { background: var(--neutral); }
+.v-warn { background: var(--warn); color: #0b0b0b; }
+.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 14px; }
+.stat small { display: block; color: var(--ink2); font-size: 12px; }
+.stat b { font-size: 16px; }
+.chipinfo { display: inline-block; font-size: 12px; padding: 3px 9px; border-radius: 10px; background: var(--wash); margin-top: 10px; }
+.msg { font-size: 14px; color: var(--ink2); margin: 12px 0 0; }
+.fator { display: grid; grid-template-columns: 1fr 96px 84px; align-items: center; gap: 8px; font-size: 14px; padding: 6px 0; border-top: 1px solid var(--grid); }
+.fator:first-of-type { border-top: 0; }
+.fator .v { text-align: right; font-variant-numeric: tabular-nums; }
+.fator.tot { font-weight: 700; border-top: 1px solid var(--axis); }
+ul.avisos { margin: 0; padding-left: 18px; color: var(--ink2); font-size: 13px; }
+ul.avisos li { margin: 6px 0; }
+
+/* gráficos */
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 13px; color: var(--ink2); margin-bottom: 8px; }
+.legend i { display: inline-block; width: 16px; height: 3px; border-radius: 2px; vertical-align: middle; margin-right: 6px; }
+.chart { position: relative; touch-action: pan-y; }
+.chart svg { width: 100%; height: auto; display: block; overflow: visible; }
+.chart text { font: 11px system-ui, sans-serif; fill: var(--muted); }
+.chart text.lab { fill: var(--ink2); font-size: 12px; }
+.tip { position: absolute; pointer-events: none; background: var(--surface); border: 1px solid var(--axis); border-radius: 8px;
+  padding: 6px 9px; font-size: 12px; box-shadow: 0 2px 8px rgba(0,0,0,.12); white-space: nowrap; z-index: 3; }
+.tip b { display: block; margin-bottom: 2px; }
+.tip i { display: inline-block; width: 10px; height: 3px; border-radius: 2px; margin-right: 6px; vertical-align: middle; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th, td { text-align: right; padding: 7px 4px; border-top: 1px solid var(--grid); }
+th:first-child, td:first-child { text-align: left; }
+th { color: var(--ink2); font-weight: 600; border-top: 0; }
+td small { display: block; color: var(--ink2); }
+.toggle { display: inline-flex; border: 1px solid var(--axis); border-radius: 8px; overflow: hidden; margin: 0 0 10px; }
+.toggle button { min-height: 36px; padding: 0 12px; border: 0; background: var(--bg); color: var(--ink); font: inherit; font-size: 13px; cursor: pointer; }
+.toggle button + button { border-left: 1px solid var(--axis); }
+.toggle button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); font-weight: 600; }
+
+nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; z-index: 6;
+  background: var(--surface); border-top: 1px solid var(--hair); display: grid; grid-template-columns: repeat(5, 1fr);
+  padding-bottom: env(safe-area-inset-bottom); }
+nav button { min-height: 64px; border: 0; background: none; color: var(--muted); font: inherit; font-size: 11px; cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
+nav button svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+nav button[aria-current="page"] { color: var(--accent); font-weight: 700; }
+nav button:disabled { opacity: .4; cursor: default; }
+</style>
+</head>
+<body>
+<header>
+  <div><h1>Imóvel Radar</h1><p class="sub" id="sub">Avalie um anúncio em segundos</p></div>
+</header>
+<div class="demo hidden" id="demo">Dados de exemplo (sintéticos): os valores abaixo <b>não são reais</b>.</div>
+
+<main>
+  <!-- ecrã 1: formulário -->
+  <div id="tela-form">
+    <section class="card">
+      <h2>Imóvel à venda</h2>
+      <label class="f" for="concelho">Localidade</label>
+      <select class="in" id="concelho"><option value="">Escolha a localidade</option></select>
+
+      <div class="row2">
+        <div><label class="f" for="preco">Preço pedido (€)</label><input class="in" id="preco" type="number" inputmode="numeric" min="1" placeholder="250000"></div>
+        <div><label class="f" for="area">Área útil (m²)</label><input class="in" id="area" type="number" inputmode="decimal" min="1" placeholder="120"></div>
+      </div>
+
+      <label class="f">Quartos</label>
+      <div class="stepper"><button type="button" id="q-menos" aria-label="Menos um quarto">−</button><output id="quartos">3</output><button type="button" id="q-mais" aria-label="Mais um quarto">+</button></div>
+
+      <label class="f">Exposição solar principal</label>
+      <div class="compass" id="exposicao"></div>
+      <p class="hint">Nascente = E, poente = O.</p>
+
+      <label class="f">Acessos</label>
+      <div class="seg" id="acesso">
+        <button type="button" data-v="bom" aria-pressed="true">Bons</button>
+        <button type="button" data-v="razoavel" aria-pressed="false">Razoáveis</button>
+        <button type="button" data-v="dificil" aria-pressed="false">Difíceis</button>
+      </div>
+      <p class="hint">Bons: estrada asfaltada e perto de vias principais. Difíceis: caminho de terra ou isolado.</p>
+    </section>
+
+    <section class="card">
+      <h2>Extras</h2>
+      <div class="switch"><span>Piscina</span><button type="button" id="piscina" role="switch" aria-pressed="false" aria-label="Piscina"></button></div>
+      <label class="f">Anexos</label>
+      <div class="chips" id="anexos">
+        <button type="button" class="chip" data-v="garagem" aria-pressed="false">Garagem</button>
+        <button type="button" class="chip" data-v="arrecadacao" aria-pressed="false">Arrecadação</button>
+        <button type="button" class="chip" data-v="casa de apoio" aria-pressed="false">Casa de apoio</button>
+      </div>
+      <div id="anexos-area" class="hidden"><label class="f" for="area-anexos">Área total dos anexos (m²)</label><input class="in" id="area-anexos" type="number" inputmode="decimal" min="0" placeholder="30"></div>
+      <label class="f" for="terreno">Terreno (m²), se tiver</label>
+      <input class="in" id="terreno" type="number" inputmode="decimal" min="0" placeholder="0">
+      <div class="row2">
+        <div><label class="f" for="ano">Ano de construção</label><input class="in" id="ano" type="number" inputmode="numeric" placeholder="1990"></div>
+        <div><label class="f" for="estado">Estado</label>
+          <select class="in" id="estado"><option value="novo">Novo</option><option value="renovado">Renovado</option><option value="bom" selected>Bom</option><option value="razoavel">Razoável</option><option value="para_recuperar">Para recuperar</option></select></div>
+      </div>
+    </section>
+    <button class="primary" id="analisar" type="button">Analisar</button>
+    <div class="erro" id="erro" role="alert"></div>
+    <button class="link" id="exemplo" type="button">Preencher com um exemplo</button>
+  </div>
+
+  <!-- ecrã 2: resultados -->
+  <div id="tela-res" class="hidden">
+    <div id="p-veredicto"></div>
+    <div id="p-zona" class="hidden"></div>
+    <div id="p-hist" class="hidden"></div>
+    <div id="p-prev" class="hidden"></div>
+  </div>
+</main>
+
+<nav aria-label="Secções">
+  <button data-tab="form" aria-current="page"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9H4z"/><path d="M10 20v-5h4v5"/></svg>Imóvel</button>
+  <button data-tab="veredicto" disabled><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/></svg>Veredicto</button>
+  <button data-tab="zona" disabled><svg viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Zona</button>
+  <button data-tab="hist" disabled><svg viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M7 15l4-4 3 3 5-6"/></svg>Histórico</button>
+  <button data-tab="prev" disabled><svg viewBox="0 0 24 24"><path d="M4 19h16"/><path d="M5 16l5-5 3 2 6-7"/><path d="M15 6h4v4"/></svg>Previsão</button>
+</nav>
+
+<script>
+"use strict";
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const nf = new Intl.NumberFormat("pt-PT", { maximumFractionDigits: 0, useGrouping: "always" });
+const eur = v => nf.format(Math.round(v)).replace(/ /g, " ") + " €";
+const eurK = v => Math.abs(v) >= 1e6 ? (v / 1e6).toFixed(1).replace(".", ",") + " M€" : Math.round(v / 1000) + " mil €";
+const pct = (v, sinal = false, d = 0) => (sinal && v > 0 ? "+" : "") + (v * 100).toFixed(d).replace(".", ",").replace("-", "−") + "%";
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const EXPOSICOES = ["N", "NE", "E", "SE", "S", "SO", "O", "NO"];
+let resultado = null;
+
+/* ---------- formulário ---------- */
+EXPOSICOES.forEach(e => $("#exposicao").insertAdjacentHTML("beforeend",
+  `<button type="button" class="chip" data-v="${e}" aria-pressed="false">${e}</button>`));
+$("#exposicao").addEventListener("click", ev => {
+  const b = ev.target.closest("button"); if (!b) return;
+  const on = b.getAttribute("aria-pressed") === "true";
+  $$("#exposicao button").forEach(x => x.setAttribute("aria-pressed", "false"));
+  b.setAttribute("aria-pressed", String(!on));
+});
+$("#acesso").addEventListener("click", ev => {
+  const b = ev.target.closest("button"); if (!b) return;
+  $$("#acesso button").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+});
+$("#anexos").addEventListener("click", ev => {
+  const b = ev.target.closest("button"); if (!b) return;
+  b.setAttribute("aria-pressed", String(b.getAttribute("aria-pressed") !== "true"));
+  $("#anexos-area").classList.toggle("hidden", !$$("#anexos [aria-pressed=true]").length);
+});
+$("#piscina").addEventListener("click", e => e.currentTarget.setAttribute("aria-pressed", String(e.currentTarget.getAttribute("aria-pressed") !== "true")));
+const setQuartos = n => { $("#quartos").textContent = Math.min(10, Math.max(0, n)); };
+$("#q-menos").onclick = () => setQuartos(+$("#quartos").textContent - 1);
+$("#q-mais").onclick = () => setQuartos(+$("#quartos").textContent + 1);
+
+function pressed(sel) { return $$(sel + " [aria-pressed=true]").map(b => b.dataset.v); }
+function lerFormulario() {
+  const num = id => { const v = $("#" + id).value; return v === "" ? null : Number(v); };
+  const anexos = pressed("#anexos");
+  const dados = {
+    concelho: $("#concelho").value, preco_pedido: num("preco"), area_util_m2: num("area"),
+    quartos: +$("#quartos").textContent, exposicao_solar: pressed("#exposicao")[0] || null,
+    acesso: pressed("#acesso")[0] || "bom", estado: $("#estado").value,
+    extras: $("#piscina").getAttribute("aria-pressed") === "true" ? ["piscina"] : [],
+    anexos, area_anexos_m2: anexos.length ? (num("area-anexos") || 0) : 0,
+    area_terreno_m2: num("terreno") || 0, ano_construcao: num("ano"),
+  };
+  if (!dados.concelho) throw new Error("Escolha a localidade.");
+  if (!(dados.preco_pedido > 0)) throw new Error("Indique o preço pedido.");
+  if (!(dados.area_util_m2 > 0)) throw new Error("Indique a área útil.");
+  return dados;
+}
+function preencherExemplo() {
+  const sel = $("#concelho"); if ([...sel.options].some(o => o.value === "Exemplo-Interior")) sel.value = "Exemplo-Interior";
+  $("#preco").value = 400000; $("#area").value = 180; setQuartos(3);
+  $$("#exposicao button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.v === "S")));
+  $$("#acesso button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.v === "razoavel")));
+  $("#piscina").setAttribute("aria-pressed", "true");
+  $$("#anexos button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.v !== "casa de apoio")));
+  $("#anexos-area").classList.remove("hidden"); $("#area-anexos").value = 40;
+  $("#terreno").value = 1000; $("#ano").value = 1990; $("#estado").value = "bom";
+}
+$("#exemplo").onclick = preencherExemplo;
+
+$("#analisar").onclick = async () => {
+  const erro = $("#erro"); erro.textContent = "";
+  try {
+    const dados = lerFormulario();
+    $("#analisar").disabled = true;
+    const r = await fetch("/api/analisar", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(dados) });
+    const j = await r.json();
+    if (!r.ok) throw new Error(j.erro || "Não foi possível analisar.");
+    resultado = j; desenhar(j); ir("veredicto");
+  } catch (e) { erro.textContent = e.message; }
+  finally { $("#analisar").disabled = false; }
+};
+
+/* ---------- navegação ---------- */
+function ir(tab) {
+  $("#tela-form").classList.toggle("hidden", tab !== "form");
+  $("#tela-res").classList.toggle("hidden", tab === "form");
+  ["veredicto", "zona", "hist", "prev"].forEach(t => $("#p-" + t).classList.toggle("hidden", t !== tab));
+  $$("nav button").forEach(b => { if (b.dataset.tab === tab) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current"); });
+  window.scrollTo(0, 0);
+}
+$$("nav button").forEach(b => b.onclick = () => ir(b.dataset.tab));
+
+/* ---------- gráfico de linhas (SVG, sem bibliotecas) ---------- */
+function ticksLimpos(min, max, n = 4) {
+  const span = (max - min) || 1, bruto = span / n, mag = 10 ** Math.floor(Math.log10(bruto)), f = bruto / mag;
+  const passo = (f <= 1 ? 1 : f <= 2 ? 2 : f <= 5 ? 5 : 10) * mag;
+  const lo = Math.floor(min / passo) * passo, hi = Math.ceil(max / passo) * passo, t = [];
+  for (let v = lo; v <= hi + passo / 1e6; v += passo) t.push(v);
+  return t;
+}
+function desenharLinhas(el, c) {
+  const W = 340, H = 220, m = { l: 48, r: c.rotulosFim ? 70 : 16, t: 12, b: 26 };
+  const n = c.x.length, todos = c.series.flatMap(s => s.v).concat(c.banda ? c.banda.min.concat(c.banda.max) : [], c.referencia ? [c.referencia.v] : []).filter(v => v != null);
+  const ticks = ticksLimpos(Math.min(...todos), Math.max(...todos));
+  const y0 = ticks[0], y1 = ticks[ticks.length - 1];
+  const X = i => m.l + i * (W - m.l - m.r) / (n - 1), Y = v => m.t + (1 - (v - y0) / (y1 - y0)) * (H - m.t - m.b);
+  let g = ticks.map(t => `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(t)}" y2="${Y(t)}" stroke="var(--grid)" stroke-width="1"/><text x="${m.l - 6}" y="${Y(t) + 4}" text-anchor="end">${c.yFmt(t)}</text>`).join("");
+  g += `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(y0)}" y2="${Y(y0)}" stroke="var(--axis)" stroke-width="1"/>`;
+  g += c.xTicks.map(i => `<text x="${X(i)}" y="${H - 6}" text-anchor="${i === 0 ? "start" : i === n - 1 ? "end" : "middle"}">${esc(c.x[i])}</text>`).join("");
+  if (c.banda) {
+    const topo = c.banda.max.map((v, i) => `${X(i)},${Y(v)}`), base = c.banda.min.map((v, i) => `${X(i)},${Y(v)}`).reverse();
+    g += `<polygon points="${topo.concat(base).join(" ")}" fill="var(--wash)"/>`;
+  }
+  if (c.referencia) g += `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(c.referencia.v)}" y2="${Y(c.referencia.v)}" stroke="var(--ink2)" stroke-width="1"/><text class="lab" x="${m.l + 4}" y="${Y(c.referencia.v) - 5}">${esc(c.referencia.nome)}</text>`;
+  c.series.forEach(s => {
+    const pts = s.v.map((v, i) => v == null ? null : `${X(i).toFixed(1)},${Y(v).toFixed(1)}`).filter(Boolean);
+    g += `<polyline points="${pts.join(" ")}" fill="none" stroke="${s.cor}" stroke-width="${s.largura || 2}" stroke-linejoin="round" stroke-linecap="round"/>`;
+    const k = s.v.length - 1;
+    if (s.v[k] != null) {
+      g += `<circle cx="${X(k)}" cy="${Y(s.v[k])}" r="4" fill="${s.cor}" stroke="var(--surface)" stroke-width="2"/>`;
+      if (c.rotulosFim) g += `<text class="lab" x="${X(k) + 9}" y="${Y(s.v[k]) + 4}">${esc(s.nome)}</text>`;
+    }
+  });
+  g += `<line id="cruz" y1="${m.t}" y2="${Y(y0)}" stroke="var(--ink2)" stroke-width="1" visibility="hidden"/><g id="pontos"></g>`;
+  g += `<rect id="alvo" x="${m.l}" y="${m.t}" width="${W - m.l - m.r}" height="${H - m.t - m.b}" fill="transparent"/>`;
+  el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(c.rotulo)}">${g}</svg><div class="tip hidden"></div>`;
+  const svg = $("svg", el), tip = $(".tip", el), cruz = $("#cruz", el), pontos = $("#pontos", el);
+  const mostrar = ev => {
+    const r = svg.getBoundingClientRect(), px = (ev.clientX - r.left) / r.width * W;
+    const i = Math.max(0, Math.min(n - 1, Math.round((px - m.l) / ((W - m.l - m.r) / (n - 1)))));
+    cruz.setAttribute("x1", X(i)); cruz.setAttribute("x2", X(i)); cruz.setAttribute("visibility", "visible");
+    pontos.innerHTML = c.series.filter(s => s.v[i] != null).map(s => `<circle cx="${X(i)}" cy="${Y(s.v[i])}" r="4" fill="${s.cor}" stroke="var(--surface)" stroke-width="2"/>`).join("");
+    tip.innerHTML = `<b>${esc(c.x[i])}</b>` + c.series.filter(s => s.v[i] != null).map(s => `<div><i style="background:${s.cor}"></i>${esc(s.nome)}: ${c.tipFmt(s.v[i])}</div>`).join("");
+    tip.classList.remove("hidden");
+    const larg = tip.offsetWidth, esq = X(i) / W * r.width;
+    const minL = m.l / W * r.width, dir = r.width - (esq + 12) >= esq - 12 - minL;
+    tip.style.left = Math.max(minL, Math.min(r.width - larg, dir ? esq + 12 : esq - larg - 12)) + "px"; tip.style.top = "0px";
+  };
+  const alvo = $("#alvo", el);
+  ["pointermove", "pointerdown"].forEach(e => alvo.addEventListener(e, mostrar));
+  alvo.addEventListener("pointerleave", () => { cruz.setAttribute("visibility", "hidden"); pontos.innerHTML = ""; tip.classList.add("hidden"); });
+}
+const legenda = series => `<div class="legend">${series.map(s => `<span><i style="background:${s.cor}"></i>${esc(s.nome)}</span>`).join("")}</div>`;
+
+/* ---------- ecrãs de resultado ---------- */
+const VEREDICTOS = {
+  "Sobrevalorizado": { cls: "v-crit", ic: "▲", aceitavel: "Não" },
+  "Aceitável": { cls: "v-neutral", ic: "≈", aceitavel: "Sim" },
+  "Bom negócio": { cls: "v-good", ic: "✓", aceitavel: "Sim" },
+  "Pechincha": { cls: "v-good", ic: "★", aceitavel: "Sim, com cautela" },
+  "Inconclusivo": { cls: "v-warn", ic: "?", aceitavel: "Indeterminado" },
+};
+function barraIntervalo(e, preco) {
+  const W = 340, lo = Math.min(e.minimo * 0.85, preco * 0.92), hi = Math.max(e.maximo * 1.15, preco * 1.08);
+  const X = v => 8 + (v - lo) / (hi - lo) * (W - 16);
+  const perto = Math.abs(X(preco) - X(e.central)) < 70, ancora = x => x < 60 ? "start" : x > W - 60 ? "end" : "middle";
+  return `<svg viewBox="0 0 ${W} 74" role="img" aria-label="Preço efetivo de ${eur(preco)} face ao intervalo estimado de ${eur(e.minimo)} a ${eur(e.maximo)}" style="width:100%;height:auto;overflow:visible">
+    <line x1="8" x2="${W - 8}" y1="40" y2="40" stroke="var(--grid)" stroke-width="1"/>
+    <rect x="${X(e.minimo)}" y="34" width="${X(e.maximo) - X(e.minimo)}" height="12" rx="4" fill="var(--wash)" stroke="var(--s1)" stroke-opacity=".35"/>
+    <line x1="${X(e.central)}" x2="${X(e.central)}" y1="30" y2="50" stroke="var(--s1)" stroke-width="2"/>
+    <text class="lab" x="${X(e.central)}" y="22" text-anchor="${ancora(X(e.central))}" style="font:12px system-ui;fill:var(--ink2)">Estimativa</text>
+    <circle cx="${X(preco)}" cy="40" r="7" fill="var(--ink)" stroke="var(--surface)" stroke-width="2"/>
+    <text x="${X(preco)}" y="${perto ? 68 : 22}" text-anchor="${ancora(X(preco))}" style="font:600 12px system-ui;fill:var(--ink)">Preço efetivo</text></svg>`;
+}
+function desenharVeredicto(d) {
+  const v = d.veredicto, e = d.estimativa, V = VEREDICTOS[v.categoria] || VEREDICTOS["Inconclusivo"];
+  const contrib = e.componentes.contribuicoes, maxAbs = Math.max(...contrib.map(c => Math.abs(c.valor)), 1);
+  const linhas = contrib.map(c => {
+    const w = Math.max(2, Math.abs(c.valor) / maxAbs * 44), pos = c.valor >= 0;
+    return `<div class="fator"><span>${esc(c.fator)}</span>
+      <svg viewBox="0 0 96 12" width="96" height="12" aria-hidden="true"><line x1="48" x2="48" y1="0" y2="12" stroke="var(--axis)"/><rect x="${pos ? 48 : 48 - w}" y="2" width="${w}" height="8" rx="2" fill="${pos ? "var(--pos)" : "var(--neg)"}"/></svg>
+      <span class="v">${c.valor >= 0 ? "+" : "−"}${eur(Math.abs(c.valor))}</span></div>`;
+  }).join("");
+  $("#p-veredicto").innerHTML = `
+    <section class="card">
+      <div class="badge ${V.cls}" role="status"><span class="ic" aria-hidden="true">${V.ic}</span>
+        <div><b>${esc(v.categoria)}</b><span>Valor aceitável: ${V.aceitavel}</span></div></div>
+      <p class="msg" style="margin-top:12px;color:var(--ink)">Com ${pct(1 - v.preco_efetivo / d.anuncio.preco_pedido)} de negociação, pagaria <b>${eur(v.preco_efetivo)}</b>: <b>${pct(v.diferenca_pct, true)}</b> face à estimativa.</p>
+      <div class="grid3">
+        <div class="stat"><small>Pedido</small><b>${eur(d.anuncio.preco_pedido)}</b></div>
+        <div class="stat"><small>Estimativa</small><b>${eur(e.central)}</b></div>
+        <div class="stat"><small>Intervalo (mil €)</small><b>${Math.round(e.minimo / 1000)}–${Math.round(e.maximo / 1000)}</b></div>
+      </div>
+      <div style="margin-top:10px">${barraIntervalo(e, v.preco_efetivo)}</div>
+      <span class="chipinfo">Confiança ${esc(e.confianca)} (±${pct(e.meia_amplitude)})</span>
+      ${v.mensagem ? `<p class="msg">${esc(v.mensagem)}</p>` : ""}
+    </section>
+    <section class="card"><h2>O que pesa no valor</h2>
+      <div class="fator"><span>Mediana da zona × área</span><span></span><span class="v">${eur(e.componentes.base_mediana)}</span></div>
+      ${linhas}
+      <div class="fator tot"><span>Estimativa</span><span></span><span class="v">${eur(e.central)}</span></div>
+      <p class="hint">Fatores genéricos, a calibrar com dados reais. Não substitui uma avaliação oficial.</p>
+    </section>
+    ${e.avisos.length ? `<section class="card"><h2>Avisos</h2><ul class="avisos">${e.avisos.map(a => `<li>${esc(a)}</li>`).join("")}</ul></section>` : ""}`;
+}
+function desenharZona(d) {
+  const p = d.padrao, linhas = [["Pedido", p.preco_m2_pedido, "var(--s2)"], ["Mediana da zona (estimada hoje)", p.mediana_zona, "var(--s1)"]];
+  if (p.mediana_semelhantes) linhas.push(["Zonas semelhantes", p.mediana_semelhantes, "var(--s3)"]);
+  const max = Math.max(...linhas.map(l => l[1])) * 1.25;
+  const barras = linhas.map(([nome, v, cor], i) => {
+    const y = i * 44 + 4, w = v / max * 250;
+    return `<text x="0" y="${y + 11}" style="font:12px system-ui;fill:var(--ink2)">${nome}</text>
+      <rect x="0" y="${y + 17}" width="${w}" height="16" rx="4" fill="${cor}"/>
+      <text x="${w + 8}" y="${y + 30}" style="font:600 13px system-ui;fill:var(--ink)">${eur(v)}/m²</text>`;
+  }).join("");
+  const sem = p.semelhantes.map((s, i) => `<tr><td>${i + 1}. ${esc(s.concelho)}</td><td>${eur(s.preco_m2)}</td><td>${s.crescimento == null ? "–" : pct(s.crescimento, true, 1)}</td></tr>`).join("");
+  $("#p-zona").innerHTML = `
+    <section class="card"><h2>Está dentro do padrão da zona?</h2>
+      <p class="msg" style="margin:0 0 12px;color:var(--ink)">${esc(p.leitura)}</p>
+      <svg viewBox="0 0 340 ${linhas.length * 44 + 4}" role="img" aria-label="Preço por metro quadrado: pedido ${eur(p.preco_m2_pedido)}, zona ${eur(p.mediana_zona)}" style="width:100%;height:auto;overflow:visible">${barras}</svg>
+      ${p.diferenca_vs_semelhantes != null ? `<p class="hint">Face às zonas semelhantes: ${pct(p.diferenca_vs_semelhantes, true)}.</p>` : ""}
+    </section>
+    <section class="card"><h2>Zonas semelhantes</h2>
+      <table><thead><tr><th>Zona</th><th>€/m²</th><th>Cresc./ano (5 a)</th></tr></thead><tbody>${sem}</tbody></table>
+      <p class="hint">Semelhança por nível de preço, crescimento recente e profundidade do mercado.</p>
+    </section>`;
+}
+function desenharHistorico(d) {
+  const h = d.historico, nomes = Object.keys(h.preco_m2), cores = ["var(--s1)", "var(--s2)", "var(--s3)", "var(--s4)"];
+  const series0 = chave => nomes.map((n, i) => ({ nome: n, cor: cores[i], v: h[chave][n] }));
+  const cresc = nomes.map((n, i) => { const v = h.preco_m2[n].filter(x => x != null); return `<tr><td><span style="color:${cores[i]}">●</span> ${esc(n)}${i === 0 ? " (sua zona)" : ""}</td><td>${eur(v[v.length - 1])}</td><td>${pct(v[v.length - 1] / v[0] - 1, true)}</td></tr>`; }).join("");
+  const anos = h.trimestres.length / 4;
+  $("#p-hist").innerHTML = `
+    <section class="card"><h2>Histórico comparativo</h2>
+      <p class="sub" style="margin-bottom:10px">Preço mediano de venda por m², últimos ${anos.toFixed(0)} anos.</p>
+      <div class="toggle" role="group" aria-label="Escala"><button type="button" data-m="preco_m2" aria-pressed="true">€/m²</button><button type="button" data-m="indice_base_100" aria-pressed="false">Índice (base 100)</button></div>
+      ${legenda(series0("preco_m2"))}<div class="chart" id="gh"></div>
+      <button class="link" id="tabela-h" type="button">Ver tabela</button><div id="tab-h" class="hidden"></div>
+    </section>
+    <section class="card"><h2>Variação no período</h2>
+      <table><thead><tr><th>Zona</th><th>Último trim.</th><th>Variação</th></tr></thead><tbody>${cresc}</tbody></table></section>`;
+  const desenhar = chave => {
+    const f = chave === "preco_m2" ? v => nf.format(Math.round(v)) : v => Math.round(v);
+    const idx = [0, 1, 2, 3].map(k => Math.round(k * (h.trimestres.length - 1) / 3));
+    desenharLinhas($("#gh"), { x: h.trimestres, series: series0(chave), xTicks: idx, yFmt: f,
+      tipFmt: chave === "preco_m2" ? v => eur(v) + "/m²" : v => v.toFixed(0), rotulo: "Evolução do preço por metro quadrado da zona e de zonas semelhantes" });
+  };
+  desenhar("preco_m2");
+  $$(".toggle button", $("#p-hist")).forEach(b => b.onclick = () => { $$(".toggle button", $("#p-hist")).forEach(x => x.setAttribute("aria-pressed", String(x === b))); desenhar(b.dataset.m); });
+  $("#tabela-h").onclick = () => {
+    const alvo = $("#tab-h"); alvo.classList.toggle("hidden");
+    const linhas = h.trimestres.map((t, i) => i).filter(i => (h.trimestres.length - 1 - i) % 4 === 0);
+    alvo.innerHTML = `<table><thead><tr><th>Trimestre</th>${nomes.map(n => `<th>${esc(n.replace("Exemplo-", ""))}</th>`).join("")}</tr></thead><tbody>${linhas.map(i => `<tr><td>${h.trimestres[i]}</td>${nomes.map(n => `<td>${h.preco_m2[n][i] == null ? "–" : nf.format(Math.round(h.preco_m2[n][i]))}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
+  };
+}
+function desenharPrevisao(d) {
+  const p = d.projecao, gr = p.grafico, horizontes = Object.keys(p.cenarios[1].valores).map(Number);
+  const nome = { pessimista: "Pessimista", base: "Base", otimista: "Otimista" };
+  const cab = horizontes.map(h => `<th>${h} anos</th>`).join("");
+  const corpo = ["otimista", "base", "pessimista"].map(k => {
+    const c = p.cenarios.find(x => x.nome === k);
+    return `<tr><td>${nome[k]}</td>${horizontes.map(h => `<td>${eurK(c.valores[h])}${p.retorno_valido ? `<small>${pct(c.retorno_liquido_anual[h], true, 1)}/ano</small>` : ""}</td>`).join("")}</tr>`;
+  }).join("");
+  const base = p.cenarios.find(x => x.nome === "base"), h10 = horizontes.includes(10) ? 10 : horizontes[0];
+  $("#p-prev").innerHTML = `
+    <section class="card"><h2>Valor previsto do imóvel</h2>
+      <p class="sub" style="margin-bottom:10px">Três cenários a partir do histórico da zona (${pct(p.cagr_historico, true, 1)}/ano em ${p.anos_historico.toFixed(0)} anos).</p>
+      <div class="chart" id="gp" style="margin-top:6px"></div>
+      <table style="margin-top:8px"><thead><tr><th></th>${cab}</tr></thead><tbody>${corpo}</tbody></table>
+      ${p.retorno_valido ? `<p class="hint">Sob cada valor: retorno líquido anual para quem compra ao preço efetivo, depois de custos de compra. No cenário base, a ${h10} anos, é ${pct(base.retorno_real_anual[h10], true, 1)}/ano em termos reais (descontada a inflação).</p>` : `<p class="hint">Retorno omitido: a estimativa ignora componentes do imóvel.</p>`}
+    </section>
+    <section class="card"><h2>Leia com cuidado</h2><ul class="avisos">${p.avisos.map(a => `<li>${esc(a)}</li>`).join("")}</ul></section>`;
+  desenharLinhas($("#gp"), {
+    x: gr.anos.map(a => a === 0 ? "Hoje" : "+" + a + " a"), xTicks: [0, 5, 10, 15, 20].filter(i => i < gr.anos.length),
+    series: [{ nome: "Otimista", cor: "var(--s1)", v: gr.otimista, largura: 1.5 }, { nome: "Base", cor: "var(--s1)", v: gr.base, largura: 2.5 }, { nome: "Pessimista", cor: "var(--s1)", v: gr.pessimista, largura: 1.5 }],
+    banda: { min: gr.pessimista, max: gr.otimista }, rotulosFim: true,
+    referencia: { v: d.veredicto.preco_efetivo, nome: "Preço pago" },
+    yFmt: v => Math.round(v / 1000) + " mil", tipFmt: v => eur(v), rotulo: "Cenários de valor do imóvel nos próximos 20 anos",
+  });
+}
+function desenhar(d) {
+  $("#demo").classList.toggle("hidden", !d.meta.sintetico);
+  $("#sub").textContent = d.anuncio.concelho + " · " + d.anuncio.area_util_m2 + " m² · " + eur(d.anuncio.preco_pedido);
+  desenharVeredicto(d); desenharZona(d); desenharHistorico(d); desenharPrevisao(d);
+  $$("nav button").forEach(b => { b.disabled = false; });
+}
+
+/* ---------- arranque ---------- */
+fetch("/api/concelhos").then(r => r.json()).then(j => {
+  j.concelhos.forEach(c => $("#concelho").insertAdjacentHTML("beforeend", `<option value="${esc(c)}">${esc(c)}</option>`));
+  $("#demo").classList.toggle("hidden", !j.sintetico);
+}).catch(() => { $("#erro").textContent = "Não foi possível ligar ao servidor."; });
+</script>
+</body>
+</html>
