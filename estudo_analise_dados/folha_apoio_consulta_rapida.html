@@ -4,7 +4,7 @@
 @page { size: A4; margin: 8mm; }
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
-body{font-family:"DejaVu Sans","Liberation Sans",Arial,sans-serif;font-size:7.8pt;line-height:1.2;color:#111}
+body{font-family:"DejaVu Sans","Liberation Sans",Arial,sans-serif;font-size:7.6pt;line-height:1.2;color:#111}
 .page{width:194mm;height:279mm;page-break-after:always;overflow:hidden;position:relative}
 .page:last-child{page-break-after:auto}
 h1{height:8mm;font-size:10.5pt;margin:0;border-bottom:1.4px solid #111;padding-bottom:.8mm;display:flex;justify-content:space-between;align-items:baseline}
@@ -20,7 +20,7 @@ td.k{width:26%;font-weight:bold;background:#f4f4f4}
 td.c{background:#fff6dc}
 .q{font-weight:bold;color:#0b3d91}
 .no{color:#9a0000;font-weight:bold}
-.f{font-family:"DejaVu Sans Mono",monospace;font-size:7.3pt}
+.f{font-family:"DejaVu Sans Mono",monospace;font-size:7.1pt}
 .cs>.t{background:#2a6;color:#fff;font-weight:bold;padding:.25mm 1.2mm;font-size:.95em}
 .note{position:absolute;bottom:0;left:0;right:0;font-size:6pt;font-style:italic;height:5mm}
 </style></head><body>
@@ -82,7 +82,6 @@ td.c{background:#fff6dc}
 <tr><td class="c"><span class="q">r=0,80 entre satisfação e retenção; o diretor quer aumentar a satisfação para reter. Como responde?</span> Estão <b>associadas</b>; não prova causa (3.º fator, causalidade inversa); precisam-se estudos adicionais</td></tr>
 <tr><td class="c"><span class="q">Que medida: salário e anos de experiência; ranking de satisfação e de qualidade; rendimento e incumprimento (Sim/Não); género e preferência (A, B ou C); satisfação (0–10) e churn?</span> Pearson; Spearman; ponto-bisserial; χ²+V; ponto-bisserial</td></tr>
 <tr><td class="c"><span class="q">r=0,82 (marketing/vendas) e r=−0,75 (preço/quantidade): direção e conclusão correta?</span> positiva forte: + marketing tende a + vendas · negativa forte: + preço tende a − quantidade; em ambos, causa não se conclui</td></tr>
-<tr><td class="c"><span class="q">Género × compra: p&lt;0,001 e V=0,08. Qual interpretação: associação forte; evidência de associação mas fraca; género causa a compra; não há associação?</span> <b>Evidência estatística de associação, mas fraca</b> · o χ² responde “há associação?”; o V responde “qual a intensidade?”</td></tr>
 <tr><td class="c"><span class="q">6 lojas com ranks de satisfação 1..6 e rentabilidade 2,1,4,3,5,6: associação?</span> Rankings muito semelhantes → Spearman positivo e elevado (≈0,89*)</td></tr>
 </table></div>
 
@@ -95,6 +94,8 @@ td.c{background:#fff6dc}
 
 <div class="sec"><h2>V/F — armadilhas (desconfia de “sempre”, “causa”, “prova”)</h2>
 <table><tr><td><b>Falso:</b> associação ⇒ causa · r≈0 ⇒ sem relação · significativo ⇒ forte · padronizar elimina outliers · K-means escolhe k · silhouette máx. = grupos verdadeiros · ACS/ACM = clustering · proximidade ⇒ causa · 1.ª PC explica toda a variância · accuracy alta = bom em todos os grupos · 21% = prob. individual. <b>Verdadeiro:</b> loading = relação variável–componente · treino é otimista · inicializações diferentes → soluções diferentes</td></tr></table></div>
+<div class="sec"><h2>Símbolos usados (descrição das variáveis)</h2>
+<table><tr><td><b>n</b> nº de observações · <b>x̄</b> média · <b>s</b> desvio-padrão · <b>s²</b> variância · <b>Q1/Q3</b> quartis · <b>AIQ</b> amplitude interquartil · <b>r</b> correlação de Pearson · <b>r<sub>pb</sub></b> ponto-bisserial · <b>ρ</b> Spearman · <b>O</b> frequência observada · <b>E</b> frequência esperada · <b>l, c</b> nº de linhas e colunas da tabela · <b>gl</b> graus de liberdade · <b>χ²</b> estatística do qui-quadrado · <b>V</b> V de Cramér · <b>p</b> p-value · <b>H0/H1</b> hipótese nula/alternativa</td></tr></table></div>
 
 </div></div>
 <div class="note">Guia para COPIAR À MÃO (o exame só permite uma folha A4 manuscrita). Fontes: slides, teste-modelo e solução, Modelo de Exame 2 e resolução, exercícios e soluções da UC. * = fora dos slides.</div>
@@ -132,6 +133,8 @@ td.c{background:#fff6dc}
 <tr><td class="c"><span class="q">No mapa, “Premium” e “Muito satisfeito” estão próximos, afastados da origem, cos² alto; Dim.1 explica 62% da inércia. Interprete e indique 2 cautelas.</span> Sugere associação e boa representação. Cautelas: ver <b>contribuições</b>; <b>38% da inércia omitida</b>; contexto, sem causa · “a ACM identificou segmentos” ✗ → usar clustering</td></tr>
 </table></div>
 
+<div class="sec"><h2>Símbolos usados (descrição das variáveis)</h2>
+<table><tr><td><b>p</b> nº de variáveis · <b>X</b> variável original · <b>Z</b> variável padronizada · <b>λ</b> valor próprio (variância da componente) · <b>C1, C2</b> componentes · <b>R</b> matriz de correlações · <b>a(i)</b> distância média da observação i ao seu cluster · <b>b(i)</b> distância média ao cluster mais próximo · <b>s(i)</b> silhouette · <b>k, K</b> nº de clusters/grupos · <b>D</b> função discriminante (<b>a₀</b> constante, <b>aⱼ</b> coeficientes) · <b>TP/FN/FP/TN</b> verdadeiros positivos, falsos negativos, falsos positivos, verdadeiros negativos · <b>N</b> total</td></tr></table></div>
 </div>
 <div class="col" id="c4">
 
