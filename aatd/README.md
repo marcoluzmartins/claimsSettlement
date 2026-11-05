@@ -6,6 +6,7 @@ Trabalho de Algoritmos de Apoio à Tomada de Decisão (FEP, 2026/27). Prever `y=
 |---|---|---|
 | `01_EDA_Preparacao.ipynb` | Exploração dos dados e decisões de preparação | Business understanding, Data understanding, Data preparation |
 | `02_Modelacao_Avaliacao.ipynb` | Modelos, comparação e submissão (a fazer) | Modelling, Evaluation, Results |
+| `sistema.py` | Aprende com o ficheiro de treino e prevê o ficheiro de teste (comandos `treinar` e `prever`) | Modelling, Evaluation, Results |
 | `eda_graficos.py` | Script que lê um CSV e cria os gráficos e tabelas de EDA | Data understanding |
 
 Para correr: `pip install -r requirements.txt`, colocar `training.csv` e `task.csv` em `data/` (a pasta não vai para o Git) e executar os notebooks por ordem.
@@ -19,3 +20,14 @@ python eda_graficos.py data/task.csv
 ```
 
 Cria os gráficos em `graficos/<nome do ficheiro>/`. Usa só `pandas` e `matplotlib`. Com o `training.csv` cria 9 gráficos; com o `task.csv`, onde o `y` está vazio, salta os que dependem do `y` e cria 5.
+
+## Sistema de previsão
+
+```bash
+python sistema.py treinar data/training.csv   # aprende, compara 7 modelos e guarda o melhor
+python sistema.py prever data/task.csv        # usa o modelo guardado e grava resultados/submissao.csv (i,y)
+```
+
+`treinar --rapido` salta a afinação de hiperparâmetros e demora segundos. Em `resultados/` ficam o modelo guardado,
+a tabela `comparacao_modelos.csv` e a `submissao.csv`. Se o ficheiro dado ao `prever` tiver o `y` preenchido,
+mostra também a accuracy, o recall, a precision, o F-measure e a matriz de confusão.
