@@ -1,7 +1,7 @@
 # AATD project — predicting product discounts
 
-Notebook `AATD_Project.ipynb` follows the report structure
-(Abstract, Introduction, Methodology [CRISP-DM], Results, Conclusions).
+Notebook `AATD_Project.ipynb` contains only code and section titles, following the report structure
+(data understanding / EDA, data preparation, modeling, results, conclusions). The report text is written separately.
 
 ## Run
 
