@@ -1,0 +1,9 @@
+alternativa,accuracy,desvio acc.,recall,precision,f1
+RF · sem equilíbrio,0.9554,0.01,0.8598,0.9191,0.8877
+RF · class_weight=balanced,0.9559,0.0074,0.9088,0.8812,0.8946
+RF · SMOTENC,0.9573,0.0091,0.8783,0.9126,0.8944
+DT · sem equilíbrio,0.8594,0.0098,0.4574,0.7779,0.5683
+DT · class_weight=balanced,0.7506,0.0447,0.8321,0.4511,0.5813
+DT · SMOTENC,0.7573,0.0364,0.783,0.4542,0.5721
+KNN · sem equilíbrio,0.8177,0.0092,0.324,0.6101,0.4209
+KNN · SMOTENC,0.7312,0.0226,0.7432,0.4148,0.5319

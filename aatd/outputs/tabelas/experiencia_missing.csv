@@ -1,0 +1,7 @@
+modelo,alternativa,accuracy,desvio acc.,recall,precision,f1
+RF,mediana,0.9554,0.0084,0.8625,0.9171,0.8881
+DT,mediana,0.8599,0.0093,0.4574,0.7814,0.5692
+KNN,mediana,0.8156,0.0096,0.3174,0.6005,0.4127
+RF,mediana + indicador,0.9554,0.01,0.8598,0.9191,0.8877
+DT,mediana + indicador,0.8594,0.0098,0.4574,0.7779,0.5683
+KNN,mediana + indicador,0.8177,0.0092,0.324,0.6101,0.4209

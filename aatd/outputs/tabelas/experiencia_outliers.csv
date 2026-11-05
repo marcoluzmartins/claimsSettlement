@@ -1,0 +1,6 @@
+modelo,alternativa,accuracy,desvio acc.,recall,precision,f1
+KNN,manter,0.8177,0.0092,0.324,0.6101,0.4209
+KNN,winsorizing 1-99%,0.8169,0.0098,0.3214,0.6081,0.4184
+KNN,log(1+x) em x3 e x5,0.8158,0.0072,0.3147,0.6024,0.4113
+RF,manter,0.9554,0.01,0.8598,0.9191,0.8877
+RF,winsorizing 1-99%,0.9565,0.0073,0.8651,0.92,0.8909
