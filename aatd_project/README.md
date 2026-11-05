@@ -11,7 +11,11 @@ Notebook `AATD_Project.ipynb` contains only code and section titles, following t
 
 ## Outputs
 
-* `outputs/model_comparison.csv` / `.md` — table of model, accuracy, recall, precision and F-measure (mean over the outer CV folds)
-* `outputs/submission.csv` — `i,y` predictions for the test set
-* `outputs/cv_folds.csv` — fold assigned to each training row
-* `figures/` — all plots used in the report
+Every block prints its result with a caption and saves it, so it can be pasted into the report:
+
+* `tables/*.csv` and `tables/*.md` — one file per table (descriptive statistics, outliers, duplicates, preparation experiments,
+  folds, tuned hyper-parameters, permutation importance...). The model comparison table (model, accuracy, recall, precision,
+  F-measure) is `tables/model_comparison`.
+* `figures/*.png` — every plot.
+* `outputs/submission.csv` — `i,y` predictions for the test set.
+* `outputs/cv_folds.csv` — fold assigned to each training row.
