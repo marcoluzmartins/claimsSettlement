@@ -7,7 +7,7 @@
   :root { --ink:#1c1c1c; --navy:#1f3a5f; --red:#b3261e; --grey:#5b6470; --line:#c9cdd3; --tint:#eef1f5; }
   * { box-sizing: border-box; }
   html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  body { font-family: "Liberation Serif","Times New Roman",serif; font-size: 10pt; line-height: 1.33; color: var(--ink); margin: 0; text-align: justify; hyphens: auto; }
+  body { font-family: "Liberation Serif","Times New Roman",serif; font-size: 10pt; line-height: 1.30; color: var(--ink); margin: 0; text-align: justify; hyphens: auto; }
   h1, h2, h3, .sans { font-family: "Liberation Sans", Arial, sans-serif; text-align: left; }
   h1 { font-size: 12.5pt; color: var(--navy); margin: 11pt 0 4pt; padding-bottom: 2pt; border-bottom: 1.2pt solid var(--navy); break-after: avoid; }
   h2 { font-size: 10.3pt; color: var(--navy); margin: 8pt 0 2.5pt; break-after: avoid; }
@@ -84,12 +84,7 @@
 <h1>1. Identificação do caso e descrição do sistema</h1>
 
 <h2>1.1 Contexto e objetivo institucional</h2>
-<p>O Estado neerlandês comparticipa os custos de acolhimento infantil através de um subsídio (<i>kinderopvangtoeslag</i>) gerido pela direção <i>Toeslagen</i> da administração fiscal (<i>Belastingdienst</i>). O subsídio é pago por antecipação, com base no rendimento e nos custos estimados pelo requerente, e apurado de forma definitiva no final do ano, o que pode originar um pedido de devolução. O objetivo institucional era duplo: pagar com eficiência a centenas de milhares de famílias e proteger o erário contra erros e fraude. A partir de 2013 a segunda vertente passou a dominar a prática da <i>Toeslagen</i>, num clima de endurecimento do combate à fraude em que o caso da «fraude búlgara» (2013) é frequentemente invocado — embora o inquérito parlamentar tenha desmentido que esteja na origem do escândalo (POK, 2020).</p>
-
-<h2>1.2 Fontes de dados, lógica de processamento e saídas</h2>
-<p><b>Entradas.</b> (i) Dados declarados pelo requerente (rendimento estimado, horas e custos de acolhimento); (ii) dados fiscais internos e informação sobre prestadores; (iii) dados pessoais do requerente, incluindo a nacionalidade e a existência de dupla nacionalidade — em maio de 2018 constavam dos sistemas cerca de 1,4 milhões de registos de dupla nacionalidade (AP, 2021); (iv) «sinais de fraude» do FSV.</p>
-<p><b>Processamento.</b> O modelo de risco (2013) atribuía a cada pedido uma pontuação de risco de <i>inexatidão</i>. Segundo a Amnistia Internacional (2021), «cidadania neerlandesa: sim/não» era um parâmetro do modelo, pelo que as pessoas com outra nacionalidade recebiam pontuações mais altas; o modelo, de natureza auto-aprendente, reproduzia os defeitos do desenho inicial. Os pedidos de pontuação elevada seguiam para revisão manual por funcionários que <i>não recebiam informação sobre o motivo</i> da pontuação. Em paralelo, o FSV funcionava como registo central de indícios de fraude: cerca de 270 000 pessoas (incluindo cerca de 2 000 menores) entre 2013 e março de 2020 (AP, 2022; EDPB, 2022).</p>
-<p><b>Saídas.</b> Suspensão ou cessação do subsídio, recuperação retroativa de montantes (muitas vezes de vários anos), qualificação do comportamento como fraudulento e inscrição no FSV, com efeitos em cascata para as famílias (Fig. 1).</p>
+<p>O Estado neerlandês comparticipa os custos de acolhimento infantil através de um subsídio (<i>kinderopvangtoeslag</i>) gerido desde 2005 pela direção <i>Toeslagen</i> da administração fiscal (<i>Belastingdienst</i>). O subsídio é pago por antecipação, com base no rendimento e nos custos estimados pelo requerente, e apurado de forma definitiva no final do ano, o que pode originar um pedido de devolução. O objetivo institucional era duplo: pagar com eficiência a centenas de milhares de famílias e proteger o erário contra erros e fraude. A partir de 2013 a segunda vertente passou a dominar a prática da <i>Toeslagen</i>, num clima de endurecimento do combate à fraude em que o caso da «fraude búlgara» (2013) é frequentemente invocado — embora o inquérito parlamentar tenha desmentido que esteja na origem do escândalo (POK, 2020).</p>
 
 <figure>
 <svg viewBox="0 0 640 272" xmlns="http://www.w3.org/2000/svg" font-family="Liberation Sans, Arial, sans-serif" font-size="10">
@@ -158,13 +153,19 @@
   <g fill="#b3261e"><circle cx="6" cy="132" r="7.5"/><circle cx="174" cy="60" r="7.5"/><circle cx="344" cy="60" r="7.5"/><circle cx="479" cy="20" r="7.5"/><circle cx="174" cy="200" r="7.5"/><circle cx="479" cy="200" r="7.5"/></g>
   <g fill="#fff" font-weight="700" font-size="9.5" text-anchor="middle"><text x="6" y="135.5">1</text><text x="174" y="63.5">2</text><text x="344" y="63.5">3</text><text x="479" y="23.5">4</text><text x="174" y="203.5">5</text><text x="479" y="203.5">6</text></g>
 </svg>
-<div class="cap"><b>Figura 1.</b> Arquitetura simplificada do sistema, reconstruída a partir de AP (2020, 2021, 2022), POK (2020) e Amnesty International (2021). Os círculos vermelhos assinalam os pontos de falha analisados na secção 2 (1 dados proibidos; 2 modelo opaco e auto-aprendente; 3 revisão sem razões; 4 sanção desproporcionada; 5 FSV; 6 contestação).</div>
+<div class="cap"><b>Figura 1.</b> Arquitetura simplificada do sistema, reconstruída a partir de AP (2020, 2021, 2022), POK (2020) e Amnesty International (2021). Os círculos vermelhos assinalam os pontos de falha da secção 2.</div>
 </figure>
 
-<h2 style="break-before:page">1.3 Cronologia</h2>
+<h2>1.2 Fontes de dados, lógica de processamento e saídas</h2>
+<p><b>Entradas.</b> (i) Dados declarados pelo requerente (rendimento estimado, horas e custos de acolhimento); (ii) dados fiscais internos e informação sobre prestadores; (iii) dados pessoais do requerente, incluindo a nacionalidade e a existência de dupla nacionalidade — em maio de 2018 constavam dos sistemas cerca de 1,4 milhões de registos de dupla nacionalidade (AP, 2021); (iv) «sinais de fraude» do FSV.</p>
+<p><b>Processamento.</b> O modelo de risco (2013) atribuía a cada pedido uma pontuação de risco de <i>inexatidão</i>. Segundo a Amnistia Internacional (2021), «cidadania neerlandesa: sim/não» era um parâmetro do modelo, pelo que as pessoas com outra nacionalidade recebiam pontuações mais altas; o modelo, de natureza auto-aprendente, reproduzia os defeitos do desenho inicial. Os pedidos de pontuação elevada seguiam para revisão manual por funcionários que <i>não recebiam informação sobre o motivo</i> da pontuação. Em paralelo, o FSV funcionava como registo central de indícios de fraude: cerca de 270 000 pessoas (incluindo cerca de 2 000 menores) entre 2013 e março de 2020 (AP, 2022; EDPB, 2022).</p>
+<p><b>Percurso típico de um caso e saídas.</b> (1) O requerente recebe adiantamentos mensais; (2) o pedido é pontuado pelo modelo; (3) pontuações altas seguem para revisão manual; (4) o funcionário pode suspender o subsídio e qualificar o comportamento como fraudulento; (5) a pessoa é inscrita no FSV; (6) no apuramento anual, a administração reclama a devolução retroativa, muitas vezes de vários anos e na totalidade; (7) o cidadão tem de contestar, sem razões nem acesso pleno ao dossiê. Cada passo reduzia as hipóteses de correção (Fig. 1, acima).</p>
+
+
+
+<h2>1.3 Cronologia</h2>
 <table>
   <thead><tr><th style="width:15%">Data</th><th>Evento</th></tr></thead>
-  <tr><td>2005</td><td>Início do regime de subsídios de acolhimento infantil administrado pela <i>Toeslagen</i>.</td></tr>
   <tr><td>2013</td><td>Desenvolvimento do modelo de classificação de risco (subsídios de acolhimento infantil e de arrendamento); o FSV começa a registar dados (até mar. 2020). Imprensa noticia introdução apressada do modelo.</td></tr>
   <tr><td>2013–2019</td><td>Pedidos sinalizados; suspensão de subsídios e recuperação integral de montantes; nacionalidade e dupla nacionalidade usadas como indicador (até 2019).</td></tr>
   <tr><td>Set. 2018</td><td>O caso torna-se público através da imprensa (nomeadamente o <i>Trouw</i>).</td></tr>
@@ -179,6 +180,7 @@
 <div class="cap"><b>Tabela 1.</b> Cronologia do caso (fontes: POK, 2020; AP, 2020, 2021, 2022; Raad van State, 2019; Amnesty International, 2021; Tweede Kamer, 2024).</div>
 
 <h1>2. Análise crítica: o que correu mal</h1>
+<p>As falhas encadeiam-se ao longo do percurso da Fig. 1 — dado proibido <span class="m">1</span> → modelo enviesado e opaco <span class="m">2</span> → revisão sem razões <span class="m">3</span> → sanção desproporcionada <span class="m">4</span> → registo no FSV <span class="m">5</span> → contestação opaca <span class="m">6</span> — e cada elo amplificou o anterior sem que existisse um ponto de controlo independente.</p>
 
 <h2>2.1 Falhas técnicas e de dados</h2>
 <ul>
@@ -211,18 +213,21 @@
 <li><b>Viés de automação e delegação da responsabilidade.</b> Uma revisão humana sem acesso às razões torna-se um carimbo sobre o <i>score</i>: o decisor humano confia excessivamente no resultado automático (Parasuraman &amp; Manzey, 2010) e a responsabilidade dilui-se entre modelo, inspetor e política.</li>
 <li><b>Inversão do ónus da prova e coerção administrativa.</b> Depois da sinalização, cabia ao cidadão demonstrar que não era fraudulento, sem acesso pleno ao dossiê; a administração não tinha de provar dolo. As devoluções retroativas, por vezes de dezenas de milhares de euros, atingiram famílias sem margem financeira para as absorver.</li>
 <li><b>Opacidade e falta de contestabilidade (<span class="m">3</span>, <span class="m">6</span>).</b> A falta de transparência foi um dos eixos do inquérito parlamentar; sem razões, sem acesso ao dossiê e com recursos lentos, o direito de defesa era formal e não efetivo.</li>
-<li><b>Negação e encobrimento institucional.</b> Alertas de advogados, jornalistas e deputados e decisões judiciais não desencadearam correção atempada; a falta de acesso à informação — por parte dos cidadãos e do Parlamento — protegeu a organização e prolongou o dano, e só a investigação independente e a imprensa forçaram o reconhecimento do erro (POK, 2020).</li>
-<li><b>Falha dos contrapoderes.</b> O POK concluiu que administração, ministros, Parlamento e tribunais falharam na proteção dos cidadãos e que demorou muito até a liderança política e administrativa reconhecer a dimensão do problema — a decisão do Conselho de Estado chegou seis anos depois do início da prática.</li>
+<li><b>Negação, encobrimento e falha dos contrapoderes.</b> Alertas de advogados, jornalistas e deputados e decisões judiciais não desencadearam correção atempada; a falta de acesso à informação — dos cidadãos e do Parlamento — protegeu a organização e prolongou o dano. O POK concluiu que administração, ministros, Parlamento e tribunais falharam e que demorou muito até a liderança reconhecer a dimensão do problema; a decisão do Conselho de Estado chegou seis anos depois do início da prática.</li>
 <li><b>Cultura de «tolerância zero» sem avaliação de impacto.</b> A fraude era o único risco medido; o risco de <i>falsos positivos</i> sobre pessoas vulneráveis não tinha dono, indicador nem alarme. O inquérito de 2024 («cego para pessoas e direito») foi dedicado precisamente à política de fraude e ao serviço público.</li>
 </ul>
 
-<h2>2.4 Princípios éticos em causa</h2>
-<ul>
-<li><b>Dignidade e autonomia.</b> Reduzir pessoas a uma categoria de risco (a nacionalidade) e usá-las como meio para a eficiência fiscal contraria a exigência kantiana de tratar cada pessoa também como fim (Kant, 1785); negar razões e defesa nega a pessoa como agente.</li>
-<li><b>Justiça e igualdade.</b> Um regime de fiscalização que só seria aceitável para quem soubesse que nunca seria alvo dele não passa o teste do «véu de ignorância» (Rawls, 1971): o risco recaiu sobre quem tinha outra nacionalidade e menos recursos para se defender.</li>
-<li><b>Não maleficência e proporcionalidade.</b> O dano — dívidas, perda de rendimento, famílias separadas — era grave e dificilmente reversível, enquanto o ganho esperado era marginal e mal medido; um cálculo utilitário que ignora a distribuição dos danos é eticamente defeituoso.</li>
-<li><b>Responsabilidade (<i>accountability</i>).</b> Modelo, revisor, chefia e política partilharam a decisão, mas ninguém respondia por ela — o «problema das muitas mãos» agravado por sistemas informáticos (Nissenbaum, 1996).</li>
-</ul>
+<h2>2.4 Princípios éticos e ligação às falhas técnicas, legais e institucionais</h2>
+<p>Quatro princípios estruturam a nossa leitura. <b>Dignidade e autonomia:</b> tratar pessoas como categorias de risco e negar-lhes razões nega-as como agentes (Kant, 1785). <b>Justiça:</b> um regime de fiscalização que só seria aceitável para quem soubesse que nunca seria alvo dele falha o teste do «véu de ignorância» (Rawls, 1971). <b>Não maleficência e proporcionalidade:</b> dano grave e dificilmente reversível face a um ganho esperado marginal e mal medido. <b>Responsabilidade:</b> o «problema das muitas mãos», agravado por sistemas informáticos, em que ninguém responde pela decisão (Nissenbaum, 1996). A Tabela 3 liga cada falha à norma violada, ao princípio ético e à dinâmica institucional que a sustentou.</p>
+<table class="keep">
+  <thead><tr><th style="width:25%">Falha técnica / de dados</th><th style="width:25%">Norma violada</th><th style="width:22%">Princípio ético</th><th>Dinâmica institucional</th></tr></thead>
+  <tr><td><span class="m">1</span><span class="m">2</span> Nacionalidade e dupla nacionalidade como preditor</td><td>RGPD art. 5.º(1)(a)(c), 6.º; CEDH art. 14.º; Carta art. 21.º</td><td>Justiça e igualdade</td><td>«Tolerância zero» sem avaliação de impacto nos direitos humanos</td></tr>
+  <tr><td><span class="m">3</span> <i>Score</i> sem razões; revisão humana desinformada</td><td>RGPD art. 22.º, 15.º(1)(h); Carta art. 41.º</td><td>Dignidade e autonomia</td><td>Viés de automação; diluição da responsabilidade</td></tr>
+  <tr><td><span class="m">4</span> Erro tratado como fraude; recuperação integral</td><td>Proporcionalidade; CEDH art. 6.º; Raad van State (2019)</td><td>Não maleficência e proporcionalidade</td><td>Inversão do ónus da prova; coerção administrativa</td></tr>
+  <tr><td><span class="m">5</span> FSV com dados inexatos, retidos, sem finalidade</td><td>RGPD art. 5.º(1)(b)(d)(e), 32.º, 35.º</td><td>Responsabilidade</td><td>Falha dos contrapoderes; reconhecimento tardio</td></tr>
+  <tr><td><span class="m">6</span> Contestação opaca e lenta</td><td>Carta art. 41.º e 47.º; CEDH art. 6.º</td><td>Responsabilidade e contestabilidade</td><td>Negação e encobrimento institucional</td></tr>
+</table>
+<div class="cap"><b>Tabela 3.</b> Matriz de ligação entre falhas de engenharia, normas, princípios éticos e dinâmicas institucionais (os números remetem para a Fig. 1).</div>
 
 <h1>3. Quadro de mitigação e prevenção</h1>
 <p>Propomos uma arquitetura de <b>defesa em profundidade</b>: cinco portões de decisão (G0–G4) ao longo do ciclo de vida, atravessados por três controlos transversais, de modo que a falha de uma salvaguarda seja captada pela seguinte (Fig. 2). Os limiares numéricos são <i>parâmetros de partida</i>, a calibrar por avaliação de impacto.</p>
@@ -305,7 +310,9 @@
   <tr><td>Recuperação integral; inversão do ónus</td><td>T7, O3, O4</td><td>0 recuperações integrais sem ponderação; reclamação com efeito suspensivo; tempo médio de recurso.</td></tr>
   <tr><td>Alertas ignorados; reconhecimento tardio</td><td>O2, O5, O6</td><td>Tempo de resposta a alertas; relatórios de auditoria publicados no prazo.</td></tr>
 </table>
-<div class="cap"><b>Tabela 3.</b> Rastreabilidade entre falhas, controlos e indicadores verificáveis.</div>
+<div class="cap"><b>Tabela 4.</b> Rastreabilidade entre falhas, controlos e indicadores verificáveis.</div>
+
+<p><b>Viabilidade e faseamento.</b> <i>Ganhos rápidos (0–3 meses)</i>, de baixo custo e sem alteração legislativa: T1 (<i>linter</i> e lista de atributos proibidos), T6 (registos), O3 (fundamentação e acesso ao dossiê) e O5 (canal de denúncia), a cargo das equipas de dados, do EPD e do jurídico. <i>Médio prazo (3–12 meses):</i> T2–T5, T7, O1 e O4, que exigem dados rotulados, capacidade de teste e procedimentos de recurso, sob responsabilidade da direção do serviço. <i>Estrutural (&gt; 12 meses):</i> O2, O6 e a clarificação legal do ónus da prova, que dependem do legislador e de autoridades independentes. Reaproveitam-se instrumentos já existentes (AIPD, IAMA, <i>Algoritmeregister</i>). O custo recorrente a orçamentar é a amostra de auditoria de T3 (verificar pedidos que o modelo não sinalizaria), mas é ela que permite medir o erro real.</p>
 
 <h1>4. Reflexões alargadas</h1>
 
@@ -319,13 +326,7 @@
 <p>O POK concluiu que mais de 25 000 pais foram tratados injustamente como fraudulentos. Os instrumentos de punição — suspensão e recuperação integral — atingem famílias de baixos rendimentos, sem poupança para absorver dívidas, e a perfilagem por nacionalidade recaiu sobre pessoas com outra nacionalidade ou dupla nacionalidade (AP, 2021; Amnesty International, 2021). Mais de mil crianças de famílias lesadas foram colocadas fora de casa (1 115 entre 2015 e 2020, segundo o CBS, citado por NOS, s.d.; o Governo identificou 1 819 crianças de 1 168 pais em setembro de 2023, Rijksoverheid, 2023). A compensação mínima de 30 000 € por requerente e a vasta operação de reparação tornaram o custo total da ordem de milhares de milhões de euros (estimativas noticiadas em 2023: cerca de 7 mil milhões), o que mostra que a «poupança» de um sistema punitivo mal desenhado é ilusória e que o dano de natureza familiar e psicológica não se repara com dinheiro.</p>
 
 <h2>4.4 Lições para equipas de MLOps e engenharia de dados</h2>
-<ul>
-<li><b>Contratos de dados com base legal:</b> finalidade e retenção como atributos de esquema, propagados por <i>lineage</i>.</li>
-<li><b>Equidade e deriva em CI/CD:</b> testes por grupo como condição de <i>merge</i> e de <i>deploy</i>, e alarmes em produção.</li>
-<li><b>Gestão de mudança do modelo:</b> sem retreino ou limiares alterados sem aprovação, versão e registo.</li>
-<li><b>Resposta a incidentes algorítmicos:</b> procedimento, responsável e prazo, com análise <i>blameless</i> e reparação do grupo afetado.</li>
-<li><b>Contestabilidade como requisito de produto:</b> explicações, canal de recurso e métricas de recurso fazem parte do <i>backlog</i>.</li>
-</ul>
+<p>(i) <b>Contratos de dados com base legal:</b> finalidade e retenção como atributos de esquema, propagados por <i>lineage</i>. (ii) <b>Equidade e deriva em CI/CD:</b> testes por grupo como condição de <i>merge</i> e <i>deploy</i>, com alarmes em produção. (iii) <b>Gestão de mudança do modelo:</b> nenhum retreino ou limiar alterado sem aprovação, versão e registo. (iv) <b>Resposta a incidentes algorítmicos:</b> procedimento, responsável e prazo, análise <i>blameless</i> e reparação do grupo afetado. (v) <b>Contestabilidade como requisito de produto:</b> explicações, canal de recurso e métricas de recurso no <i>backlog</i>.</p>
 
 <h2>4.5 Comparação com outros casos, reformas e limites das propostas</h2>
 <p>O caso partilha com o <i>Robodebt</i> australiano a inversão do ónus da prova e a negação institucional, embora o mecanismo seja distinto (aqui, perfilagem discriminatória). Desde então, os Países Baixos criaram a IAMA (2021, atualizada em fevereiro de 2026 para se alinhar com o art. 27.º do Regulamento da IA) e o <i>Algoritmeregister</i>; o Governo ponderou tornar a IAMA vinculativa. Mas as nossas propostas têm limites: as métricas de equidade conflituam entre si, o dano nasceu tanto da política e da cultura de execução como do modelo, e salvaguardas técnicas sem vontade política e sem poder de veto independente degradam-se em «teatro de conformidade».</p>
