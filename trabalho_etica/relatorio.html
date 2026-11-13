@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<title>Toeslagenaffaire — Dano algorítmico, governação de dados e falha institucional</title>
+<style>
+  :root { --ink:#1c1c1c; --navy:#1f3a5f; --red:#b3261e; --grey:#5b6470; --line:#c9cdd3; --tint:#eef1f5; }
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { font-family: "Liberation Serif","Times New Roman",serif; font-size: 10pt; line-height: 1.33; color: var(--ink); margin: 0; text-align: justify; hyphens: auto; }
+  h1, h2, h3, .sans { font-family: "Liberation Sans", Arial, sans-serif; text-align: left; }
+  h1 { font-size: 12.5pt; color: var(--navy); margin: 11pt 0 4pt; padding-bottom: 2pt; border-bottom: 1.2pt solid var(--navy); break-after: avoid; }
+  h2 { font-size: 10.3pt; color: var(--navy); margin: 8pt 0 2.5pt; break-after: avoid; }
+  p { margin: 0 0 4.5pt; }
+  ul { margin: 2pt 0 4.5pt; padding-left: 14pt; }
+  li { margin: 0 0 2.2pt; }
+  b, strong { font-weight: 700; }
+  .tag { font-family: "Liberation Sans", Arial, sans-serif; font-weight: 700; color: var(--navy); font-size: 9pt; }
+  table { border-collapse: collapse; width: 100%; font-family: "Liberation Sans", Arial, sans-serif; font-size: 7.8pt; line-height: 1.2; text-align: left; hyphens: manual; margin: 3pt 0 6pt; }
+  tr { break-inside: avoid; }
+  table.keep { break-inside: avoid; }
+  thead { display: table-header-group; }
+  th { background: var(--navy); color: #fff; font-weight: 700; padding: 2.4pt 4pt; border: 0.5pt solid var(--navy); }
+  td { padding: 2.2pt 4pt; border: 0.5pt solid var(--line); vertical-align: top; }
+  tr:nth-child(even) td { background: var(--tint); }
+  .cap { font-family: "Liberation Sans", Arial, sans-serif; font-size: 8pt; color: var(--grey); text-align: left; margin: 1pt 0 6pt; }
+  .cap b { color: var(--navy); }
+  figure { margin: 4pt 0 2pt; break-inside: avoid; }
+  figure svg { width: 100%; height: auto; display: block; }
+  .abstract { background: var(--tint); border-left: 2.5pt solid var(--navy); padding: 5pt 8pt; margin: 0 0 6pt; font-size: 9.4pt; }
+  .abstract .kw { font-family: "Liberation Sans", Arial, sans-serif; font-size: 8pt; color: var(--grey); margin-top: 3pt; display: block; text-align: left; }
+  .pb { break-after: page; }
+  /* title page */
+  .title-page { height: 255mm; display: flex; flex-direction: column; justify-content: space-between; text-align: left; }
+  .title-page .top { border-top: 5pt solid var(--navy); padding-top: 10mm; }
+  .title-page .course { font-family: "Liberation Sans", Arial, sans-serif; font-size: 11pt; color: var(--grey); letter-spacing: .04em; text-transform: uppercase; }
+  .title-page h1.t { font-size: 25pt; line-height: 1.15; border: 0; margin: 14mm 0 5mm; padding: 0; color: var(--navy); }
+  .title-page .sub { font-family: "Liberation Sans", Arial, sans-serif; font-size: 13pt; color: var(--ink); line-height: 1.35; }
+  .title-page .meta { font-family: "Liberation Sans", Arial, sans-serif; font-size: 10.5pt; }
+  .title-page table { font-size: 10.5pt; margin: 3mm 0 8mm; }
+  .title-page th { background: var(--tint); color: var(--navy); border: 0; border-bottom: 1pt solid var(--navy); padding: 3pt 6pt; }
+  .title-page td { padding: 5pt 6pt; background: transparent !important; border: 0; border-bottom: 0.5pt solid var(--line); }
+  .refs { font-size: 8.8pt; line-height: 1.22; }
+  .refs p { padding-left: 14pt; text-indent: -14pt; margin: 0 0 3pt; text-align: left; hyphens: manual; }
+  .refs h2 { font-size: 9.5pt; margin-top: 6pt; }
+  .small { font-size: 9pt; }
+  ol.chk { font-size: 9pt; padding-left: 16pt; margin: 2pt 0; }
+  ol.chk li { margin-bottom: 2pt; }
+  .m { display:inline-block; width:9.5pt; height:9.5pt; line-height:9.5pt; border-radius:50%; background:var(--red); color:#fff; font:700 6.8pt 'Liberation Sans',Arial,sans-serif; text-align:center; vertical-align:.5pt; margin:0 .5pt; text-indent:0; }
+  pre { font-family:'Liberation Mono','DejaVu Sans Mono',monospace; font-size:7.4pt; line-height:1.22; background:var(--tint); border-left:2pt solid var(--navy); padding:4pt 6pt; margin:3pt 0 2pt; text-align:left; white-space:pre-wrap; break-inside:avoid; }
+  .title-page, .title-page * { hyphens: manual; }
+  .note { font-family: "Liberation Sans", Arial, sans-serif; font-size: 8pt; color: var(--grey); text-align: left; }
+</style>
+</head>
+<body>
+
+<!-- ===================== PÁGINA DE ROSTO ===================== -->
+<section class="title-page pb">
+  <div class="top">
+    <div class="course">Ética, Cibersegurança e Privacidade de Dados · Trabalho de grupo · Tópico B</div>
+    <h1 class="t">Quando o algoritmo suspeita: perfilagem discriminatória, opacidade e falha institucional</h1>
+    <div class="sub">O escândalo dos subsídios de acolhimento infantil nos Países Baixos<br><i>(Toeslagenaffaire, 2013–2019)</i></div>
+  </div>
+  <div class="meta">
+    <table>
+      <tr><th style="width:62%">Elementos do grupo</th><th>N.º</th></tr>
+      <tr><td>[Nome do elemento 1]</td><td>[n.º]</td></tr>
+      <tr><td>[Nome do elemento 2]</td><td>[n.º]</td></tr>
+      <tr><td>[Nome do elemento 3]</td><td>[n.º]</td></tr>
+      <tr><td>[Nome do elemento 4]</td><td>[n.º]</td></tr>
+    </table>
+    <div>Docente: [Nome do docente]<br>Instituição / Curso: [Instituição e curso]<br>Novembro de 2026</div>
+  </div>
+</section>
+
+<!-- ===================== CORPO (máx. 6 páginas) ===================== -->
+<main>
+
+<div class="abstract">
+<b class="sans">Resumo.</b> Entre 2013 e 2019, a administração fiscal neerlandesa (<i>Belastingdienst/Toeslagen</i>) combinou um modelo de classificação de risco com um registo central de «sinais de fraude» (FSV) para detetar pedidos irregulares de subsídio de acolhimento infantil. O modelo usava a nacionalidade como indicador de risco; os casos sinalizados eram tratados como fraude, com suspensão do subsídio e recuperação integral de montantes, sem fundamentação nem defesa efetiva. Mais de 25 000 famílias foram lesadas e o Governo demitiu-se em janeiro de 2021. Este relatório reconstrói o sistema, analisa as falhas técnicas, jurídicas e organizacionais e propõe um quadro de mitigação em três camadas — engenharia, processo e regulação — articulado com o RGPD e o Regulamento da IA.
+<span class="kw">Palavras-chave: decisão automatizada · perfilagem · discriminação por nacionalidade · RGPD art. 22.º · viés de automação · Regulamento da IA</span>
+</div>
+
+<h1>1. Identificação do caso e descrição do sistema</h1>
+
+<h2>1.1 Contexto e objetivo institucional</h2>
+<p>O Estado neerlandês comparticipa os custos de acolhimento infantil através de um subsídio (<i>kinderopvangtoeslag</i>) gerido pela direção <i>Toeslagen</i> da administração fiscal (<i>Belastingdienst</i>). O subsídio é pago por antecipação, com base no rendimento e nos custos estimados pelo requerente, e apurado de forma definitiva no final do ano, o que pode originar um pedido de devolução. O objetivo institucional era duplo: pagar com eficiência a centenas de milhares de famílias e proteger o erário contra erros e fraude. A partir de 2013 a segunda vertente passou a dominar a prática da <i>Toeslagen</i>, num clima de endurecimento do combate à fraude em que o caso da «fraude búlgara» (2013) é frequentemente invocado — embora o inquérito parlamentar tenha desmentido que esteja na origem do escândalo (POK, 2020).</p>
+
+<h2>1.2 Fontes de dados, lógica de processamento e saídas</h2>
+<p><b>Entradas.</b> (i) Dados declarados pelo requerente (rendimento estimado, horas e custos de acolhimento); (ii) dados fiscais internos e informação sobre prestadores; (iii) dados pessoais do requerente, incluindo a nacionalidade e a existência de dupla nacionalidade — em maio de 2018 constavam dos sistemas cerca de 1,4 milhões de registos de dupla nacionalidade (AP, 2021); (iv) «sinais de fraude» do FSV.</p>
+<p><b>Processamento.</b> O modelo de risco (2013) atribuía a cada pedido uma pontuação de risco de <i>inexatidão</i>. Segundo a Amnistia Internacional (2021), «cidadania neerlandesa: sim/não» era um parâmetro do modelo, pelo que as pessoas com outra nacionalidade recebiam pontuações mais altas; o modelo, de natureza auto-aprendente, reproduzia os defeitos do desenho inicial. Os pedidos de pontuação elevada seguiam para revisão manual por funcionários que <i>não recebiam informação sobre o motivo</i> da pontuação. Em paralelo, o FSV funcionava como registo central de indícios de fraude: cerca de 270 000 pessoas (incluindo cerca de 2 000 menores) entre 2013 e março de 2020 (AP, 2022; EDPB, 2022).</p>
+<p><b>Saídas.</b> Suspensão ou cessação do subsídio, recuperação retroativa de montantes (muitas vezes de vários anos), qualificação do comportamento como fraudulento e inscrição no FSV, com efeitos em cascata para as famílias (Fig. 1).</p>
+
+<figure>
+<svg viewBox="0 0 640 272" xmlns="http://www.w3.org/2000/svg" font-family="Liberation Sans, Arial, sans-serif" font-size="10">
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5b6470"/></marker>
+  </defs>
+  <text x="2" y="11" font-size="8.5" fill="#5b6470" font-weight="700">ENTRADAS</text>
+  <text x="170" y="11" font-size="8.5" fill="#5b6470" font-weight="700">PROCESSAMENTO</text>
+  <text x="340" y="11" font-size="8.5" fill="#5b6470" font-weight="700">REVISÃO</text>
+  <text x="475" y="11" font-size="8.5" fill="#5b6470" font-weight="700">DECISÃO E EFEITOS</text>
+
+  <!-- inputs -->
+  <g>
+    <rect x="2" y="20" width="140" height="44" rx="3" fill="#fff" stroke="#1f3a5f"/>
+    <text x="8" y="38">Pedido do requerente:</text><text x="8" y="51">rendimento e custos</text>
+    <rect x="2" y="76" width="140" height="44" rx="3" fill="#fff" stroke="#1f3a5f"/>
+    <text x="8" y="94">Dados fiscais internos e</text><text x="8" y="107">registo de prestadores</text>
+    <rect x="2" y="132" width="140" height="50" rx="3" fill="#fdeceb" stroke="#b3261e" stroke-width="1.4"/>
+    <text x="8" y="149">Nacionalidade e dupla</text><text x="8" y="162">nacionalidade (≈1,4 M de</text><text x="8" y="175">registos em 2018)</text>
+  </g>
+  <path d="M142,42 C158,42 160,90 170,98" fill="none" stroke="#5b6470" marker-end="url(#ar)"/>
+  <path d="M142,98 L168,102" fill="none" stroke="#5b6470" marker-end="url(#ar)"/>
+  <path d="M142,157 C158,157 160,112 170,108" fill="none" stroke="#b3261e" stroke-width="1.4" marker-end="url(#ar)"/>
+
+  <!-- model -->
+  <rect x="170" y="60" width="140" height="100" rx="3" fill="#fff" stroke="#b3261e" stroke-width="1.4"/>
+  <text x="176" y="76" font-weight="700">Modelo de classificação</text><text x="176" y="89" font-weight="700">de risco (2013)</text>
+  <text x="176" y="106">«auto-aprendente»</text>
+  <text x="176" y="119">«cidadania neerlandesa:</text><text x="176" y="132">sim/não» como parâmetro</text>
+  <text x="176" y="148" font-weight="700">→ pontuação de risco</text>
+  <path d="M310,110 L338,110" fill="none" stroke="#5b6470" marker-end="url(#ar)"/>
+
+  <!-- review -->
+  <rect x="340" y="60" width="105" height="100" rx="3" fill="#fff" stroke="#b3261e" stroke-width="1.4"/>
+  <text x="346" y="76" font-weight="700">Revisão manual</text>
+  <text x="346" y="92">O funcionário</text><text x="346" y="105">não recebe a razão</text><text x="346" y="118">da pontuação:</text><text x="346" y="131">deferência ao</text><text x="346" y="144">«computador»</text>
+  <path d="M445,90 L473,60" fill="none" stroke="#5b6470" marker-end="url(#ar)"/>
+
+  <!-- decision -->
+  <rect x="475" y="20" width="163" height="76" rx="3" fill="#fff" stroke="#b3261e" stroke-width="1.4"/>
+  <text x="481" y="36" font-weight="700">Decisão administrativa</text>
+  <text x="481" y="52">• suspensão do subsídio</text><text x="481" y="65">• rótulo «fraude»</text><text x="481" y="78">• recuperação integral e</text><text x="481" y="90">  retroativa (anos)</text>
+  <rect x="475" y="108" width="163" height="64" rx="3" fill="#fff" stroke="#1f3a5f"/>
+  <text x="481" y="124" font-weight="700">Efeitos nas famílias</text>
+  <text x="481" y="140">Dívidas e perda de rendimento;</text><text x="481" y="153">&gt;1 000 crianças colocadas</text><text x="481" y="166">fora de casa</text>
+  <path d="M556,96 L556,108" fill="none" stroke="#5b6470" marker-end="url(#ar)"/>
+
+  <!-- FSV -->
+  <rect x="170" y="200" width="275" height="66" rx="3" fill="#fdeceb" stroke="#b3261e" stroke-width="1.4"/>
+  <text x="176" y="216" font-weight="700">FSV — registo central de «sinais de fraude» (2013–2020)</text>
+  <text x="176" y="230">≈270 000 pessoas (≈2 000 menores); dados inexatos,</text>
+  <text x="176" y="243">retidos em excesso, sem base legal nem finalidade</text>
+  <text x="176" y="254">definida (AP, 2022)</text>
+  <path d="M240,200 L240,160" fill="none" stroke="#5b6470" marker-end="url(#ar)"/>
+  <text x="246" y="186" font-size="8.5" fill="#5b6470">consulta</text>
+  <path d="M392,160 L392,200" fill="none" stroke="#5b6470" marker-end="url(#ar)"/>
+  <text x="398" y="186" font-size="8.5" fill="#5b6470">regista</text>
+
+  <!-- contest -->
+  <rect x="475" y="200" width="163" height="66" rx="3" fill="#fff" stroke="#b3261e" stroke-width="1.4"/>
+  <text x="481" y="216" font-weight="700">Contestação</text>
+  <text x="481" y="230">Objeção e tribunal: morosa;</text><text x="481" y="243">dossiês opacos; ónus da</text><text x="481" y="254">prova sobre o cidadão</text>
+  <path d="M556,172 L556,200" fill="none" stroke="#5b6470" marker-end="url(#ar)"/>
+
+  <!-- markers -->
+  <g fill="#b3261e"><circle cx="6" cy="132" r="7.5"/><circle cx="174" cy="60" r="7.5"/><circle cx="344" cy="60" r="7.5"/><circle cx="479" cy="20" r="7.5"/><circle cx="174" cy="200" r="7.5"/><circle cx="479" cy="200" r="7.5"/></g>
+  <g fill="#fff" font-weight="700" font-size="9.5" text-anchor="middle"><text x="6" y="135.5">1</text><text x="174" y="63.5">2</text><text x="344" y="63.5">3</text><text x="479" y="23.5">4</text><text x="174" y="203.5">5</text><text x="479" y="203.5">6</text></g>
+</svg>
+<div class="cap"><b>Figura 1.</b> Arquitetura simplificada do sistema, reconstruída a partir de AP (2020, 2021, 2022), POK (2020) e Amnesty International (2021). Os círculos vermelhos assinalam os pontos de falha analisados na secção 2 (1 dados proibidos; 2 modelo opaco e auto-aprendente; 3 revisão sem razões; 4 sanção desproporcionada; 5 FSV; 6 contestação).</div>
+</figure>
+
+<h2 style="break-before:page">1.3 Cronologia</h2>
+<table>
+  <thead><tr><th style="width:15%">Data</th><th>Evento</th></tr></thead>
+  <tr><td>2005</td><td>Início do regime de subsídios de acolhimento infantil administrado pela <i>Toeslagen</i>.</td></tr>
+  <tr><td>2013</td><td>Desenvolvimento do modelo de classificação de risco (subsídios de acolhimento infantil e de arrendamento); o FSV começa a registar dados (até mar. 2020). Imprensa noticia introdução apressada do modelo.</td></tr>
+  <tr><td>2013–2019</td><td>Pedidos sinalizados; suspensão de subsídios e recuperação integral de montantes; nacionalidade e dupla nacionalidade usadas como indicador (até 2019).</td></tr>
+  <tr><td>Set. 2018</td><td>O caso torna-se público através da imprensa (nomeadamente o <i>Trouw</i>).</td></tr>
+  <tr><td>23 out. 2019</td><td>Conselho de Estado (<i>Raad van State</i>): a aplicação rígida da recuperação integral exige ponderação de interesses e proporcionalidade.</td></tr>
+  <tr><td>18 dez. 2019</td><td>Demissão do secretário de Estado das Finanças, Menno Snel.</td></tr>
+  <tr><td>jul. 2020</td><td>Relatório da Autoridade de Proteção de Dados (AP): tratamento da nacionalidade sem base legal, discriminatório; o modelo deixa de ser usado.</td></tr>
+  <tr><td>17 dez. 2020</td><td>Relatório «<i>Ongekend onrecht</i>» (POK): violação de princípios fundamentais do Estado de direito. No mesmo mês é anunciada uma compensação mínima de 30 000 € por requerente lesado.</td></tr>
+  <tr><td>15 jan. 2021</td><td>Demissão do Governo (Rutte III).</td></tr>
+  <tr><td>2021–2022</td><td>Amnistia Internacional (<i>Xenophobic Machines</i>, out. 2021); coimas da AP: 2,75 M€ (nacionalidade, dez. 2021) e 3,7 M€ (FSV, abr. 2022).</td></tr>
+  <tr><td>Fev. 2024</td><td>Inquérito parlamentar «<i>Blind voor mens en recht</i>» sobre a política de combate à fraude e o serviço público.</td></tr>
+</table>
+<div class="cap"><b>Tabela 1.</b> Cronologia do caso (fontes: POK, 2020; AP, 2020, 2021, 2022; Raad van State, 2019; Amnesty International, 2021; Tweede Kamer, 2024).</div>
+
+<h1>2. Análise crítica: o que correu mal</h1>
+
+<h2>2.1 Falhas técnicas e de dados</h2>
+<ul>
+<li><b>Variável discriminatória e <i>proxy</i> de origem étnica (<span class="m">1</span>, <span class="m">2</span>).</b> A nacionalidade — irrelevante para o direito ao subsídio, que depende apenas da residência legal (AP, 2021) — entrou como preditor, e a dupla nacionalidade de cidadãos neerlandeses era tratada como fator de suspeita. Na prática, um indicador de nacionalidade funciona como <i>proxy</i> de origem étnica (Barocas &amp; Selbst, 2016); a AP qualificou o tratamento como ilícito, discriminatório e, por isso, impróprio, e a Amnistia como <i>racial profiling</i>.</li>
+<li><b>Alvo mal especificado (construct validity).</b> O modelo estimava o risco de «pedido inexato», mas a organização tratava a pontuação alta como indício de <i>fraude dolosa</i>. Confundir erro administrativo com intenção fraudulenta é um erro conceptual de base: o mesmo valor de <i>score</i> não sustenta a conclusão normativa que dele se retirava.</li>
+<li><b>Ciclo de retroalimentação sem controlo.</b> Se os rótulos de treino resultam de decisões anteriores dos inspetores, o modelo aprende os seus enviesamentos; os grupos mais sinalizados são mais inspecionados, produzem mais «achados» e confirmam o modelo (Ensign et al., 2018). <i>Inferência nossa:</i> sem amostra aleatória de controlo, a taxa real de erro e a taxa de falsos positivos por grupo eram impossíveis de medir.</li>
+<li><b>Taxa de base e falsos positivos (exemplo hipotético).</b> Com prevalência de fraude de 1 %, sensibilidade de 90 % e especificidade de 90 %, só cerca de 8 % das pessoas sinalizadas seriam realmente fraudulentas (0,009 / (0,009 + 0,099)): por cada fraude detetada, cerca de 11 inocentes seriam sinalizados. Se a taxa de falsos positivos fosse o dobro num subgrupo (20 % contra 10 %), os inocentes desse grupo teriam o dobro da probabilidade de serem acusados. Tratar cada sinalização como culpa, sem verificar, transforma uma estatística em sanção.</li>
+<li><b>Ausência de validação e governação do modelo (<span class="m">2</span>).</b> Segundo a imprensa, o modelo foi posto em produção à pressa em 2013 (TaxLive, s.d.); não houve avaliação prévia do impacto nos direitos humanos nem medidas de prevenção da discriminação (Amnesty International, 2021).</li>
+<li><b>Qualidade e ciclo de vida dos dados (<span class="m">5</span>).</b> A AP (2022) concluiu que o FSV continha dados inexatos e desatualizados, retidos por tempo excessivo e com segurança insuficiente, e que pessoas foram inscritas sem investigação aprofundada.</li>
+<li><b>Lógica de negócio de «tudo ou nada» (<span class="m">4</span>).</b> Desvios formais conduziam à perda e recuperação integral do subsídio; em 2019, o Conselho de Estado decidiu que esta rigidez exigia ponderação de proporcionalidade (Raad van State, 2019).</li>
+<li><b>Ausência de explicabilidade (<span class="m">3</span>).</b> Nem os revisores nem os cidadãos conseguiam saber <i>porque</i> um pedido fora sinalizado: sem razões não há contestação possível.</li>
+</ul>
+
+<h2>2.2 Violações de privacidade e de direitos</h2>
+<table>
+  <thead><tr><th style="width:22%">Norma / princípio</th><th style="width:43%">Como foi violado</th><th>Evidência e consequência</th></tr></thead>
+  <tr><td>RGPD art. 5.º(1)(a), 6.º — licitude, lealdade</td><td>Tratamento da nacionalidade e do FSV sem base legal e com efeito discriminatório.</td><td>Relatório AP (2020); coima de 2,75 M€ (2021); 1 M€ da coima de 3,7 M€ (2022).</td></tr>
+  <tr><td>Art. 5.º(1)(b) — limitação das finalidades</td><td>FSV sem finalidade definida <i>ex ante</i>; dados usados para fins distintos.</td><td>Componente de 750 000 € (AP, 2022).</td></tr>
+  <tr><td>Art. 5.º(1)(c) — minimização</td><td>Nacionalidade desnecessária para determinar a elegibilidade.</td><td>AP (2020, 2021).</td></tr>
+  <tr><td>Art. 5.º(1)(d)(e) — exatidão, conservação</td><td>Dados inexatos, desatualizados e retidos para além do admissível.</td><td>750 000 € + 250 000 € (AP, 2022).</td></tr>
+  <tr><td>Art. 32.º, 35.º(2) — segurança, AIPD</td><td>Segurança insuficiente; EPD consultado apenas após mais de um ano.</td><td>500 000 € + 450 000 € (AP, 2022).</td></tr>
+  <tr><td>Art. 22.º, 13.º–15.º — decisões automatizadas, transparência</td><td>A revisão humana não era informada. <i>Análise nossa:</i> segundo o TJUE (SCHUFA, C-634/21), um <i>score</i> com papel determinante na decisão pode constituir ele próprio uma «decisão automatizada»; aplicar-se-iam as garantias do art. 22.º(3) e o direito a «informação útil sobre a lógica» (art. 15.º(1)(h)).</td><td>TJUE (2023); Amnesty International (2021).</td></tr>
+  <tr><td>Não discriminação — CEDH art. 14.º, Carta art. 21.º</td><td>Tratamento desfavorável por nacionalidade/dupla nacionalidade; impacto sobre pessoas de origem migrante.</td><td>Amnesty International (2021); AP (2020).</td></tr>
+  <tr><td>Boa administração e processo equitativo — Carta art. 41.º, CEDH art. 6.º</td><td>Decisões sem fundamentação, sem audição efetiva e com recuperação desproporcionada.</td><td>POK (2020): princípios fundamentais do Estado de direito violados; Raad van State (2019).</td></tr>
+</table>
+<div class="cap"><b>Tabela 2.</b> Mapeamento entre falhas e normas violadas (valores das coimas: AP, 2021, 2022; EDPB, 2022). Contexto: em 2020 o tribunal de Haia anulou a lei SyRI (perfilagem de fraude social) por violação do art. 8.º CEDH (Rb. Den Haag, 2020).</div>
+
+<h2>2.3 Falhas organizacionais e de governação</h2>
+<ul>
+<li><b>Viés de automação e delegação da responsabilidade.</b> Uma revisão humana sem acesso às razões torna-se um carimbo sobre o <i>score</i>: o decisor humano confia excessivamente no resultado automático (Parasuraman &amp; Manzey, 2010) e a responsabilidade dilui-se entre modelo, inspetor e política.</li>
+<li><b>Inversão do ónus da prova e coerção administrativa.</b> Depois da sinalização, cabia ao cidadão demonstrar que não era fraudulento, sem acesso pleno ao dossiê; a administração não tinha de provar dolo. As devoluções retroativas, por vezes de dezenas de milhares de euros, atingiram famílias sem margem financeira para as absorver.</li>
+<li><b>Opacidade e falta de contestabilidade (<span class="m">3</span>, <span class="m">6</span>).</b> A falta de transparência foi um dos eixos do inquérito parlamentar; sem razões, sem acesso ao dossiê e com recursos lentos, o direito de defesa era formal e não efetivo.</li>
+<li><b>Negação e encobrimento institucional.</b> Alertas de advogados, jornalistas e deputados e decisões judiciais não desencadearam correção atempada; a falta de acesso à informação — por parte dos cidadãos e do Parlamento — protegeu a organização e prolongou o dano, e só a investigação independente e a imprensa forçaram o reconhecimento do erro (POK, 2020).</li>
+<li><b>Falha dos contrapoderes.</b> O POK concluiu que administração, ministros, Parlamento e tribunais falharam na proteção dos cidadãos e que demorou muito até a liderança política e administrativa reconhecer a dimensão do problema — a decisão do Conselho de Estado chegou seis anos depois do início da prática.</li>
+<li><b>Cultura de «tolerância zero» sem avaliação de impacto.</b> A fraude era o único risco medido; o risco de <i>falsos positivos</i> sobre pessoas vulneráveis não tinha dono, indicador nem alarme. O inquérito de 2024 («cego para pessoas e direito») foi dedicado precisamente à política de fraude e ao serviço público.</li>
+</ul>
+
+<h2>2.4 Princípios éticos em causa</h2>
+<ul>
+<li><b>Dignidade e autonomia.</b> Reduzir pessoas a uma categoria de risco (a nacionalidade) e usá-las como meio para a eficiência fiscal contraria a exigência kantiana de tratar cada pessoa também como fim (Kant, 1785); negar razões e defesa nega a pessoa como agente.</li>
+<li><b>Justiça e igualdade.</b> Um regime de fiscalização que só seria aceitável para quem soubesse que nunca seria alvo dele não passa o teste do «véu de ignorância» (Rawls, 1971): o risco recaiu sobre quem tinha outra nacionalidade e menos recursos para se defender.</li>
+<li><b>Não maleficência e proporcionalidade.</b> O dano — dívidas, perda de rendimento, famílias separadas — era grave e dificilmente reversível, enquanto o ganho esperado era marginal e mal medido; um cálculo utilitário que ignora a distribuição dos danos é eticamente defeituoso.</li>
+<li><b>Responsabilidade (<i>accountability</i>).</b> Modelo, revisor, chefia e política partilharam a decisão, mas ninguém respondia por ela — o «problema das muitas mãos» agravado por sistemas informáticos (Nissenbaum, 1996).</li>
+</ul>
+
+<h1>3. Quadro de mitigação e prevenção</h1>
+<p>Propomos uma arquitetura de <b>defesa em profundidade</b>: cinco portões de decisão (G0–G4) ao longo do ciclo de vida, atravessados por três controlos transversais, de modo que a falha de uma salvaguarda seja captada pela seguinte (Fig. 2). Os limiares numéricos são <i>parâmetros de partida</i>, a calibrar por avaliação de impacto.</p>
+
+<figure>
+<svg viewBox="0 0 640 200" xmlns="http://www.w3.org/2000/svg" font-family="Liberation Sans, Arial, sans-serif" font-size="10">
+  <defs>
+    <marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1f3a5f"/></marker>
+  </defs>
+  <!-- gates -->
+  <g stroke="#1f3a5f" fill="#fff">
+    <rect x="2" y="6" width="119" height="84" rx="3"/><rect x="132.5" y="6" width="119" height="84" rx="3"/><rect x="263" y="6" width="119" height="84" rx="3"/><rect x="393.5" y="6" width="119" height="84" rx="3"/><rect x="524" y="6" width="114" height="84" rx="3"/>
+  </g>
+  <g fill="#1f3a5f"><rect x="2" y="6" width="119" height="16" rx="3"/><rect x="132.5" y="6" width="119" height="16" rx="3"/><rect x="263" y="6" width="119" height="16" rx="3"/><rect x="393.5" y="6" width="119" height="16" rx="3"/><rect x="524" y="6" width="114" height="16" rx="3"/></g>
+  <g fill="#fff" font-weight="700" font-size="9.5">
+    <text x="7" y="18">G0 · Legitimidade</text><text x="137.5" y="18">G1 · Dados e modelo</text><text x="268" y="18">G2 · Revisão humana</text><text x="398.5" y="18">G3 · Portão probatório</text><text x="529" y="18">G4 · Recurso</text>
+  </g>
+  <g fill="#1c1c1c">
+    <text x="7" y="36">Base legal verificada;</text><text x="7" y="48">AIPD + FRIA + IAMA;</text><text x="7" y="60">EPD com poder de veto;</text><text x="7" y="72">sem base legal, sem</text><text x="7" y="84">produção</text>
+    <text x="137.5" y="36">Atributos permitidos;</text><text x="137.5" y="48">sem <tspan font-style="italic">proxies</tspan>; testes de</text><text x="137.5" y="60">equidade (FPR, contra-</text><text x="137.5" y="72">factuais); modelo</text><text x="137.5" y="84">interpretável</text>
+    <text x="268" y="36">Razões da pontuação</text><text x="268" y="48">visíveis; avaliação</text><text x="268" y="60">prévia independente;</text><text x="268" y="72">monitorizar a taxa de</text><text x="268" y="84">concordância</text>
+    <text x="398.5" y="36">Ónus da administração;</text><text x="398.5" y="48">prova factual, não</text><text x="398.5" y="60">pontuação; fundamen-</text><text x="398.5" y="72">tação e audição</text><text x="398.5" y="84">prévias</text>
+    <text x="529" y="36">Canal humano e</text><text x="529" y="48">rápido; efeito</text><text x="529" y="60">suspensivo; repa-</text><text x="529" y="72">ração por defeito</text><text x="529" y="84">do grupo afetado</text>
+  </g>
+  <g stroke="#1f3a5f" stroke-width="1.3" fill="none">
+    <path d="M121,50 L132" marker-end="url(#ar2)"/><path d="M251.5,50 L262" marker-end="url(#ar2)"/><path d="M382,50 L392.5" marker-end="url(#ar2)"/><path d="M512.5,50 L523" marker-end="url(#ar2)"/>
+  </g>
+  <!-- rails -->
+  <g fill="#eef1f5" stroke="#c9cdd3">
+    <rect x="2" y="102" width="636" height="28" rx="3"/><rect x="2" y="134" width="636" height="28" rx="3"/><rect x="2" y="166" width="636" height="28" rx="3"/>
+  </g>
+  <g fill="#1c1c1c">
+    <text x="8" y="114" font-weight="700">T6 · Registo imutável e rastreabilidade</text><text x="8" y="125">entradas, versão do modelo, pontuação, razões, revisor e decisão (hash encadeado); <tspan font-style="italic">data lineage</tspan>; retenção com prazo automático</text>
+    <text x="8" y="146" font-weight="700">T3/T7 · Monitorização contínua e interruptor de emergência</text><text x="8" y="157">deriva, equidade por grupo, taxa de reversão em recurso e de reclamações; suspensão automática do modelo ao exceder limiares</text>
+    <text x="8" y="178" font-weight="700">O2/O6 · Auditoria externa independente e registo público de algoritmos</text><text x="8" y="189">acesso a dados, código e registos; publicação dos resultados; poder de suspender o sistema</text>
+  </g>
+</svg>
+<div class="cap"><b>Figura 2.</b> Arquitetura de mitigação proposta: cinco portões (G0–G4) e três controlos transversais.</div>
+</figure>
+
+<h2>3.1 Salvaguardas técnicas</h2>
+<ul>
+<li><b>T1 — Base legal como metadado dos dados.</b> Cada atributo do <i>feature store</i> declara finalidade, base legal, prazo de retenção e sensibilidade; um <i>linter</i> no pipeline de CI/CD recusa atributos sem base legal ou na lista de proibidos (nacionalidade, origem étnica, língua, nome e combinações de <i>proxies</i>). Deteção de <i>proxies</i>: treinar um classificador adversário que tente prever o atributo protegido a partir das restantes variáveis (AUC &gt; 0,6 → remover ou transformar variáveis).</li>
+<li><b>T2 — Testes de equidade antes e durante a operação.</b> Em decisões punitivas, a métrica prioritária é a paridade da taxa de falsos positivos entre grupos (Hardt et al., 2016), complementada por testes contrafactuais (alterar nacionalidade ou <i>proxies</i> e medir a variação da pontuação) e pela regra dos quatro quintos (EEOC) como alarme (razão de taxas de sinalização fora de [0,8; 1,25] bloqueia a produção). As métricas de equidade são mutuamente incompatíveis (Chouldechova, 2017; Kleinberg et al., 2017): a escolha deve ser explícita e documentada.</li>
+<li><b>T3 — MLOps sem aprendizagem silenciosa.</b> Proibir <i>online learning</i> em decisões de alto impacto; retreino só com dados versionados, rotulados e aprovados; fichas de modelo e de dados (Mitchell et al., 2019; Gebru et al., 2021); <b>amostra aleatória de auditoria</b> (p. ex., 3–5 % dos pedidos, independentemente da pontuação) para estimar sem enviesamento a taxa real de erro e quebrar o ciclo de retroalimentação.</li>
+<li><b>T4 — Humano no circuito com informação e autoridade.</b> Preferir modelos interpretáveis em contextos de alto impacto (Rudin, 2019); mostrar ao revisor os fatores que mais contribuíram para a pontuação; exigir uma avaliação prévia do revisor <i>antes</i> de ver a pontuação (mitiga ancoragem); monitorizar concordância e reversões — uma concordância próxima de 100 % indica carimbo de borracha.</li>
+<li><b>T5 — Incerteza e separação «erro ≠ fraude».</b> Probabilidades calibradas e abstenção (previsão conforme): com incerteza alta, nenhuma ação adversa. O modelo apenas <i>prioriza verificações</i>; nunca produz o rótulo «fraude» nem constitui prova. Dois alvos distintos: inexatidão (resolvida com pedido de documentos) e suspeita de dolo (exige factos).</li>
+<li><b>T6 — Registo imutável e retenção.</b> Registos <i>append-only</i> com cadeia de <i>hashes</i> (suporte aos art. 5.º(2), 15.º e 22.º(3) RGPD e a recursos); prazo de validade automático das sinalizações, revisão periódica de exatidão e controlo de acessos por finalidade (art. 32.º).</li>
+<li><b>T7 — Regras de negócio proporcionais e disjuntor.</b> Codificar a gradação das sanções como regras testadas automaticamente (casos-limite: erro formal sem prejuízo para o erário ⇒ sem recuperação integral) e um <i>circuit breaker</i> que suspende o modelo quando equidade, reversões em recurso ou reclamações excedem limiares (Listagem 1).</li>
+</ul>
+<pre>def decidir(caso, score, revisao):
+    exigir(caso.modelo in APROVADOS and caso.atributos &lt;= PERMITIDOS)      # G0/G1
+    exigir(revisao.avaliacao_previa is not None)         # G2: avaliou antes de ver o score
+    if provas_factuais(caso).estabelecem_dolo():         # G3: factos, não pontuação
+        acao = sancao_graduada(caso)                     # proporcional; nunca "tudo ou nada"
+    else:
+        acao = pedir_documentos(caso)                    # erro != fraude
+    registo_imutavel.append(caso, score, revisao, acao)  # T6: cadeia de hashes
+    notificar(caso.pessoa, razoes=explicar(caso, score), audicao=True, prazo=PRAZO_RECURSO)
+    return acao</pre>
+<div class="cap"><b>Listagem 1.</b> Pseudocódigo do portão de decisão: nenhuma ação adversa sem prova factual, razões, registo e possibilidade de audição.</div>
+
+<h2>3.2 Controlos organizacionais e regulatórios</h2>
+<ul>
+<li><b>O1 — Avaliação de impacto vinculativa.</b> AIPD (art. 35.º RGPD), avaliação de impacto nos direitos fundamentais (art. 27.º do Regulamento da IA; IAMA neerlandesa) e verificação de base legal antes da produção; EPD envolvido desde o desenho e com poder de bloqueio; resumo público (Reisman et al., 2018).</li>
+<li><b>O2 — Auditoria externa independente</b>, periódica, por entidade sem relação hierárquica com o operador (autoridade de controlo, instituição superior de auditoria), com acesso a dados, código e registos, resultados públicos e poder de suspensão.</li>
+<li><b>O3 — Ónus da prova e fundamentação.</b> Dever legal de a administração demonstrar <i>com factos</i>, e não com <i>scores</i>, os pressupostos de qualquer qualificação como fraude; decisão fundamentada em linguagem acessível; acesso integral ao dossiê; efeito suspensivo da reclamação sobre a cobrança.</li>
+<li><b>O4 — Recurso acessível e reparação sistémica.</b> Canal humano com prazo curto, apoio jurídico e provedor independente; quando se deteta um erro sistémico, reparação <i>por defeito</i> para todo o grupo afetado, e não apenas para quem reclama.</li>
+<li><b>O5 — Proteção de denunciantes</b> (Diretiva (UE) 2019/1937) com canais internos e externos que abranjam preocupações algorítmicas, proibição de retaliação e indicador de tempo de resposta a alertas.</li>
+<li><b>O6 — Transparência e responsabilização política.</b> Registo público de algoritmos (<i>Algoritmeregister</i> neerlandês; base de dados da UE do Regulamento da IA), <i>pre-mortem</i> e <i>red teaming</i> de políticas e responsabilidade ministerial explícita.</li>
+</ul>
+
+<table class="keep">
+  <tr><th style="width:28%">Falha observada</th><th style="width:14%">Controlos</th><th>Indicador de verificação (parâmetro de partida)</th></tr>
+  <tr><td>Nacionalidade como preditor</td><td>T1, T2, O1</td><td>0 atributos proibidos no <i>feature store</i>; razão de taxas de falsos positivos entre grupos em [0,8; 1,25].</td></tr>
+  <tr><td>Auto-aprendizagem e ciclo de retroalimentação</td><td>T3</td><td>Amostra aleatória ≥ 3 %; 0 retreinos sem aprovação versionada.</td></tr>
+  <tr><td>Revisão sem razões; viés de automação</td><td>T4</td><td>100 % dos casos com razões; taxa de reversão pelo revisor &gt; 0 e estável.</td></tr>
+  <tr><td>Erro tratado como fraude</td><td>T5, O3</td><td>0 rótulos «fraude» sem fundamentação factual; percentagem de decisões revertidas em recurso.</td></tr>
+  <tr><td>FSV sem base legal, dados inexatos e retidos</td><td>T1, T6, O1</td><td>100 % dos registos com finalidade e prazo; expiração automática verificada em auditoria.</td></tr>
+  <tr><td>Recuperação integral; inversão do ónus</td><td>T7, O3, O4</td><td>0 recuperações integrais sem ponderação; reclamação com efeito suspensivo; tempo médio de recurso.</td></tr>
+  <tr><td>Alertas ignorados; reconhecimento tardio</td><td>O2, O5, O6</td><td>Tempo de resposta a alertas; relatórios de auditoria publicados no prazo.</td></tr>
+</table>
+<div class="cap"><b>Tabela 3.</b> Rastreabilidade entre falhas, controlos e indicadores verificáveis.</div>
+
+<h1>4. Reflexões alargadas</h1>
+
+<h2>4.1 Comparação com o Regulamento da IA (UE) 2024/1689</h2>
+<p>Um sistema como o de 2013 seria hoje de <b>alto risco</b> pelo Anexo III, ponto 5(a): sistemas usados por autoridades públicas para avaliar a elegibilidade para prestações públicas essenciais e para as conceder, reduzir, revogar ou recuperar. Imporia gestão de risco (art. 9.º), governação de dados com exame de enviesamentos (art. 10.º), registos (art. 12.º), transparência (art. 13.º), supervisão humana consciente do viés de automação (art. 14.º), exatidão e robustez (art. 15.º), avaliação de impacto nos direitos fundamentais pelo organismo público (art. 27.º), registo na base de dados da UE (art. 49.º) e direito a explicação (art. 86.º). O quadro corresponde, quase item a item, às salvaguardas T1–T7 e O1–O6. As obrigações de alto risco aplicavam-se originalmente a partir de 2 de agosto de 2026; o acordo político do «<i>Digital Omnibus</i>» (maio de 2026) prevê o seu adiamento para 2 de dezembro de 2027. Há, porém, dois limites: o regulamento não regula a <i>política</i> de recuperação «tudo ou nada» nem o ónus da prova — que exigem direito administrativo nacional —, e as proibições do art. 5.º (p. ex., pontuação social) não cobririam automaticamente este caso.</p>
+
+<h2>4.2 «Humano no circuito» não basta</h2>
+<p>O caso mostra que a presença de uma pessoa não equivale a controlo humano efetivo. O acórdão SCHUFA recusa que um <i>score</i> determinante escape ao art. 22.º por haver decisão humana subsequente, e o art. 14.º do Regulamento da IA exige que o supervisor possa interpretar o resultado, contrariá-lo e resistir ao viés de automação. Eficácia de supervisão mede-se: capacidade de contradizer, informação disponível, tempo, incentivos e taxa de reversão.</p>
+
+<h2>4.3 Impacto socioeconómico em populações vulneráveis</h2>
+<p>O POK concluiu que mais de 25 000 pais foram tratados injustamente como fraudulentos. Os instrumentos de punição — suspensão e recuperação integral — atingem famílias de baixos rendimentos, sem poupança para absorver dívidas, e a perfilagem por nacionalidade recaiu sobre pessoas com outra nacionalidade ou dupla nacionalidade (AP, 2021; Amnesty International, 2021). Mais de mil crianças de famílias lesadas foram colocadas fora de casa (1 115 entre 2015 e 2020, segundo o CBS, citado por NOS, s.d.; o Governo identificou 1 819 crianças de 1 168 pais em setembro de 2023, Rijksoverheid, 2023). A compensação mínima de 30 000 € por requerente e a vasta operação de reparação tornaram o custo total da ordem de milhares de milhões de euros (estimativas noticiadas em 2023: cerca de 7 mil milhões), o que mostra que a «poupança» de um sistema punitivo mal desenhado é ilusória e que o dano de natureza familiar e psicológica não se repara com dinheiro.</p>
+
+<h2>4.4 Lições para equipas de MLOps e engenharia de dados</h2>
+<ul>
+<li><b>Contratos de dados com base legal:</b> finalidade e retenção como atributos de esquema, propagados por <i>lineage</i>.</li>
+<li><b>Equidade e deriva em CI/CD:</b> testes por grupo como condição de <i>merge</i> e de <i>deploy</i>, e alarmes em produção.</li>
+<li><b>Gestão de mudança do modelo:</b> sem retreino ou limiares alterados sem aprovação, versão e registo.</li>
+<li><b>Resposta a incidentes algorítmicos:</b> procedimento, responsável e prazo, com análise <i>blameless</i> e reparação do grupo afetado.</li>
+<li><b>Contestabilidade como requisito de produto:</b> explicações, canal de recurso e métricas de recurso fazem parte do <i>backlog</i>.</li>
+</ul>
+
+<h2>4.5 Comparação com outros casos, reformas e limites das propostas</h2>
+<p>O caso partilha com o <i>Robodebt</i> australiano a inversão do ónus da prova e a negação institucional, embora o mecanismo seja distinto (aqui, perfilagem discriminatória). Desde então, os Países Baixos criaram a IAMA (2021, atualizada em fevereiro de 2026 para se alinhar com o art. 27.º do Regulamento da IA) e o <i>Algoritmeregister</i>; o Governo ponderou tornar a IAMA vinculativa. Mas as nossas propostas têm limites: as métricas de equidade conflituam entre si, o dano nasceu tanto da política e da cultura de execução como do modelo, e salvaguardas técnicas sem vontade política e sem poder de veto independente degradam-se em «teatro de conformidade».</p>
+
+<p><b>Conclusão.</b> O <i>Toeslagenaffaire</i> não foi um erro de código: foi um sistema sociotécnico em que um modelo opaco, dados sem base legal, uma revisão humana sem informação e uma política punitiva sem contrapesos se reforçaram mutuamente. A prevenção exige juntar à excelência técnica o ónus da prova na administração, a auditoria independente e a contestabilidade efetiva.</p>
+
+</main>
+
+<!-- ===================== REFERÊNCIAS ===================== -->
+<div class="pb"></div>
+<section class="refs">
+<h1>Referências</h1>
+<h2>Fontes oficiais, decisões judiciais e relatórios</h2>
+<p>Amnesty International (2021). <i>Xenophobic Machines: Discrimination through unregulated use of algorithms in the Dutch childcare benefits scandal</i>. EUR 35/4686/2021, 25 de outubro de 2021.</p>
+<p>Autoriteit Persoonsgegevens (2020). <i>Belastingdienst/Toeslagen. De verwerking van de nationaliteit van aanvragers van kinderopvangtoeslag</i>. Relatório de investigação, julho de 2020.</p>
+<p>Autoriteit Persoonsgegevens (2021). Decisão de coima contra o Ministro das Finanças (<i>Belastingdienst/Toeslagen</i>) pelo tratamento ilícito da (dupla) nacionalidade, 7 de dezembro de 2021 (2 750 000 €).</p>
+<p>Autoriteit Persoonsgegevens (2022). Decisão de coima contra o Ministro das Finanças relativa à <i>Fraude Signalering Voorziening</i> (FSV), 12 de abril de 2022 (3 700 000 €).</p>
+<p>Comité Europeu para a Proteção de Dados — EDPB (2022). <i>Tax Administration fined for fraud ‘black list’</i> (notícia nacional, Países Baixos), abril de 2022.</p>
+<p>Diretiva (UE) 2019/1937 do Parlamento Europeu e do Conselho, de 23 de outubro de 2019, relativa à proteção das pessoas que denunciam violações do direito da União.</p>
+<p>DutchNews.nl (2020, dezembro). <i>Childcare benefit scandal victims to get €30,000 compensation</i>; (2021, janeiro). <i>Dutch government collapses in fall out from child benefit scandal</i>.</p>
+<p>NOS (s.d.). <i>Meer dan duizend kinderen gedupeerden toeslagenaffaire uit huis geplaatst</i> (reportagem com dados do CBS).</p>
+<p>Raad van State, Afdeling bestuursrechtspraak (2019). Acórdão de 23 de outubro de 2019, n.º 201802802/1/A2, ECLI:NL:RVS:2019:3536 (e n.º 201900753/1/A2).</p>
+<p>Rechtbank Den Haag (2020). <i>NJCM c.s./Staat der Nederlanden (SyRI)</i>, 5 de fevereiro de 2020, ECLI:NL:RBDHA:2020:1878.</p>
+<p>Regulamento (UE) 2016/679 (RGPD); Regulamento (UE) 2024/1689 (Regulamento da Inteligência Artificial); Carta dos Direitos Fundamentais da UE; Convenção Europeia dos Direitos Humanos.</p>
+<p>Rijksoverheid (2023, 18 de setembro). <i>Gericht hulpaanbod voor slachtoffers kinderopvangtoeslagenaffaire met uithuisgeplaatste kinderen</i>.</p>
+<p>Rijksoverheid / Universiteit Utrecht (2021; atualização de fevereiro de 2026). <i>Impact Assessment Mensenrechten en Algoritmes</i> (IAMA).</p>
+<p>TaxLive (s.d.). <i>Belastingdienst voerde in een weekend haastig fout risicomodel in</i> (notícia).</p>
+<p>Tribunal de Justiça da União Europeia (2023). Acórdão de 7 de dezembro de 2023, <i>SCHUFA Holding (Scoring)</i>, C-634/21.</p>
+<p>Tweede Kamer der Staten-Generaal (2020). <i>Ongekend onrecht: Verslag Parlementaire ondervragingscommissie Kinderopvangtoeslag</i> (POK). Kamerstuk 35 510, n.º 2, 17 de dezembro de 2020.</p>
+<p>Tweede Kamer der Staten-Generaal (2024). <i>Blind voor mens en recht: Rapport Parlementaire enquêtecommissie Fraudebeleid en Dienstverlening</i>, 26 de fevereiro de 2024.</p>
+<h2>Literatura académica</h2>
+<p>Barocas, S., &amp; Selbst, A. D. (2016). Big data’s disparate impact. <i>California Law Review, 104</i>(3), 671–732.</p>
+<p>Chouldechova, A. (2017). Fair prediction with disparate impact. <i>Big Data, 5</i>(2), 153–163.</p>
+<p>Ensign, D., Friedler, S. A., Neville, S., Scheidegger, C., &amp; Venkatasubramanian, S. (2018). Runaway feedback loops in predictive policing. <i>PMLR, 81</i>, 160–171.</p>
+<p>Gebru, T., et al. (2021). Datasheets for datasets. <i>Communications of the ACM, 64</i>(12), 86–92.</p>
+<p>Hardt, M., Price, E., &amp; Srebro, N. (2016). Equality of opportunity in supervised learning. <i>Advances in Neural Information Processing Systems, 29</i>.</p>
+<p>Kant, I. (1785/1998). <i>Groundwork of the Metaphysics of Morals</i>. Cambridge University Press.</p>
+<p>Kleinberg, J., Mullainathan, S., &amp; Raghavan, M. (2017). Inherent trade-offs in the fair determination of risk scores. <i>ITCS 2017</i>, LIPIcs 67, 43:1–43:23.</p>
+<p>Mitchell, M., et al. (2019). Model cards for model reporting. <i>FAT* ’19</i>, 220–229.</p>
+<p>Nissenbaum, H. (1996). Accountability in a computerized society. <i>Science and Engineering Ethics, 2</i>(1), 25–42.</p>
+<p>Parasuraman, R., &amp; Manzey, D. H. (2010). Complacency and bias in human use of automation. <i>Human Factors, 52</i>(3), 381–410.</p>
+<p>Rawls, J. (1971). <i>A Theory of Justice</i>. Harvard University Press.</p>
+<p>Reisman, D., Schultz, J., Crawford, K., &amp; Whittaker, M. (2018). <i>Algorithmic Impact Assessments: A Practical Framework for Public Agency Accountability</i>. AI Now Institute.</p>
+<p>Rudin, C. (2019). Stop explaining black box machine learning models for high stakes decisions and use interpretable models instead. <i>Nature Machine Intelligence, 1</i>, 206–215.</p>
+
+<div class="pb"></div>
+<h1>Apêndice A — Lista de verificação para portões pré-implementação de sistemas de decisão automatizada</h1>
+<ol class="chk">
+  <li>Existe base legal explícita para cada atributo e para cada finalidade? Os atributos proibidos e os seus <i>proxies</i> foram testados?</li>
+  <li>A AIPD, a avaliação de impacto nos direitos fundamentais (IAMA/FRIA) e o parecer do EPD estão concluídos <i>antes</i> da produção?</li>
+  <li>Qual é a variável-alvo exata? Distingue erro administrativo de suspeita de dolo?</li>
+  <li>Existem testes de equidade por grupo (FPR, razão de sinalização, contrafactuais) e a escolha da métrica está documentada?</li>
+  <li>Há amostra aleatória de auditoria para medir a taxa real de erro sem enviesamento?</li>
+  <li>O modelo é interpretável ou existem explicações validadas? O revisor vê as razões e regista a sua avaliação antes da pontuação?</li>
+  <li>Há proibição de aprendizagem <i>online</i> e controlo de versões (dados, código, limiares) com <i>lineage</i>?</li>
+  <li>Os registos são imutáveis e cobrem entradas, versão, pontuação, razões, revisor e decisão?</li>
+  <li>Qualquer ação adversa exige prova factual, fundamentação, aviso e audição prévia?</li>
+  <li>Existe canal de recurso humano, rápido e com efeito suspensivo, e reparação por defeito em caso de erro sistémico?</li>
+  <li>Há limiares e interruptor de emergência para suspender o sistema, e um responsável nomeado?</li>
+  <li>Há auditoria externa independente, canal de denúncia protegido e entrada no registo público de algoritmos?</li>
+</ol>
+
+<h1>Apêndice B — Glossário neerlandês–português</h1>
+<table>
+  <tr><th style="width:28%">Termo</th><th>Significado</th></tr>
+  <tr><td><i>Belastingdienst</i> / <i>Toeslagen</i></td><td>Administração fiscal e aduaneira dos Países Baixos / a sua direção responsável pelos subsídios.</td></tr>
+  <tr><td><i>Kinderopvangtoeslag</i></td><td>Subsídio de acolhimento infantil (apoio ao pagamento de creche e guarda de crianças).</td></tr>
+  <tr><td><i>Fraude Signalering Voorziening</i> (FSV)</td><td>Registo central de sinais de fraude da administração fiscal (2013–2020).</td></tr>
+  <tr><td><i>Autoriteit Persoonsgegevens</i> (AP)</td><td>Autoridade neerlandesa de proteção de dados (autoridade de controlo do RGPD).</td></tr>
+  <tr><td><i>Raad van State</i></td><td>Conselho de Estado; a sua secção de contencioso administrativo é a instância máxima em matéria de subsídios.</td></tr>
+  <tr><td><i>Parlementaire ondervragingscommissie Kinderopvangtoeslag</i> (POK)</td><td>Comissão parlamentar de inquirição sobre o subsídio de acolhimento infantil; relatório <i>Ongekend onrecht</i> («injustiça sem precedentes»).</td></tr>
+  <tr><td>IAMA</td><td><i>Impact Assessment Mensenrechten en Algoritmes</i>: avaliação de impacto sobre direitos humanos e algoritmos.</td></tr>
+</table>
+
+</section>
+
+</body>
+</html>
